@@ -1,0 +1,15 @@
+@extends('layouts.public')
+@section('title', 'Website, momen, dan ide yang jadi nyata')
+@section('meta-description', 'Jasa pembuatan website, undangan digital, web ucapan personal, dan bantuan pemrograman mobile, website, serta machine learning.')
+@section('main-class', '')
+@push('scripts')<script src="{{ asset('js/scroll-reveal.js') }}" defer></script>@endpush
+@section('content')
+    @include('home.sections.hero')
+    @include('home.sections.ticker')
+    @include('home.sections.services')
+    @include('home.sections.process')
+    @include('home.sections.tracking')
+    @include('home.sections.membership')
+    @include('home.sections.testimonials')
+    @include('home.sections.contact')
+@endsection

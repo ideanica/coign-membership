@@ -1,0 +1,14 @@
+<section class="home-hero home-container">
+        <div class="home-hero-copy"><span class="badge hero-label"><span class="status-dot"></span> SMALL STUDIO. BIG IDEAS.</span><h1><span class="hero-title-intro">Idemu. Momennya.</span><span class="hero-title-main">Kita bikin<br><span class="hero-title-highlight">webnya<span class="hero-title-star" aria-hidden="true">✦</span></span><span class="hero-title-dot">.</span></span></h1><p>Website untuk usaha. Undangan untuk hari bahagia. Kejutan untuk orang tersayang. Atau bantuan untuk proyek coding-mu. Mulai dari satu ide, kita wujudkan bersama.</p><div class="hero-actions"><a class="button" href="#layanan">Temukan layananmu <x-icon name="arrow-down" size="18" /></a><a class="home-text-link" href="#kontak">Punya ide lain? Ceritakan <x-icon name="arrow-up-right" size="17" /></a></div><div class="hero-footnote"><x-icon name="spark" size="16" /> Dibuat personal. Disesuaikan dengan kebutuhanmu.</div><div class="hero-mini-tags" aria-label="Pilihan karya"><span>&lt; websites /&gt;</span><span>special moments ♡</span><span>coding help ✦</span></div></div>
+        <div class="hero-art" aria-label="Editor HTML bergaya thumbnail portofolio"><span class="hero-art-star star-top" aria-hidden="true">✦</span><span class="hero-art-star star-side" aria-hidden="true">✳</span><span class="hero-art-note" aria-hidden="true">a little code, a lot of possibilities ↗</span><div class="art-notebook-backdrop"><div class="neo-card art-window"><div class="art-window-bar"><div class="art-window-controls" aria-hidden="true"><span></span><span></span><span></span></div><small>index.html</small></div><div class="art-window-content"><ol class="art-html" aria-label="Kode HTML sapaan">
+            <li><code><span class="html-comment">&lt;!-- Your next idea starts here. --&gt;</span></code></li>
+            <li><code><span class="html-tag">&lt;html <span class="html-attribute">lang</span>=<span class="html-string">"en"</span>&gt;</span></code></li>
+            <li><code>  <span class="html-tag">&lt;body&gt;</span></code></li>
+            <li><code>    <span class="html-tag">&lt;h1&gt;</span>Hello, world.<span class="html-tag">&lt;/h1&gt;</span></code></li>
+            <li><code>    <span class="html-tag">&lt;p&gt;</span>Looking for help</code></li>
+            <li><code>       with your work?<span class="html-tag">&lt;/p&gt;</span></code></li>
+            <li><code>    <span class="html-tag">&lt;p&gt;</span>Let's build it together.<span class="html-tag">&lt;/p&gt;</span></code></li>
+            <li><code>  <span class="html-tag">&lt;/body&gt;</span></code></li>
+            <li><code><span class="html-tag">&lt;/html&gt;</span></code></li>
+        </ol><div class="art-notebook-caption"><span>WEB DEVELOPMENT / CREATIVE CODE</span><strong>Hello, world<span class="heading-dot">.</span><br>Let’s build together.</strong></div></div></div></div></div>
+    </section>

@@ -1,0 +1,28 @@
+.public-tracking-intro { margin-bottom: 28px; }
+.public-tracking-intro h1 { font-size: clamp(30px, 4vw, 42px); margin: 19px 0 13px; }
+.public-tracking-intro > p { font-size: 13px; color: #354159; }
+.public-lookup { padding: 24px; }
+.public-lookup label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 12px; }
+.public-lookup form > div { display: flex; gap: 13px; }
+.public-lookup input { flex: 1; min-width: 0; height: 47px; border: 2px solid black; border-radius: 5px; background: #f6f8fc; padding: 0 14px; font: 500 13px Consolas, monospace; }
+.public-lookup small { display: block; font-size: 10px; color: #50505b; margin-top: 12px; }
+.lookup-error { color: #a32129; font-size: 12px; margin-top: 12px; }
+.public-tracking-result { margin-top: 28px; }
+.public-tracking-hint { display: flex; gap: 10px; align-items: flex-start; font-size: 12px; color: #354159; padding: 25px 5px; max-width: 620px; }
+.point-rule-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: start; }
+.point-rule-grid .admin-form { margin-top: 20px; }
+.point-rule-grid > .portal-card > .form-help { margin-top: 22px; }
+.tracking-section-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 32px 0 16px; }
+.tracking-section-heading h2 { font-size: 21px; }
+.tracking-section-heading > span { font-size: 11px; color: #50505b; }
+.point-preview { background: var(--yellow); border: 2px solid black; border-radius: 5px; padding: 16px; margin-top: 20px; }
+.point-preview strong { display: block; font-size: 25px; }
+.point-preview small { font-size: 11px; display: block; margin-top: 7px; }
+.point-rule-list { display: grid; gap: 20px; margin-top: 25px; }
+.point-rule-row { display: grid; grid-template-columns: 1.3fr 1fr 1fr auto; gap: 16px; align-items: end; }
+.point-rule-row .form-field { margin: 0; }
+.point-rule-row .form-actions { margin: 0; }
+.points-mode { margin-bottom: 24px; }
+.landing-tracking { padding-bottom: 45px; }
+@media (max-width: 900px) { .point-rule-grid { grid-template-columns: 1fr; } .point-rule-row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .public-lookup { padding: 20px; } .public-lookup form > div { flex-direction: column; } .public-lookup input { flex: none; width: 100%; min-height: 47px; } .public-lookup .button { justify-content: space-between; } .point-rule-row { grid-template-columns: 1fr; } }

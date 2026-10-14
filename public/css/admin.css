@@ -1,0 +1,79 @@
+.admin-page .admin-shell { grid-template-columns: 250px minmax(0, 1fr); }
+.admin-page .admin-sidebar { height: 100dvh; min-height: 0; overflow-y: auto; padding: 26px 18px; scrollbar-width: thin; }
+.admin-page .admin-sidebar > .brand { margin-bottom: 28px; padding-inline: 8px; }
+.admin-navigation > summary { display: none; }
+.admin-page .admin-menu { display: grid; gap: 23px; margin: 0; }
+.admin-menu-items { display: grid; gap: 7px; }
+.admin-page .sidebar-kicker { display: block; margin: 0 10px 9px; font-size: 9px; color: #526079; letter-spacing: .8px; text-transform: uppercase; }
+.admin-page .admin-menu-link { min-height: 42px; gap: 10px; padding: 9px 11px; font-size: 11px; line-height: 1.4; }
+.admin-page .admin-menu-link.selected { font-weight: 700; }
+.admin-page .sidebar-foot { border-top: 1px solid #d4dce8; margin-top: 28px; padding: 19px 8px 0; }
+.admin-page .sidebar-foot .badge { background: var(--yellow); font-size: 9px; }
+.admin-page .portal-topbar { min-height: 76px; padding: 18px 32px; }
+.admin-page .admin-main { max-width: 1400px; margin: auto; padding: 32px; }
+.admin-page .portal-heading { align-items: flex-start; margin-bottom: 28px; gap: 20px; }
+.admin-page .portal-heading > div:first-child { min-width: 0; }
+.admin-page .portal-heading h1 { font-size: 32px; line-height: 1.15; margin-bottom: 10px; overflow-wrap: anywhere; }
+.admin-page .page-description { color: #526079; font-size: 12px; max-width: 640px; }
+.admin-page .portal-heading > .inline-actions { justify-content: flex-end; flex-shrink: 0; }
+.admin-page .button { font-size: 12px; min-height: 44px; }
+.admin-page .neo-card { min-width: 0; }
+.admin-page .filter-bar { padding: 18px 22px; gap: 12px; }
+.admin-page .filter-bar input { max-width: none; min-height: 44px; }
+.admin-page .portal-table-wrap { border-radius: 0 0 3px 3px; scrollbar-width: thin; }
+.admin-page .portal-table th { font-size: 10px; padding: 14px 20px; background: #e8f0ff; }
+.admin-page .portal-table td { line-height: 1.6; }
+.admin-page .portal-table td > small { max-width: 280px; overflow-wrap: anywhere; }
+.admin-page .portal-table .inline-actions, .admin-page .portal-table .row-actions { gap: 8px 15px; }
+.admin-page .row-action { display: inline-flex; align-items: center; min-height: 32px; font-weight: 600; }
+.admin-page .portal-pagination { padding: 18px 22px; }
+.admin-page .admin-form { gap: 24px; }
+.admin-page .admin-form > .muted { margin-bottom: 0; }
+.admin-page .form-field > label { line-height: 1.5; }
+.admin-page .form-field input, .admin-page .form-field select { min-height: 44px; }
+.admin-page .form-actions { padding-top: 22px; gap: 12px; }
+.admin-page .portal-card { padding: 26px; }
+.admin-page .card-heading { align-items: center; }
+.admin-page .dashboard-stat { padding: 23px; }
+.admin-page .dashboard-stat p { color: #182338; font-weight: 600; }
+.admin-page .dashboard-stat strong { margin-top: 18px; }
+.admin-page .portal-footer { border-top: 1px solid #bdcde3; padding-top: 22px; }
+@media (max-width: 1100px) {
+    .admin-page .admin-shell { grid-template-columns: 220px minmax(0, 1fr); }
+    .admin-page .admin-main, .admin-page .portal-topbar { padding-inline: 24px; }
+    .admin-page .portal-heading { flex-wrap: wrap; }
+    .admin-page .portal-heading > .inline-actions { justify-content: flex-start; }
+}
+@media (max-width: 800px) {
+    .admin-page .admin-shell { grid-template-columns: minmax(0, 1fr); }
+    .admin-page .admin-sidebar { height: auto; overflow: visible; padding: 18px 24px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 15px; }
+    .admin-page .admin-sidebar > .brand { margin: 0; padding: 0; }
+    .admin-navigation > summary { display: flex; align-items: center; justify-content: space-between; background: var(--yellow); border: 2px solid black; border-radius: 5px; min-height: 40px; padding: 9px 12px; font-size: 11px; font-weight: 700; cursor: pointer; }
+    .admin-navigation > summary::-webkit-details-marker { display: none; }
+    .admin-navigation[open] > summary .icon { transform: rotate(180deg); }
+    .admin-page .admin-menu { margin-top: 23px; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+    .admin-page .sidebar-kicker { margin-left: 0; }
+    .admin-page .sidebar-foot { display: none; }
+    .admin-page .admin-main { padding: 26px 24px; }
+    .admin-page .portal-topbar { padding: 15px 24px; min-height: 62px; }
+}
+@media (max-width: 560px) {
+    .admin-page .admin-sidebar, .admin-page .portal-topbar { padding-inline: 18px; }
+    .admin-page .admin-main { padding: 25px 18px; }
+    .admin-page .portal-heading h1 { font-size: 28px; }
+    .admin-page .portal-heading > .inline-actions { width: 100%; }
+    .admin-page .portal-heading > .inline-actions .button { white-space: normal; }
+    .admin-page .portal-card, .admin-page .dashboard-stat { padding: 20px; }
+    .admin-page .dashboard-stat:nth-child(4) strong { font-size: clamp(14px, 4.2vw, 20px); letter-spacing: -.5px; }
+    .admin-page .portal-card > .portal-empty { padding: 24px 0; }
+    .admin-page .filter-bar { padding: 16px; }
+    .admin-page .filter-bar > input { flex-basis: 100%; }
+    .admin-page .portal-table th, .admin-page .portal-table td { padding-inline: 16px; }
+    .admin-page .portal-pagination { padding: 16px; }
+    .admin-page .list-row { flex-wrap: wrap; }
+    .admin-page .form-actions .button { justify-content: center; }
+}
+@media print {
+    .admin-page .admin-shell { display: block; }
+    .admin-page .admin-main { padding: 0; }
+}

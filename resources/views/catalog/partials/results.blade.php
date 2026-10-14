@@ -1,0 +1,4 @@
+<div class="catalog-grid" data-page-size="{{ $catalogs->perPage() }}">@forelse($catalogs as $catalog)@include('catalog.partials.card')@empty<section class="neo-card catalog-empty"><span class="journey-icon"><x-icon name="gift" size="30" /></span><h2>{{ request('q') || request('category') ? 'Belum ada template yang cocok' : 'Katalog sedang disiapkan' }}</h2><p>{{ request('q') || request('category') ? 'Coba kata kunci lain atau lihat semua momen yang tersedia.' : 'Template undangan dan ucapan akan tampil di sini setelah diterbitkan oleh pengelola.' }}</p><a class="button button-neutral" href="{{ request('q') || request('category') ? route('catalog.index') : route('home').'#kontak' }}">{{ request('q') || request('category') ? 'Lihat semua template' : 'Diskusikan kebutuhanmu' }} <x-icon name="arrow-up-right" size="17" /></a></section>@endforelse</div>
+@if($catalogs->hasPages())
+    <div class="catalog-pagination"><x-pager :paginator="$catalogs" /></div>
+@endif

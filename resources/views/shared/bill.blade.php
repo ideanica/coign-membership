@@ -1,0 +1,39 @@
+@extends('layouts.portal')
+@section('title', 'Detail bill')
+@section('description', 'Bill diterbitkan dari pesanan. Harga dan rincian tagihan tersimpan saat penerbitan.')
+@push('styles')<link rel="stylesheet" href="{{ asset('css/bill.css') }}?v={{ filemtime(public_path('css/bill.css')) }}">@endpush
+@section('actions')<button class="button button-neutral" type="button" data-print><x-icon name="download" size="16" /> Cetak / simpan PDF</button>@endsection
+@section('content')
+@php
+    $admin = request()->routeIs('admin.*');
+    $customerName = $bill->customer_name ?? $bill->user?->name ?? 'Pelanggan tanpa akun';
+    $customerEmail = $bill->customer_email ?? $bill->user?->email;
+    $issuer = $bill->issuer_name ?? $settings['brand_name'] ?? 'Coignitive';
+    $email = $bill->issuer_email ?? $settings['support_email'] ?? '';
+@endphp
+<div class="bill-document">
+    <p class="invoice-screen-note"><x-icon name="receipt" size="15" /> Siap cetak Letter &middot; Rincian tagihan terkunci setelah diterbitkan.</p>
+    <article class="neo-card invoice-card invoice-sheet">
+        <header class="invoice-document-header">
+            <div><div class="invoice-document-logo"><x-brand-logo full :settings="['brand_name' => $issuer]" /></div><strong class="invoice-issuer">{{ $issuer }}</strong>@if(filled($email))<p>{{ $email }}</p>@endif</div>
+            <div class="invoice-document-id"><p class="invoice-kicker">BILL / TAGIHAN</p><h2>Untuk ide<br>& momenmu.</h2><p class="invoice-reference">{{ $bill->reference }}</p><span class="badge invoice-status status-{{ $bill->status }}">{{ \App\Models\Bill::STATUS_LABELS[$bill->status] }}</span></div>
+        </header>
+        <div class="invoice-document-meta">
+            <section><h3>Ditagihkan kepada</h3><strong>{{ $customerName }}</strong>@if(filled($customerEmail))<p>{{ $customerEmail }}</p>@endif @if(filled($bill->customer_number ?? $bill->user?->member_number))<p>Member: {{ $bill->customer_number ?? $bill->user?->member_number }}</p>@endif</section>
+            <section><h3>Informasi tagihan</h3><dl><div><dt>Diterbitkan</dt><dd>{{ $bill->created_at->locale('id')->translatedFormat('d F Y') }}</dd></div><div><dt>Jatuh tempo</dt><dd>{{ $bill->due_date?->locale('id')->translatedFormat('d F Y') ?? 'Belum ditentukan' }}</dd></div>@if($bill->tracking)<div><dt>Pesanan</dt><dd>{{ $bill->tracking->reference }}</dd></div>@endif</dl></section>
+        </div>
+        <div class="invoice-items"><div class="invoice-items-heading"><span>Layanan / pekerjaan</span><span>Subtotal</span></div><div class="invoice-item"><div><h3>{{ $bill->title }}</h3><p>{{ $bill->service_name ?? $bill->service?->name ?? 'Layanan khusus' }}</p><p>{{ number_format($bill->quantity, 0, ',', '.') }} &times; {{ 'Rp'.number_format($bill->unit_price, 0, ',', '.') }}</p></div><strong>{{ 'Rp'.number_format($bill->quantity * $bill->unit_price, 0, ',', '.') }}</strong></div></div>
+        <div class="invoice-document-totals"><div><span>Subtotal</span><strong>Rp{{ number_format($bill->quantity * $bill->unit_price, 0, ',', '.') }}</strong></div><div><span>Diskon</span><strong>&minus;Rp{{ number_format($bill->discount, 0, ',', '.') }}</strong></div><div class="invoice-grand-total"><span>Total tagihan</span><strong>Rp{{ number_format($bill->total, 0, ',', '.') }}</strong></div></div>
+        <section class="invoice-payment-summary"><h3>{{ $bill->status === 'paid' ? 'Pembayaran diterima' : ($bill->status === 'cancelled' ? 'Tagihan dibatalkan' : 'Menunggu pembayaran') }}</h3>
+            @if($bill->status === 'paid')<p>{{ $bill->payment }} &middot; {{ $bill->paid_at?->locale('id')->translatedFormat('d F Y, H:i') }}</p>@if($bill->user_id)<p>+{{ number_format($bill->transaction?->pointEntry?->points ?? 0, 0, ',', '.') }} poin tercatat untuk member.</p>@endif
+            @elseif($bill->status === 'unpaid')<p>Hubungi pengelola untuk detail pembayaran. Simpan nomor bill sebagai referensi konfirmasi.</p>
+            @else<p>Bill ini tidak berlaku untuk pembayaran.</p>@endif
+        </section>
+        <footer class="invoice-document-footer"><strong>Terima kasih sudah memilih {{ $issuer }}.</strong><span>Good things add up.</span></footer>
+    </article>
+    @if($admin && $bill->status === 'unpaid')
+        <section class="neo-card bill-controls"><h2>Konfirmasi pembayaran</h2><p class="muted">Konfirmasi setelah dana diterima. @if($bill->user_id)Transaksi dan poin dicatat satu kali.@elsePelanggan tanpa akun tidak mendapatkan poin member.@endif</p><form method="post" action="{{ route('admin.bills.pay', $bill) }}" data-confirm="Konfirmasi pembayaran Rp{{ number_format($bill->total, 0, ',', '.') }} untuk bill ini?">@csrf<div class="form-field"><label for="payment">Metode pembayaran</label><select name="payment" id="payment" required><option value="QRIS">QRIS</option><option value="Transfer bank">Transfer bank</option><option value="Tunai">Tunai</option><option value="Kartu debit">Kartu debit</option></select></div><button class="button" type="submit">Tandai lunas <x-icon name="check" size="16" /></button></form><form class="bill-cancel-form" method="post" action="{{ route('admin.bills.cancel', $bill) }}" data-confirm="Batalkan bill ini? Bill tidak bisa dibayar setelah dibatalkan.">@csrf<button class="row-action danger" type="submit">Batalkan bill</button></form></section>
+    @endif
+    @if($bill->tracking)<a class="small-link bill-tracking-link" href="{{ $admin ? route('admin.tracking.edit', $bill->tracking) : route('membership.tracking.show', $bill->tracking) }}">Lihat pesanan terkait <x-icon name="arrow-up-right" size="16" /></a>@endif
+</div>
+@endsection

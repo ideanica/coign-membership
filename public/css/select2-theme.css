@@ -1,0 +1,43 @@
+.select2-container { min-width: 0; max-width: 100%; font-family: inherit; font-size: 12px; }
+.select2-container--default .select2-selection--single,
+.select2-container--default .select2-selection--multiple { min-height: 44px; height: auto; border: 2px solid #000; border-radius: 5px; background: white; }
+.select2-container--default .select2-selection--single .select2-selection__rendered { line-height: 40px; padding: 0 34px 0 12px; color: #000; }
+.select2-container--default .select2-selection--single .select2-selection__arrow { height: 40px; right: 8px; }
+.select2-container--default .select2-selection--single .select2-selection__arrow b { border-color: #000 transparent transparent; }
+.select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b { border-color: transparent transparent #000; }
+.select2-container--default.select2-container--focus .select2-selection--multiple,
+.select2-container--default.select2-container--open .select2-selection { border: 2px solid black; }
+.select2-selection:focus-visible { outline: 3px solid #175ac7; outline-offset: 3px; }
+.select2-container--open { z-index: 1100; }
+.select2-dropdown { border: 2px solid black; border-radius: 5px; box-shadow: 4px 4px 0 black; overflow: hidden; background: white; }
+.select2-container--open .select2-dropdown--below { border-top: 2px solid black; border-radius: 5px; margin-top: 6px; }
+.select2-container--open .select2-dropdown--above { border-bottom: 2px solid black; border-radius: 5px; margin-top: -6px; }
+.select2-search--dropdown { padding: 10px; }
+.select2-container--default .select2-search--dropdown .select2-search__field { border: 2px solid black; border-radius: 5px; padding: 10px; font: inherit; background: #f2f7ff; outline-offset: 2px; }
+.select2-results__option { padding: 11px 12px; line-height: 1.5; overflow-wrap: anywhere; }
+.select2-container--default .select2-results__option[aria-selected=true] { background: #facc00; color: black; }
+.select2-container--default .select2-results__option--highlighted[aria-selected] { background: #5294ff; color: black; }
+.select2-container--default .select2-results__option[aria-disabled=true] { color: #777; }
+.select2-container--default .select2-selection--multiple { padding: 4px 8px; }
+.select2-container--default .select2-selection--multiple .select2-selection__choice { background: #facc00; border: 1px solid black; border-radius: 5px; padding: 4px 8px; margin: 4px 6px 4px 0; max-width: 100%; white-space: normal; }
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove { color: black; margin-right: 7px; padding: 0 3px; }
+.select2-container--default .select2-search--inline .select2-search__field { font: inherit; margin-top: 8px; max-width: 100%; }
+.select2-container--default.select2-container--disabled .select2-selection { background: #edf0f5; color: #777; cursor: not-allowed; }
+.select2-selection[aria-invalid=true] { outline: 2px solid #bd2438; outline-offset: 2px; }
+.form-field > .select2-container { width: 100% !important; }
+.form-field.catalog-category-picker > label { display: block; padding: 0; border: 0; background: transparent; font-size: 12px; }
+.filter-bar > .select2-container, .catalog-filter > .select2-container { flex: 0 1 220px; width: 220px !important; }
+.select-field > .select2-container { flex: 1; width: 130px !important; }
+.select-field .select2-selection--single { border: 0; min-height: 36px; background: transparent; }
+.select-field .select2-selection--single .select2-selection__rendered { line-height: 36px; padding-left: 0; font-size: 11px; }
+.select-field .select2-selection--single .select2-selection__arrow { height: 36px; right: 0; }
+.select-field > svg:last-child { display: none; }
+@media (max-width: 560px) {
+    .filter-bar > .select2-container, .catalog-filter > .select2-container { flex: 1 1 150px; width: 150px !important; }
+    .select-field > .select2-container { width: 100% !important; }
+}
+@media (max-width: 1024px) {
+    input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]), select, textarea,
+    .select2-container--default .select2-search--dropdown .select2-search__field { font-size: 16px; }
+    .form-field input, .form-field select, .form-field textarea, .catalog-search input { font-size: 16px; }
+}
