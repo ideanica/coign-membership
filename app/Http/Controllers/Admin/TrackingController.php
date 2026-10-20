@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\MemberTracking;
-use App\Models\Service;
 use App\Models\TrackingStatus;
 use App\Models\User;
 use App\Services\MembershipSettings;
 use App\Services\TrackingWorkflow;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
@@ -17,13 +17,16 @@ class TrackingController extends Controller
 {
     public function index(Request $request)
     {
-        $query = MemberTracking::with(['user', 'status', 'service'])->latest();
+        $query = MemberTracking::with(['user', 'status', 'service', 'bill'])->latest();
         if ($request->filled('q')) {
             $search = '%'.mb_substr((string) $request->query('q'), 0, 100).'%';
             $query->where(fn ($builder) => $builder->whereLike('reference', $search)->orWhereLike('title', $search)->orWhereHas('user', fn ($member) => $member->whereLike('name', $search)));
         }
         if ($request->filled('status')) {
             $query->where('tracking_status_id', $request->integer('status'));
+        }
+        if (in_array($request->query('payment_status'), ['unpaid', 'paid', 'cancelled'], true)) {
+            $query->whereHas('bill', fn ($bill) => $bill->where('status', $request->query('payment_status')));
         }
 
         return view('admin.tracking.index', ['trackings' => $query->paginate(15)->withQueryString(), 'statuses' => TrackingStatus::orderBy('sort_order')->get(), 'settings' => app(MembershipSettings::class)->all()]);
@@ -34,14 +37,23 @@ class TrackingController extends Controller
         return $this->form(new MemberTracking);
     }
 
+    public function show(MemberTracking $tracking): View
+    {
+        return view('admin.tracking.show', [
+            'tracking' => $tracking->load(['user', 'service', 'status', 'events', 'bill.user', 'bill.service', 'bill.tracking', 'bill.transaction.pointEntry']),
+            'statuses' => TrackingStatus::where(fn ($query) => $query->where('is_active', true)->orWhere('id', $tracking->tracking_status_id))->orderBy('sort_order')->get(),
+            'settings' => app(MembershipSettings::class)->all(),
+        ]);
+    }
+
     public function edit(MemberTracking $tracking)
     {
-        return $this->form($tracking->load(['events', 'status']));
+        return $this->show($tracking);
     }
 
     private function form(MemberTracking $tracking)
     {
-        return view('admin.tracking.form', ['tracking' => $tracking, 'members' => User::where('is_admin', false)->where(fn ($query) => $query->where('is_active', true)->orWhere('id', $tracking->user_id))->orderBy('name')->get(), 'services' => Service::where(fn ($query) => $query->where('is_active', true)->orWhere('id', $tracking->service_id))->orderBy('name')->get(), 'statuses' => TrackingStatus::where(fn ($query) => $query->where('is_active', true)->orWhere('id', $tracking->tracking_status_id))->orderBy('sort_order')->get(), 'settings' => app(MembershipSettings::class)->all()]);
+        return view('admin.tracking.form', ['tracking' => $tracking->loadMissing(['user', 'bill']), 'members' => User::where('is_admin', false)->where(fn ($query) => $query->where('is_active', true)->orWhere('id', $tracking->user_id))->orderBy('name')->get(), 'statuses' => TrackingStatus::where(fn ($query) => $query->where('is_active', true)->orWhere('id', $tracking->tracking_status_id))->orderBy('sort_order')->get(), 'settings' => app(MembershipSettings::class)->all()]);
     }
 
     private function values(Request $request, ?MemberTracking $tracking = null): array
@@ -79,7 +91,7 @@ class TrackingController extends Controller
         unset($values['note']);
         $tracking = $workflow->create($values, $request->user(), $note, $billing);
 
-        return redirect()->route('admin.tracking.edit', $tracking)->with('success', 'Pesanan dan bill otomatis berhasil dibuat. Rincian bill sudah dikunci.');
+        return redirect()->route('admin.tracking.show', $tracking)->with('success', 'Pesanan dan bill berhasil dibuat untuk pelanggan.');
     }
 
     public function update(Request $request, MemberTracking $tracking, TrackingWorkflow $workflow)
@@ -89,6 +101,6 @@ class TrackingController extends Controller
         unset($values['note']);
         $workflow->update($tracking, $values, $request->user(), $note);
 
-        return redirect()->route('admin.tracking.edit', $tracking)->with('success', 'Tracking diperbarui. Perubahan status dan catatan tersimpan pada timeline.');
+        return redirect()->route('admin.tracking.show', $tracking)->with('success', 'Pesanan diperbarui. Perubahan status dan catatan tersimpan pada timeline.');
     }
 }

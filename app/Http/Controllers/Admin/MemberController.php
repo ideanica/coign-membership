@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Services\MembershipSettings;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -12,15 +13,24 @@ use Illuminate\Validation\Rule;
 
 class MemberController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $query = User::where('is_admin', false)->withPointTotals()->latest();
         if ($request->filled('q')) {
             $search = '%'.mb_substr((string) $request->query('q'), 0, 100).'%';
             $query->where(fn ($builder) => $builder->whereLike('name', $search)->orWhereLike('email', $search)->orWhereLike('member_number', $search));
         }
+        if (in_array($request->query('access'), ['active', 'inactive'], true)) {
+            $query->where('is_active', $request->query('access') === 'active');
+        }
 
-        return view('admin.members.index', ['members' => $query->paginate(15)->withQueryString(), 'settings' => app(MembershipSettings::class)->all()]);
+        return view('admin.members.index', [
+            'members' => $query->paginate(15)->withQueryString(),
+            'memberStats' => ['total' => User::where('is_admin', false)->count(), 'active' => User::where('is_admin', false)->where('is_active', true)->count(), 'inactive' => User::where('is_admin', false)->where('is_active', false)->count()],
+            'editingMember' => old('_workspace_form') === 'member-edit' ? (User::where('is_admin', false)->find((int) old('_workspace_id')) ?? new User) : new User,
+            'newMember' => new User,
+            'settings' => app(MembershipSettings::class)->all(),
+        ]);
     }
 
     public function create()

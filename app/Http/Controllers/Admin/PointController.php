@@ -7,20 +7,29 @@ use App\Models\PointEntry;
 use App\Models\User;
 use App\Services\MembershipLedger;
 use App\Services\MembershipSettings;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class PointController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $entries = PointEntry::with(['user', 'actor'])->latest('occurred_at')->latest('id');
         if ($request->filled('member')) {
             $entries->where('user_id', $request->integer('member'));
         }
+        $summary = ['earned' => (int) (clone $entries)->where('type', 'earned')->sum('points'), 'used' => (int) (clone $entries)->where('type', 'redeemed')->sum('points')];
+        if (in_array($request->query('type'), ['earned', 'redeemed'], true)) {
+            $entries->where('type', $request->query('type'));
+        }
+        if ($request->filled('q')) {
+            $search = '%'.mb_substr((string) $request->query('q'), 0, 100).'%';
+            $entries->where(fn ($query) => $query->whereLike('reference', $search)->orWhereLike('title', $search)->orWhereLike('description', $search)->orWhereHas('user', fn ($member) => $member->whereLike('name', $search)));
+        }
 
-        return view('admin.points', ['members' => User::where('is_admin', false)->withPointTotals()->orderBy('name')->get(), 'entries' => $entries->paginate(15)->withQueryString(), 'settings' => app(MembershipSettings::class)->all()]);
+        return view('admin.points', ['members' => User::where('is_admin', false)->withPointTotals()->orderBy('name')->get(), 'entries' => $entries->paginate(15)->withQueryString(), 'summary' => $summary, 'settings' => app(MembershipSettings::class)->all()]);
     }
 
     public function store(Request $request, MembershipLedger $ledger)

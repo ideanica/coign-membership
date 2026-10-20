@@ -33,7 +33,7 @@ class MemberPortalController extends Controller
     {
         abort_unless($tracking->user_id === $request->user()->id, 404);
 
-        return view('membership.tracking.show', ['tracking' => $tracking->load(['status', 'service', 'events', 'bill']), 'settings' => app(MembershipSettings::class)->all()]);
+        return view('membership.tracking.show', ['tracking' => $tracking->load(['status', 'service', 'events', 'bill.user', 'bill.service', 'bill.tracking', 'bill.transaction.pointEntry']), 'settings' => app(MembershipSettings::class)->all()]);
     }
 
     public function bills(Request $request)

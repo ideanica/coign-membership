@@ -9,8 +9,7 @@
         ['home', 'Home', 'home', null],
         ['catalog.index', 'Katalog', 'catalog.*', null],
         ['membership.profile', 'Profil & poin', 'membership.profile', 'user'],
-        ['membership.tracking.index', 'Tracking', 'membership.tracking.*', 'calendar'],
-        ['membership.bills.index', 'Bill', 'membership.bills.*', 'receipt'],
+        ['membership.tracking.index', 'Pesanan', 'membership.tracking.*', 'calendar'],
     ];
 @endphp
 <header class="site-header clean-navbar {{ $public ? 'home-header' : 'member-header' }}">

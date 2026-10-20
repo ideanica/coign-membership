@@ -22,6 +22,7 @@
     @stack('scripts')
     <script src="{{ asset('js/navbar.js') }}?v={{ filemtime(public_path('js/navbar.js')) }}" defer></script>
     <script src="{{ asset('js/select2-controls.js') }}?v={{ filemtime(public_path('js/select2-controls.js')) }}" defer></script>
+    <script src="{{ asset('js/password-visibility.js') }}?v={{ filemtime(public_path('js/password-visibility.js')) }}" defer></script>
 </head>
 <body class="@yield('body-class')">
     <a class="skip-link button" href="#main">Lewati ke konten</a>

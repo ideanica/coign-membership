@@ -209,6 +209,11 @@ body:has(dialog[open]) { overflow: hidden; }
 .auth-field label { font-size: 12px; font-weight: 700; }
 .auth-field input { width: 100%; padding: 10px 12px; border: 2px solid #000; border-radius: var(--border-radius); background: #fff; min-height: 42px; font-size: 13px; }
 .auth-field small { font-size: 10px; color: #666; }
+.password-input { position: relative; min-width: 0; }
+.auth-field .password-input > input, .form-field .password-input > input { padding-right: 56px; }
+.password-toggle { position: absolute; inset-block: 0; right: 2px; display: inline-flex; align-items: center; justify-content: center; width: 44px; min-height: 40px; padding: 0; border: 0; border-radius: 3px; background: transparent; color: black; }
+.password-toggle:hover { background: var(--background); }
+.password-toggle:focus-visible { outline-offset: -4px; }
 .auth-errors { background: #ffe0e0; border: 2px solid #000; border-radius: var(--border-radius); padding: 12px; font-size: 11px; }
 .auth-errors ul { margin: 6px 0 0; padding-left: 16px; }
 .auth-submit { margin-top: 5px; width: 100%; justify-content: space-between; }

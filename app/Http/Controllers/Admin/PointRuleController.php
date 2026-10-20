@@ -7,6 +7,7 @@ use App\Models\PointRule;
 use App\Models\User;
 use App\Services\MembershipLedger;
 use App\Services\MembershipSettings;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -15,9 +16,9 @@ use Illuminate\Validation\Rule;
 
 class PointRuleController extends Controller
 {
-    public function index()
+    public function index(): View
     {
-        return view('admin.point-rules', ['rules' => PointRule::orderBy('minimum_amount')->get(), 'members' => User::where('is_admin', false)->where('is_active', true)->orderBy('name')->get(), 'settings' => app(MembershipSettings::class)->all(), 'purchaseReference' => 'PUR-'.Str::ulid()]);
+        return view('admin.point-rules', ['rules' => PointRule::orderBy('minimum_amount')->get(), 'members' => User::where('is_admin', false)->where('is_active', true)->orderBy('name')->get(), 'settings' => app(MembershipSettings::class)->all(), 'purchaseReference' => 'PUR-'.Str::ulid(), 'newRule' => new PointRule, 'editingRule' => old('_workspace_form') === 'rule-edit' ? (PointRule::find((int) old('_workspace_id')) ?? new PointRule) : new PointRule]);
     }
 
     private function values(Request $request, ?PointRule $pointRule = null): array

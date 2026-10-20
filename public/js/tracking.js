@@ -9,7 +9,7 @@ if (orderBilling) {
         discount.setCustomValidity(Number(discount.value) >= subtotal && subtotal > 0 ? 'Diskon harus lebih kecil dari subtotal.' : '');
         form.querySelector('[data-order-total]').textContent = `Rp${Math.max(0, subtotal - Number(discount.value)).toLocaleString('id-ID')}`;
     };
-    form.querySelector('#service_id').addEventListener('change', event => {
+    form.querySelector('#service_id')?.addEventListener('change', event => {
         const selected = event.target.selectedOptions[0];
         if (selected?.dataset.price) price.value = selected.dataset.price;
         update();

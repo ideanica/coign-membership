@@ -46,8 +46,7 @@
             @if($saving)
                 <div class="catalog-price-before"><del>{{ $pricing->format($catalog->base_price) }}</del><span class="catalog-price-discount">{{ $catalog->discount->type === 'percent' ? $catalog->discount->value : (int) round($saving / max(1, $catalog->base_price) * 100) }}% OFF</span></div>
             @endif
-            <strong class="catalog-price-desktop">{{ $pricing->format($pricing->finalPrice($catalog)) }}</strong>
-            <strong class="catalog-price-mobile"><span class="catalog-price-currency">IDR<span class="catalog-price-dot">.</span></span><span class="catalog-price-amount">@foreach(explode('.', number_format($pricing->finalPrice($catalog), 0, ',', '.')) as $part)@unless($loop->first)<span class="catalog-price-dot">.</span>@endunless{{ $part }}@endforeach</span></strong>
+            <strong class="catalog-price-value">{{ $pricing->format($pricing->finalPrice($catalog)) }}</strong>
             @if($saving)<p class="catalog-price-saving">Kamu hemat <b>{{ $pricing->format($saving) }}</b></p>@endif
         </div>
         <div class="catalog-delivery"><span class="catalog-delivery-icon"><x-icon name="calendar" size="20" /></span><span>Estimasi pengerjaan <strong>{{ $catalog->estimated_days }} hari</strong><small>Jadwal mulai disepakati saat konsultasi.</small></span></div>

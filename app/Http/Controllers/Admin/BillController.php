@@ -54,13 +54,13 @@ class BillController extends Controller
         $values = $request->validate(['payment' => ['required', 'string', 'max:100']]);
         $payments->pay($bill, $request->user(), $values['payment']);
 
-        return redirect()->route('admin.bills.show', $bill)->with('success', 'Bill lunas. Transaksi dan poin dicatat satu kali.');
+        return ($bill->member_tracking_id ? redirect()->route('admin.tracking.show', $bill->member_tracking_id) : redirect()->route('admin.bills.show', $bill))->with('success', 'Bill lunas. Transaksi dan poin dicatat satu kali.');
     }
 
     public function cancel(Bill $bill, BillPayment $payments)
     {
         $payments->cancel($bill);
 
-        return redirect()->route('admin.bills.show', $bill)->with('success', 'Bill dibatalkan.');
+        return ($bill->member_tracking_id ? redirect()->route('admin.tracking.show', $bill->member_tracking_id) : redirect()->route('admin.bills.show', $bill))->with('success', 'Bill dibatalkan.');
     }
 }

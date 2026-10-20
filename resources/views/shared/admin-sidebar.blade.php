@@ -6,17 +6,15 @@
             ['admin.points.index', 'Poin member', 'star', 'admin.points.*'],
             ['admin.point-rules.index', 'Poin otomatis', 'spark', 'admin.point-rules.*'],
         ],
-        'Layanan & katalog' => [
-            ['admin.services.index', 'Layanan', 'gift', 'admin.services.*'],
+        'Katalog' => [
             ['admin.catalogs.index', 'Katalog undangan', 'heart', 'admin.catalogs.*'],
             ['admin.discounts.index', 'Diskon katalog', 'star', 'admin.discounts.*'],
             ['admin.testimonials.index', 'Testimoni', 'star', 'admin.testimonials.*'],
             ['admin.catalog-categories.index', 'Kategori katalog', 'gift', 'admin.catalog-categories.*'],
         ],
         'Pesanan & pembayaran' => [
-            ['admin.tracking.index', 'Tracking', 'calendar', 'admin.tracking.*'],
+            ['admin.tracking.index', 'Pesanan', 'gift', 'admin.tracking.*'],
             ['admin.statuses.index', 'Label & status', 'check', 'admin.statuses.*'],
-            ['admin.bills.index', 'Bill', 'receipt', 'admin.bills.*'],
         ],
         'Preferensi' => [['admin.settings.edit', 'Pengaturan', 'info', 'admin.settings.*']],
     ];

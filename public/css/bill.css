@@ -57,6 +57,8 @@
 }
 @page { size: letter portrait; margin: .45in; }
 @media print {
+    .order-detail-content > :not(#bill), .order-detail-content > #bill > .card-heading { display: none !important; }
+    .order-detail-content > #bill { margin: 0 !important; }
     html, body { margin: 0; padding: 0; background: white; font-size: 11px; }
     .bill-document { width: 100%; max-width: none; margin: 0; }
     .invoice-screen-note, .bill-controls, .bill-tracking-link, .select2-container { display: none !important; }
