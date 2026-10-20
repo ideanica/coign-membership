@@ -14,7 +14,7 @@
 @endphp
 <header class="site-header clean-navbar {{ $public ? 'home-header' : 'member-header' }}">
     <div class="header-inner">
-        <x-brand-link class="navbar-brand" :dot="true" :settings="$settings" size="80" :caption="$public ? 'by acalysis' : 'MEMBERSHIP'" />
+        <x-brand-link class="navbar-brand" :dot="true" :settings="$settings" size="80" :caption="$public ? 'IT Creative Workspace' : 'MEMBERSHIP'" />
         <button class="button navbar-toggle" type="button" aria-controls="site-navigation site-account-actions" aria-expanded="false" aria-label="Buka menu navigasi" hidden><span data-nav-toggle-label>Menu</span><span class="navbar-toggle-bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
         <div class="navbar-dropdown">
         <nav id="site-navigation" class="main-nav" aria-label="{{ $public ? 'Navigasi utama' : 'Menu member' }}">
