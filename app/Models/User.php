@@ -13,7 +13,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 #[Fillable(['name', 'email', 'password'])]
-#[Hidden(['password', 'remember_token'])]
+#[Hidden(['password', 'remember_token', 'google_id'])]
 class User extends Authenticatable
 {
     protected $attributes = ['is_admin' => false, 'is_active' => true, 'member_tier' => 'Member'];
@@ -58,6 +58,7 @@ class User extends Authenticatable
             'is_admin' => 'boolean',
             'is_active' => 'boolean',
             'email_verified_at' => 'datetime',
+            'password_setup_at' => 'datetime',
             'password' => 'hashed',
         ];
     }
