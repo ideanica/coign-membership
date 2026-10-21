@@ -16,8 +16,21 @@ if (orderBilling) {
     });
     const member = form.querySelector('#user_id');
     const customer = form.querySelector('#customer_name');
-    const identity = () => { customer.required = !member.value; };
+    const email = form.querySelector('#customer_email');
+    const guestFields = form.querySelector('[data-guest-customer]');
+    const memberSummary = form.querySelector('[data-member-customer]');
+    const identity = () => {
+        const selected = member.selectedOptions[0];
+        const hasMember = Boolean(member.value);
+        guestFields.hidden = hasMember;
+        memberSummary.hidden = !hasMember;
+        customer.required = !hasMember;
+        customer.disabled = email.disabled = hasMember;
+        memberSummary.querySelector('[data-member-customer-name]').textContent = hasMember ? selected.dataset.customerName : '';
+        memberSummary.querySelector('[data-member-customer-email]').textContent = hasMember ? selected.dataset.customerEmail : '';
+    };
     member.addEventListener('change', identity);
+    form.addEventListener('reset', () => setTimeout(() => { identity(); update(); }, 0));
     identity();
     [price, quantity, discount].forEach(input => input.addEventListener('input', update));
     update();

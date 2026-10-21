@@ -60,6 +60,45 @@ class AutomaticOrderBillTest extends TestCase
         $this->actingAs(User::factory()->create())->get('/bills/'.$bill->id)->assertNotFound();
     }
 
+    public function test_member_bill_uses_database_identity_and_ignores_manual_customer_fields(): void
+    {
+        $member = User::factory()->create(['name' => 'Selected member', 'email' => 'selected@example.com']);
+        $this->actingAs($this->admin())->post('/admin/tracking', $this->order([
+            'user_id' => $member->id, 'customer_name' => ['invalid'], 'customer_email' => 'invalid-email',
+        ]))->assertSessionHasNoErrors()->assertRedirect();
+        $bill = Bill::sole();
+        $this->assertSame($member->id, $bill->user_id);
+        $this->assertSame($member->name, $bill->customer_name);
+        $this->assertSame($member->email, $bill->customer_email);
+    }
+
+    public function test_guest_bill_uses_manual_identity_and_validates_email(): void
+    {
+        $this->actingAs($this->admin())->post('/admin/tracking', $this->order(['customer_email' => 'invalid-email']))->assertSessionHasErrors('customer_email');
+        $this->assertDatabaseCount('bills', 0);
+        $this->post('/admin/tracking', $this->order(['customer_name' => 'Manual guest', 'customer_email' => null]))->assertSessionHasNoErrors();
+        $bill = Bill::sole();
+        $this->assertNull($bill->user_id);
+        $this->assertSame('Manual guest', $bill->customer_name);
+        $this->assertNull($bill->customer_email);
+    }
+
+    public function test_failed_member_order_reopens_form_with_member_summary_and_hidden_manual_fields(): void
+    {
+        $member = User::factory()->create();
+        $this->actingAs($this->admin());
+        $this->get('/admin/tracking/create')->assertOk();
+        $response = $this->followingRedirects()->from('/admin/tracking/create')->post('/admin/tracking', $this->order(['user_id' => $member->id, 'discount' => 400000]))->assertOk();
+        $document = new \DOMDocument;
+        @$document->loadHTML($response->getContent());
+        $xpath = new \DOMXPath($document);
+        $this->assertSame(1, $xpath->query('//*[@data-guest-customer and @hidden]')->length);
+        $this->assertSame(1, $xpath->query('//*[@data-member-customer and not(@hidden)]')->length);
+        $this->assertSame(1, $xpath->query('//input[@name="customer_name" and @disabled and not(@required)]')->length);
+        $this->assertSame($member->name, trim($xpath->query('//*[@data-member-customer-name]')->item(0)->textContent));
+        $this->assertSame($member->email, trim($xpath->query('//*[@data-member-customer-email]')->item(0)->textContent));
+    }
+
     public function test_invalid_quote_creates_neither_order_nor_bill(): void
     {
         $this->actingAs($this->admin())->post('/admin/tracking', $this->order(['discount' => 400000]))->assertSessionHasErrors('discount');

@@ -1,3 +1,4 @@
+@php($selectedMember = $tracking->exists ? null : $members->firstWhere('id', old('user_id')))
         <form class="neo-card portal-card admin-form {{ ($inDialog ?? false) ? 'order-dialog-form' : '' }}" method="post" action="{{ $tracking->exists ? route('admin.tracking.update', $tracking) : route('admin.tracking.store') }}">
             @csrf
             @if($tracking->exists)
@@ -8,7 +9,7 @@
                 <div class="form-field"><label>Member</label><p>{{ $tracking->user?->name ?? 'Pelanggan tanpa akun' }}</p><small>Pemilik tracking tetap sama untuk menjaga riwayat.</small></div>
                 @endif
             @else
-                <div class="form-field"><label for="user_id">Member (opsional)</label><select name="user_id" id="user_id"><option value="">Pelanggan tanpa akun</option>@foreach($members as $member)<option value="{{ $member->id }}" @selected(old('user_id') == $member->id)>{{ $member->name }} · {{ $member->email }}</option>@endforeach</select><small>Pilih akun jika pelanggan sudah menjadi member.</small></div>
+                <div class="form-field"><label for="user_id">Member (opsional)</label><select name="user_id" id="user_id"><option value="">Pelanggan tanpa akun</option>@foreach($members as $member)<option value="{{ $member->id }}" data-customer-name="{{ $member->name }}" data-customer-email="{{ $member->email }}" @selected(old('user_id') == $member->id)>{{ $member->name }} · {{ $member->email }}</option>@endforeach</select><small>Pilih akun jika pelanggan sudah menjadi member.</small></div>
             @endif
             @if($tracking->exists)
                 <input type="hidden" name="service_id" value="{{ $tracking->service_id }}">
@@ -20,7 +21,15 @@
             <input type="hidden" name="public_enabled" value="0"><label class="remember-field"><input type="checkbox" name="public_enabled" value="1" @checked(old('public_enabled', $tracking->public_enabled))> Aktifkan tracking publik untuk kode pesanan ini</label><div class="form-help">Siapa pun yang memiliki kode dapat melihat judul layanan, status, target selesai, dan riwayat status. Nama, email, bill, deskripsi, dan catatan member tidak ditampilkan.</div>
             @if(!$tracking->exists)
                 <section class="order-billing" data-order-billing><h2>Rincian harga & bill</h2><p class="muted">Bill diterbitkan otomatis saat pesanan disimpan. Pastikan harga dan pelanggan benar karena rincian ini tidak bisa diedit setelah terbit.</p>
-                    <div class="form-grid" style="margin-top:18px"><x-field name="customer_name" label="Nama pelanggan tanpa akun" maxlength="255" placeholder="Isi jika tidak memilih member" /><x-field name="customer_email" label="Email pelanggan (opsional)" type="email" maxlength="255" /></div>
+                    <div class="form-help" style="margin-top:18px" data-member-customer @if(!$selectedMember) hidden @endif>
+                        <strong>Data pelanggan dari member</strong>
+                        <p data-member-customer-name>{{ $selectedMember?->name }}</p><p data-member-customer-email>{{ $selectedMember?->email }}</p>
+                        <small>Nama dan email pada bill otomatis mengikuti data member saat pesanan dibuat.</small>
+                    </div>
+                    <div class="form-grid" style="margin-top:18px" data-guest-customer @if($selectedMember) hidden @endif>
+                        <x-field name="customer_name" label="Nama pelanggan tanpa akun" maxlength="255" placeholder="Nama pelanggan" :required="$selectedMember === null" :disabled="$selectedMember !== null" />
+                        <x-field name="customer_email" label="Email pelanggan (opsional)" type="email" maxlength="255" :disabled="$selectedMember !== null" />
+                    </div>
                     <div class="form-grid" style="margin-top:18px"><x-field name="quantity" label="Jumlah" type="number" value="1" required min="1" max="10000" /><x-field name="unit_price" label="Harga yang disepakati (Rp)" type="number" required min="1" max="1000000000">Isi harga pesanan secara manual sesuai kesepakatan dengan pelanggan.</x-field></div>
                     <div class="form-grid" style="margin-top:18px"><x-field name="discount" label="Diskon (Rp)" type="number" value="0" required min="0" max="10000000000000" /><x-field name="bill_due_date" label="Jatuh tempo pembayaran (opsional)" type="date" /></div>
                     <div class="form-help" style="margin-top:18px">Total bill: <strong data-order-total>Rp0</strong><br>Poin member diberikan setelah pembayaran dikonfirmasi, bukan saat pesanan dibuat.</div>

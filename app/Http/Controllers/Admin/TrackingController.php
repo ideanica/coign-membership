@@ -81,8 +81,8 @@ class TrackingController extends Controller
             'unit_price' => ['required', 'integer', 'min:1', 'max:1000000000'],
             'discount' => ['required', 'integer', 'min:0', 'max:10000000000000'],
             'bill_due_date' => ['nullable', 'date'],
-            'customer_name' => [Rule::requiredIf(empty($values['user_id'])), 'nullable', 'string', 'max:255'],
-            'customer_email' => ['nullable', 'email', 'max:255'],
+            'customer_name' => [Rule::excludeIf(! empty($values['user_id'])), Rule::requiredIf(empty($values['user_id'])), 'nullable', 'string', 'max:255'],
+            'customer_email' => [Rule::excludeIf(! empty($values['user_id'])), 'nullable', 'email', 'max:255'],
         ]);
         if ($billing['quantity'] * $billing['unit_price'] - $billing['discount'] < 1) {
             throw ValidationException::withMessages(['discount' => 'Diskon harus lebih kecil dari subtotal.']);

@@ -2,6 +2,7 @@
     $admin = request()->routeIs('admin.*');
     $customerName = $bill->customer_name ?? $bill->user?->name ?? __('Pelanggan tanpa akun');
     $customerEmail = $bill->customer_email ?? $bill->user?->email;
+    $customerNumber = $bill->customer_number ?? $bill->user?->member_number;
     $issuer = $bill->issuer_name ?? $settings['brand_name'] ?? 'Coignitive';
     $email = $bill->issuer_email ?? $settings['support_email'] ?? '';
 @endphp
@@ -9,17 +10,17 @@
     <p class="invoice-screen-note"><x-icon name="receipt" size="15" /> {{ __('Siap cetak Letter &middot; Rincian tagihan terkunci setelah diterbitkan.') }}</p>
     <article class="neo-card invoice-card invoice-sheet">
         <header class="invoice-document-header">
-            <div><div class="invoice-document-logo"><x-brand-logo full :settings="['brand_name' => $issuer]" /></div><strong class="invoice-issuer">{{ $issuer }}</strong>@if(filled($email))<p>{{ $email }}</p>@endif</div>
+            <div><div class="invoice-document-logo"><x-brand-logo full :settings="['brand_name' => $issuer]" /></div><strong class="invoice-issuer">{{ $issuer }}</strong><p>{{ filled($email) ? $email : '-' }}</p></div>
             <div class="invoice-document-id"><p class="invoice-kicker">{{ __('BILL / TAGIHAN') }}</p><h2>{{ __('Untuk ide') }}<br>{{ __('& momenmu.') }}</h2><p class="invoice-reference">{{ $bill->reference }}</p><span class="badge invoice-status status-{{ $bill->status }}">{{ __(\App\Models\Bill::STATUS_LABELS[$bill->status]) }}</span></div>
         </header>
         <div class="invoice-document-meta">
-            <section><h3>{{ __('Ditagihkan kepada') }}</h3><strong>{{ $customerName }}</strong>@if(filled($customerEmail))<p>{{ $customerEmail }}</p>@endif @if(filled($bill->customer_number ?? $bill->user?->member_number))<p>Member: {{ $bill->customer_number ?? $bill->user?->member_number }}</p>@endif</section>
-            <section><h3>{{ __('Informasi tagihan') }}</h3><dl><div><dt>{{ __('Diterbitkan') }}</dt><dd>{{ $bill->created_at->locale(app()->getLocale())->translatedFormat('d F Y') }}</dd></div><div><dt>{{ __('Jatuh tempo') }}</dt><dd>{{ $bill->due_date?->locale(app()->getLocale())->translatedFormat('d F Y') ?? __('Belum ditentukan') }}</dd></div>@if($bill->tracking)<div><dt>{{ __('Pesanan') }}</dt><dd>{{ $bill->tracking->reference }}</dd></div>@endif</dl></section>
+            <section><h3>{{ __('Ditagihkan kepada') }}</h3><strong>{{ $customerName }}</strong><p>{{ filled($customerEmail) ? $customerEmail : '-' }}</p><p>Member: {{ filled($customerNumber) ? $customerNumber : '-' }}</p></section>
+            <section><h3>{{ __('Informasi tagihan') }}</h3><dl><div><dt>{{ __('Diterbitkan') }}</dt><dd>{{ $bill->created_at->locale(app()->getLocale())->translatedFormat('d F Y') }}</dd></div><div><dt>{{ __('Jatuh tempo') }}</dt><dd>{{ $bill->due_date?->locale(app()->getLocale())->translatedFormat('d F Y') ?? '-' }}</dd></div><div><dt>{{ __('Pesanan') }}</dt><dd>{{ $bill->tracking?->reference ?? '-' }}</dd></div></dl></section>
         </div>
         <div class="invoice-items"><div class="invoice-items-heading"><span>{{ __('Layanan / pekerjaan') }}</span><span>Subtotal</span></div><div class="invoice-item"><div><h3>{{ $bill->title }}</h3><p>{{ $bill->service_name ?? $bill->service?->name ?? __('Layanan khusus') }}</p><p>{{ number_format($bill->quantity, 0, ',', '.') }} &times; {{ 'Rp'.number_format($bill->unit_price, 0, ',', '.') }}</p></div><strong>{{ 'Rp'.number_format($bill->quantity * $bill->unit_price, 0, ',', '.') }}</strong></div></div>
         <div class="invoice-document-totals"><div><span>Subtotal</span><strong>Rp{{ number_format($bill->quantity * $bill->unit_price, 0, ',', '.') }}</strong></div><div><span>{{ __('Diskon') }}</span><strong>&minus;Rp{{ number_format($bill->discount, 0, ',', '.') }}</strong></div><div class="invoice-grand-total"><span>{{ __('Total tagihan') }}</span><strong>Rp{{ number_format($bill->total, 0, ',', '.') }}</strong></div></div>
         <section class="invoice-payment-summary"><h3>{{ $bill->status === 'paid' ? __('Pembayaran diterima') : ($bill->status === 'cancelled' ? __('Tagihan dibatalkan') : __('Menunggu pembayaran')) }}</h3>
-            @if($bill->status === 'paid')<p>{{ $bill->payment }} &middot; {{ $bill->paid_at?->locale(app()->getLocale())->translatedFormat('d F Y, H:i') }}</p>@if($bill->user_id)<p>+{{ number_format($bill->transaction?->pointEntry?->points ?? 0, 0, ',', '.') }} {{ __('poin tercatat untuk member.') }}</p>@endif
+            @if($bill->status === 'paid')<p>{{ filled($bill->payment) ? $bill->payment : '-' }} &middot; {{ $bill->paid_at?->locale(app()->getLocale())->translatedFormat('d F Y, H:i') ?? '-' }}</p>@if($bill->user_id)<p>+{{ number_format($bill->transaction?->pointEntry?->points ?? 0, 0, ',', '.') }} {{ __('poin tercatat untuk member.') }}</p>@endif
             @elseif($bill->status === 'unpaid')<p>{{ __('Hubungi pengelola untuk detail pembayaran. Simpan nomor bill sebagai referensi konfirmasi.') }}</p>
             @else<p>{{ __('Bill ini tidak berlaku untuk pembayaran.') }}</p>@endif
         </section>
