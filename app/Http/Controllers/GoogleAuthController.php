@@ -164,6 +164,10 @@ class GoogleAuthController extends Controller
             ]);
         }
 
+        if (! $user->is_admin && $user->password_setup_at === null) {
+            $user->forceFill(['password' => Str::password(64)])->save();
+        }
+
         Auth::login($user);
         $request->session()->regenerate();
         $request->session()->put('auth_via_google', true);
