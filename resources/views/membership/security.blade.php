@@ -52,19 +52,19 @@
             <div class="list-row">
                 <div>
                     <strong>Kata sandi</strong>
-                    <small>{{ $user->password_setup_at ? 'Sudah dibuat sendiri.' : 'Masih menggunakan kredensial sementara atau belum pernah dibuat.' }}</small>
+                    <small>{{ $user->password_setup_at ? 'Sudah dibuat sendiri.' : 'Belum pernah dibuat sendiri.' }}</small>
                 </div>
                 <span class="badge {{ $user->password_setup_at ? 'success-badge' : 'member-badge' }}">{{ $user->password_setup_at ? 'Aktif' : 'Perlu dibuat' }}</span>
             </div>
 
             @if($authenticatedViaGoogle && ! $user->password_setup_at)
-                <p class="form-help">Kamu sedang masuk lewat Google. Membuat kata sandi di sini bersifat opsional dan berguna sebagai metode login cadangan.</p>
+                <p class="form-help">Kamu sedang masuk lewat Google. Kredensial sementara sebelumnya sudah dinonaktifkan. Membuat kata sandi di sini bersifat opsional dan berguna sebagai metode login cadangan.</p>
             @endif
         </section>
 
         <section class="neo-card portal-card" aria-labelledby="password-form-title">
             <h2 id="password-form-title">{{ $user->password_setup_at ? 'Ubah kata sandi' : 'Buat kata sandi' }}</h2>
-            <p class="muted">Gunakan minimal 8 karakter. Kata sandi baru akan langsung menggantikan kredensial sementara.</p>
+            <p class="muted">Gunakan minimal 8 karakter. Setelah disimpan, kata sandi ini dapat digunakan bersama email member untuk login.</p>
 
             <form class="admin-form" method="post" action="{{ route('membership.account.password.update') }}">
                 @csrf
