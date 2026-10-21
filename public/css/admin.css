@@ -77,3 +77,11 @@
     .admin-page .admin-shell { display: block; }
     .admin-page .admin-main { padding: 0; }
 }
+
+.admin-page .orders-table { min-width: 900px; }
+.admin-page .orders-table .order-title-cell { width: 240px; max-width: 240px; }
+.admin-page .orders-table .order-list-title { width: 200px; max-width: 100%; white-space: normal; overflow-wrap: anywhere; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+.admin-page .orders-table .order-title-cell > small { width: 200px; max-width: 100%; overflow-wrap: anywhere; }
+.admin-page .orders-table .order-customer-cell { max-width: 180px; overflow-wrap: anywhere; }
+.admin-page .orders-table .status-badge { max-width: 170px; white-space: normal; overflow-wrap: anywhere; text-align: center; }
+.admin-page .orders-table td:nth-child(5), .admin-page .orders-table td:last-child { white-space: nowrap; }
