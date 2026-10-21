@@ -17,7 +17,7 @@
                     <div class="form-field"><label for="from">Dari tanggal</label><input id="from" name="from" type="date" value="{{ request('from') }}"></div>
                     <div class="form-field"><label for="to">Sampai tanggal</label><input id="to" name="to" type="date" value="{{ request('to') }}"></div>
                 </div>
-                <div class="form-actions"><a class="button button-neutral" href="{{ route('admin.activity-logs.index') }}">Reset</a><button class="button" type="submit">Terapkan filter</button></div>
+                <div class="form-actions"><a class="button button-neutral" href="{{ route('admin.activity-logs.index') }}">Hapus filter</a><button class="button" type="submit">Terapkan filter</button></div>
             </dialog>
         </form>
         <ol class="activity-entries">

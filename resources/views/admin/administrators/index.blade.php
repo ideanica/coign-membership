@@ -10,7 +10,7 @@
         <div class="workspace-list-heading"><h2>Daftar admin</h2><p>Nonaktifkan akses tanpa menghapus riwayat pekerjaan.</p></div>
         <form class="filter-bar" method="get"><label class="sr-only" for="q">Cari admin</label><input id="q" name="q" value="{{ request('q') }}" maxlength="100" placeholder="Cari nama atau email admin">
             <label class="sr-only" for="access">Status akses</label><select id="access" name="access"><option value="">Semua akses</option><option value="active" @selected(request('access') === 'active')>Aktif</option><option value="inactive" @selected(request('access') === 'inactive')>Nonaktif</option></select>
-            <button class="button button-neutral" type="submit">Cari</button>@if(request()->filled('q') || request()->filled('access'))<a class="small-link" href="{{ route('admin.administrators.index') }}">Reset</a>@endif
+            <button class="button button-neutral" type="submit">Cari</button>@if(request()->filled('q') || request()->filled('access'))<a class="small-link" href="{{ route('admin.administrators.index') }}">Hapus filter</a>@endif
         </form>
         <div class="portal-table-wrap"><table class="portal-table"><thead><tr><th>ADMIN</th><th>ROLE & AKSES</th><th>DIBUAT</th><th>AKSI</th></tr></thead><tbody>
             @forelse($administrators as $administrator)

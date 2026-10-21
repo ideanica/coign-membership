@@ -25,7 +25,8 @@
         array_unshift($menuGroups['Preferensi'], ['admin.administrators.index', 'Manajemen admin', 'user', 'admin.administrators.*']);
     }
 @endphp
-<aside class="admin-sidebar">
+<aside class="admin-sidebar" id="admin-sidebar" aria-label="Navigasi admin">
+    <button type="button" class="button button-neutral admin-sidebar-close" data-sidebar-close aria-label="Tutup menu admin"><x-icon name="close" size="20" /></button>
     <x-brand-link size="44" caption="ADMIN SPACE" :destination="route('admin.dashboard')" :settings="$settings" />
     <details class="admin-navigation" open>
         <summary>Menu admin <x-icon name="chevron-down" size="17" /></summary>

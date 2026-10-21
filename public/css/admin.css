@@ -91,3 +91,22 @@
 .admin-page .recent-order-title { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; overflow-wrap: anywhere; }
 .admin-page .recent-order-copy > small { overflow-wrap: anywhere; }
 .admin-page .recent-order-row .status-badge { max-width: 140px; white-space: normal; overflow-wrap: anywhere; text-align: center; }
+
+.admin-sidebar-toggle, .admin-sidebar-close, .admin-sidebar-backdrop { display: none; }
+@media screen and (max-width: 1024px) {
+    .admin-page .admin-shell { grid-template-columns: minmax(0, 1fr); }
+    .admin-page .admin-sidebar { display: block; position: fixed; inset: 0 auto 0 0; width: min(310px, calc(100vw - 48px)); height: 100dvh; box-sizing: border-box; overflow-y: auto; overscroll-behavior: contain; z-index: 1101; background: white; border-right: 2px solid black; border-bottom: 0; padding: 22px 18px; transform: translateX(-100%); visibility: hidden; transition: transform .2s ease, visibility .2s; }
+    .admin-page.admin-sidebar-open .admin-sidebar { transform: translateX(0); visibility: visible; }
+    .admin-page .admin-sidebar > .brand { margin: 12px 0 26px; padding-right: 40px; }
+    .admin-page .admin-menu { display: grid; grid-template-columns: minmax(0, 1fr); gap: 23px; }
+    .admin-page .admin-navigation > summary { display: none; }
+    .admin-page .sidebar-foot { display: block; }
+    .admin-page .admin-sidebar-toggle { display: inline-flex; align-items: center; justify-content: center; gap: 8px; flex-shrink: 0; padding: 8px 10px; }
+    .admin-page .admin-sidebar-close { display: inline-flex; position: absolute; top: 18px; right: 14px; padding: 8px; }
+    .admin-page .admin-sidebar-backdrop:not([hidden]) { display: block; position: fixed; inset: 0; z-index: 1100; background: rgb(0 0 0 / .5); border: 0; padding: 0; cursor: pointer; }
+    .admin-page.admin-sidebar-open { overflow: hidden; }
+    .admin-page .portal-topbar { gap: 12px; }
+    .admin-page .portal-topbar > p { flex: 1; }
+}
+@media (max-width: 560px) { .admin-page .portal-topbar > p { display: none; } .admin-page .portal-topbar > .inline-actions { margin-left: auto; gap: 10px; } }
+@media (prefers-reduced-motion: reduce) { .admin-page .admin-sidebar { transition: none; } }

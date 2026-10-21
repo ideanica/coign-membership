@@ -41,3 +41,23 @@
     .select2-container--default .select2-search--dropdown .select2-search__field { font-size: 16px; }
     .form-field input, .form-field select, .form-field textarea, .catalog-search input { font-size: 16px; }
 }
+
+@media (max-width: 560px) {
+    input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]), select, textarea,
+    .form-field input, .form-field select, .form-field textarea, .auth-field input,
+    .filter-bar input, .filter-bar select, .catalog-search input, .tracking-search input,
+    .search-field input, .select2-container--default .select2-search--dropdown .select2-search__field { font-size: 14px; }
+    input::placeholder, textarea::placeholder { font-size: 12px; }
+    textarea { font-family: inherit; }
+    .form-field > label, .auth-field > label { font-size: 12px; line-height: 1.5; }
+    .form-field small, .form-help { font-size: 11px; line-height: 1.7; overflow-wrap: anywhere; }
+    .filter-bar input { min-width: 0; }
+    .select2-container--default .select2-selection--single .select2-selection__rendered,
+    .select2-container--default .select2-selection--multiple .select2-selection__rendered,
+    .select2-container--default .select2-results__option { font-size: 12px; }
+    .admin-page .workspace-mode h2, .admin-page .activity-intro h2,
+    .admin-page .portal-card h2, .admin-page .settings-card h2 { font-size: 18px; line-height: 1.4; overflow-wrap: anywhere; }
+    .neo-dialog .dialog-header h2, .workspace-dialog .dialog-header h2,
+    .member-order-dialog .dialog-header h2, .order-dialog .dialog-header h2 { font-size: 20px; line-height: 1.35; }
+    .admin-page .button, .neo-dialog .button { font-size: 11px; white-space: normal; }
+}

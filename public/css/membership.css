@@ -340,3 +340,10 @@ body:has(dialog[open]) { overflow: hidden; }
     html { scroll-behavior: auto; }
     *, *::before, *::after { transition-duration: .01ms !important; }
 }
+
+@media (max-width: 560px) {
+    .site-footer > .footer-inner { display: grid; grid-template-columns: minmax(0, 1fr) auto; width: 100%; box-sizing: border-box; align-items: center; gap: 14px 12px; padding-inline: 18px; }
+    .site-footer > .footer-inner > * { min-width: 0; }
+    .site-footer > .footer-inner > :nth-child(even) { justify-self: end; text-align: right; }
+    .site-footer > .footer-inner > a { white-space: nowrap; }
+}
