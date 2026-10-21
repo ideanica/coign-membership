@@ -1,0 +1,30 @@
+.google-auth-button {
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding-inline: 16px;
+    font-weight: 600;
+}
+
+.google-auth-button .google-auth-icon {
+    display: block;
+    width: 18px;
+    height: 18px;
+    flex: 0 0 18px;
+}
+
+.google-auth-button .google-auth-label {
+    line-height: 1.2;
+}
+
+@media (max-width: 560px) {
+    .google-auth-button {
+        gap: 7px;
+    }
+
+    .google-auth-button .google-auth-icon {
+        width: 17px;
+        height: 17px;
+        flex-basis: 17px;
+    }
+}
