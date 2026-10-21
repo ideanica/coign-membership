@@ -115,8 +115,8 @@ class PublicTrackingAndAutomaticPointsTest extends TestCase
         $admin = $this->admin();
         $member = User::factory()->create();
         $this->actingAs($admin);
-        foreach ([[100000, 50], [250000, 150]] as [$minimum, $points]) {
-            $this->post('/admin/point-rules', ['name' => 'Bonus '.$minimum, 'minimum_amount' => $minimum, 'points' => $points, 'is_active' => 1])->assertSessionHasNoErrors();
+        foreach ([[100000, 249999, 50], [250000, null, 150]] as [$minimum, $maximum, $points]) {
+            $this->post('/admin/point-rules', ['name' => 'Bonus '.$minimum, 'minimum_amount' => $minimum, 'maximum_amount' => $maximum, 'points' => $points, 'is_active' => 1])->assertSessionHasNoErrors();
         }
         $this->post('/admin/point-rules/mode', ['points_mode' => 'tiers'])->assertSessionHasNoErrors();
         foreach ([[99999, 0], [100000, 50], [249999, 50], [250000, 150], [900000, 150]] as $index => [$amount, $expected]) {

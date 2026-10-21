@@ -495,5 +495,6 @@
     "Memuat template...": "Loading templates...",
     "template ditemukan.": "templates found.",
     "Katalog belum bisa dimuat. Coba pilih tab atau terapkan filter lagi.": "The catalog could not be loaded. Try another tab or apply the filters again.",
-    "Jenis layanan. Fokus atau arahkan kursor untuk menjeda animasi.": "Service types. Focus or hover to pause the animation."
+    "Jenis layanan. Fokus atau arahkan kursor untuk menjeda animasi.": "Service types. Focus or hover to pause the animation.",
+    "Pembelian selesai memakai satu rentang aturan aktif yang sesuai. Hadiah bisa berupa poin tetap atau per kelipatan pembelian; hadiah antaraturan tidak dijumlahkan. Riwayat poin menampilkan jumlah yang masuk.": "Completed purchases use one matching active range. Rewards may be fixed or based on purchase increments; rewards from different rules are never added together. Your points history shows the amount credited."
 }

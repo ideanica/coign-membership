@@ -18,7 +18,7 @@
         </section>
             <section class="neo-card settings-card settings-points" aria-labelledby="settings-points-title">
                 <div class="settings-points-copy"><div class="settings-card-heading"><span class="settings-icon settings-icon-blue"><x-icon name="star" size="23" /></span><div><p class="section-kicker">POIN & HADIAH</p><h2 id="settings-points-title">Aturan perolehan poin</h2></div></div>
-                    @if(($settings['points_mode'] ?? 'ratio') === 'tiers')<p class="settings-value">Aturan bertingkat</p><p class="settings-description">Poin mengikuti batas pembelian tertinggi yang terpenuhi. Kelola nominal pembelian dan hadiahnya di halaman Poin otomatis.</p>
+                    @if(($settings['points_mode'] ?? 'ratio') === 'tiers')<p class="settings-value">Aturan bertingkat</p><p class="settings-description">Poin mengikuti satu rentang pembelian aktif. Kelola batas minimum, maksimum, hadiah tetap atau per kelipatan di halaman Poin otomatis.</p>
                     @else<p class="settings-value">Rp{{ number_format($settings['rupiah_per_point'] ?? 1000, 0, ',', '.') }} <span>= 1 poin</span></p><p class="settings-description">Mode rasio aktif. Setiap kelipatan nominal ini menghasilkan 1 poin dari pembayaran yang selesai.</p>@endif
                 </div>
                 <div class="settings-card-actions">
