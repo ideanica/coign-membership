@@ -28,6 +28,7 @@
             @if($public)
                 <a class="button button-neutral" href="{{ route('login') }}">Masuk <x-icon name="arrow-up-right" size="16" /></a>
             @else
+                @if(!auth()->user()?->is_admin)<a class="small-link" href="{{ route('membership.account.security') }}">Keamanan akun</a>@endif
                 @include('shared.logout')
             @endif
         </div>
