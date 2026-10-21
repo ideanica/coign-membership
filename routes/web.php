@@ -29,6 +29,7 @@ Route::middleware('guest')->group(function (): void {
     Route::post('/login', [MemberAuthController::class, 'login'])->middleware('throttle:10,1')->name('login.store');
     Route::get('/auth/google', [GoogleAuthController::class, 'redirect'])->middleware('throttle:20,1')->name('auth.google.redirect');
     Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback'])->middleware('throttle:20,1')->name('auth.google.callback');
+    Route::get('/login/google/callback', [GoogleAuthController::class, 'callback'])->middleware('throttle:20,1')->name('auth.google.callback.login');
 });
 
 Route::middleware(['auth', EnsureActiveMember::class])->group(function (): void {

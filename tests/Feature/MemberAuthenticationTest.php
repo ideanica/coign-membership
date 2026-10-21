@@ -139,6 +139,22 @@ class MemberAuthenticationTest extends TestCase
         $this->get('/profile')->assertOk();
     }
 
+    public function test_google_login_accepts_the_configured_production_callback_path(): void
+    {
+        $this->configureGoogle();
+        config(['services.google.redirect' => 'https://coignitive.vercel.app/login/google/callback']);
+        $this->fakeGoogleProfile('callback.member@example.com');
+        $member = User::factory()->create(['email' => 'callback.member@example.com']);
+        $state = $this->beginGoogleLogin();
+
+        $this->get('/login/google/callback?state='.urlencode($state).'&code=test-code')
+            ->assertSessionHasNoErrors()->assertRedirect('/profile');
+
+        $this->assertAuthenticatedAs($member);
+        Http::assertSent(fn ($request) => $request->url() === 'https://oauth2.googleapis.com/token'
+            && $request['redirect_uri'] === 'https://coignitive.vercel.app/login/google/callback');
+    }
+
     public function test_google_login_never_creates_an_unregistered_member(): void
     {
         $this->configureGoogle();
