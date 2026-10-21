@@ -12,6 +12,10 @@
             <label class="remember-field"><input type="checkbox" name="remember" value="1"> Ingat saya</label>
             <button type="submit" class="button auth-submit">Masuk ke akun <x-icon name="arrow-right" size="18" /></button>
         </form>
+        @if($googleLoginEnabled)
+            <p class="auth-switch">atau masuk lebih cepat</p>
+            <a href="{{ route('auth.google.redirect') }}" class="button button-neutral auth-submit"><strong aria-hidden="true">G</strong> Lanjutkan dengan Google</a>
+        @endif
         <p class="auth-switch">Belum punya akun? Hubungi pengelola untuk dibuatkan akun member.</p>
         <p class="auth-switch"><a href="{{ route('home') }}">Kembali ke Home</a></p>
     </section>
