@@ -14,7 +14,10 @@ class MemberAuthController extends Controller
 {
     public function loginForm(): View
     {
-        return view('membership.auth', ['settings' => app(MembershipSettings::class)->all()]);
+        return view('membership.auth', [
+            'settings' => app(MembershipSettings::class)->all(),
+            'googleLoginEnabled' => filled(config('services.google.client_id')) && filled(config('services.google.client_secret')),
+        ]);
     }
 
     public function login(Request $request): RedirectResponse
@@ -24,10 +27,17 @@ class MemberAuthController extends Controller
             'email' => ['required', 'email', 'max:254'],
             'password' => ['required', 'string'],
         ]);
+
         if (! Auth::attempt([...$credentials, 'is_active' => true], $request->boolean('remember'))) {
             throw ValidationException::withMessages(['email' => 'Email atau kata sandi tidak sesuai.']);
         }
+
         $request->session()->regenerate();
+        $request->session()->put('auth_via_google', false);
+
+        if (! $request->user()->is_admin && $request->user()->password_setup_at === null) {
+            return redirect()->route('membership.account.setup');
+        }
 
         return redirect()->intended(route($request->user()->is_admin ? 'admin.dashboard' : 'membership.profile'));
     }
