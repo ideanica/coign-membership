@@ -20,7 +20,7 @@ class MemberPortalController extends Controller
         $query = $request->user()->trackings()->with(['status', 'service', 'bill', 'latestEvent'])->withCount('events')->latest();
         if ($request->filled('q')) {
             $search = '%'.mb_substr((string) $request->query('q'), 0, 100).'%';
-            $query->where(fn ($builder) => $builder->whereLike('reference', $search)->orWhereLike('title', $search));
+            $query->where(fn ($builder) => $builder->whereLike('reference', $search)->orWhereLike('public_code', $search)->orWhereLike('title', $search));
         }
         if ($request->filled('status')) {
             $query->where('tracking_status_id', $request->integer('status'));

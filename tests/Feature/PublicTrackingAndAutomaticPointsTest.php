@@ -57,6 +57,44 @@ class PublicTrackingAndAutomaticPointsTest extends TestCase
         $this->post('/track', ['code' => ['malformed']])->assertSessionHasErrors('code');
     }
 
+    public function test_member_can_copy_and_search_the_same_code_accepted_by_public_tracking(): void
+    {
+        $member = User::factory()->create();
+        $order = $this->order($this->admin(), $member);
+
+        $this->actingAs($member)->get('/tracking/'.$order->id)
+            ->assertOk()->assertSee('data-copy-reference="'.$order->public_code.'"', false);
+        $this->get('/tracking?q='.$order->public_code)->assertOk()->assertSee($order->title);
+        $this->post('/track', ['code' => $order->public_code])->assertOk()->assertSee($order->title);
+    }
+
+    public function test_searching_a_public_code_does_not_expose_another_members_order(): void
+    {
+        $order = $this->order($this->admin(), User::factory()->create());
+
+        $this->actingAs(User::factory()->create())->get('/tracking?q='.$order->public_code)
+            ->assertOk()->assertDontSee($order->title)->assertSee('Tracking belum ditemukan');
+    }
+
+    public function test_admin_can_find_an_order_using_its_public_code(): void
+    {
+        $admin = $this->admin();
+        $order = $this->order($admin);
+
+        $this->actingAs($admin)->get('/admin/tracking?q='.$order->public_code)
+            ->assertOk()->assertSee($order->title);
+    }
+
+    public function test_member_is_informed_when_public_tracking_is_disabled(): void
+    {
+        $member = User::factory()->create();
+        $order = $this->order($this->admin(), $member, false);
+
+        $this->actingAs($member)->get('/tracking/'.$order->id)
+            ->assertOk()->assertSee('Tracking publik belum aktif')
+            ->assertDontSee('data-copy-reference="'.$order->public_code.'"', false);
+    }
+
     public function test_admin_can_create_guest_order_and_revoke_public_access(): void
     {
         $admin = $this->admin();

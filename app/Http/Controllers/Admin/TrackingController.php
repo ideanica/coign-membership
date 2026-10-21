@@ -20,7 +20,7 @@ class TrackingController extends Controller
         $query = MemberTracking::with(['user', 'status', 'service', 'bill'])->latest();
         if ($request->filled('q')) {
             $search = '%'.mb_substr((string) $request->query('q'), 0, 100).'%';
-            $query->where(fn ($builder) => $builder->whereLike('reference', $search)->orWhereLike('title', $search)->orWhereHas('user', fn ($member) => $member->whereLike('name', $search)));
+            $query->where(fn ($builder) => $builder->whereLike('reference', $search)->orWhereLike('public_code', $search)->orWhereLike('title', $search)->orWhereHas('user', fn ($member) => $member->whereLike('name', $search)));
         }
         if ($request->filled('status')) {
             $query->where('tracking_status_id', $request->integer('status'));

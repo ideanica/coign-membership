@@ -8,9 +8,10 @@
 @section('content')
 <div class="tracking-page order-detail-content">
     <section class="neo-card journey-hero">
-        <div class="journey-hero-main"><div class="journey-reference"><span class="tracking-kicker">{{ $tracking->reference }}</span><button type="button" class="reference-copy" data-copy-reference="{{ $tracking->reference }}" aria-label="Salin nomor tracking">Salin</button><span class="sr-only" data-copy-status role="status"></span></div><h2>{{ $tracking->title }}</h2><p><x-icon name="gift" size="18" /> {{ $tracking->service?->name ?? 'Layanan khusus' }}</p></div>
+        <div class="journey-hero-main"><div class="journey-reference"><span class="tracking-kicker">{{ $tracking->public_enabled ? $tracking->public_code : $tracking->reference }}</span><button type="button" class="reference-copy" data-copy-reference="{{ $tracking->public_enabled ? $tracking->public_code : $tracking->reference }}" aria-label="Salin nomor tracking">Salin</button><span class="sr-only" data-copy-status role="status"></span></div><h2>{{ $tracking->title }}</h2><p><x-icon name="gift" size="18" /> {{ $tracking->service?->name ?? 'Layanan khusus' }}</p></div>
         <div class="journey-hero-status"><span class="tracking-kicker">STATUS SAAT INI</span><span class="badge status-badge" style="--status-color:{{ $tracking->status->color }}">{{ $tracking->status->label }}</span><p>{{ $tracking->closed_at ? 'Tracking ini sudah ditutup.' : 'Layananmu sedang dalam perjalanan.' }}</p></div>
     </section>
+    <p class="journey-info-note">{{ $tracking->public_enabled ? 'Gunakan kode ORD di atas untuk melacak pesanan di halaman Tracking tanpa login.' : 'Tracking publik belum aktif. Pesanan ini hanya dapat dilihat melalui akunmu. Hubungi pengelola jika membutuhkan kode tracking publik.' }}</p>
     <div class="journey-detail-grid">
         <section class="neo-card journey-timeline-panel"><div class="journey-panel-heading"><span class="journey-icon"><x-icon name="spark" size="22" /></span><div><h2>Setiap langkah, tercatat.</h2><p>Update terbaru tampil paling atas.</p></div><span class="badge">{{ $tracking->events->count() }} update</span></div>
             <ol class="journey-timeline">

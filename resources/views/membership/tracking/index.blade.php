@@ -23,7 +23,7 @@
         @forelse($trackings as $tracking)
         <article class="neo-card journey-card">
             <div class="journey-card-top"><span class="journey-icon" style="--status-color:{{ $tracking->status->color }}"><x-icon name="gift" size="24" /></span><span class="badge status-badge" style="--status-color:{{ $tracking->status->color }}">{{ $tracking->status->label }}</span></div>
-            <p class="tracking-ref">{{ $tracking->reference }}</p><h3>{{ $tracking->title }}</h3><p class="journey-service">{{ $tracking->service?->name ?? 'Layanan khusus' }}</p>
+            <p class="tracking-ref">{{ $tracking->public_enabled ? $tracking->public_code : $tracking->reference }}</p><h3>{{ $tracking->title }}</h3><p class="journey-service">{{ $tracking->service?->name ?? 'Layanan khusus' }}</p>
             <div class="journey-update"><span class="tracking-kicker">KABAR TERAKHIR</span><p>{{ filled($tracking->latestEvent?->note) ? $tracking->latestEvent->note : ($tracking->latestEvent?->status_label ?? 'Menunggu update pertama dari tim.') }}</p>@if($tracking->latestEvent)<time datetime="{{ $tracking->latestEvent->created_at->toIso8601String() }}">{{ $tracking->latestEvent->created_at->locale('id')->translatedFormat('d M Y · H:i') }}</time>@endif</div>
             <div class="journey-card-meta"><span><x-icon name="calendar" size="16" /><span>Target selesai<strong>{{ $tracking->due_date?->locale('id')->translatedFormat('d M Y') ?? 'Belum ditentukan' }}</strong></span></span><span class="journey-update-count">{{ $tracking->events_count }} update</span></div>
             <a class="button journey-cta" href="{{ route('membership.tracking.show', $tracking) }}">Detail pesanan & bill <x-icon name="arrow-up-right" size="19" /></a>

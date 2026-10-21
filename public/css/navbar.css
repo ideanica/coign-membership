@@ -3,17 +3,17 @@
 .navbar-dropdown { display: contents; }
 .navbar-toggle-bars { display: grid; gap: 4px; width: 15px; }
 .navbar-toggle-bars i { display: block; height: 2px; background: black; }
-.home-page { --public-layout-width: 1184px; --public-layout-gutter: 32px; }
+:root { --public-layout-width: 1184px; --public-layout-gutter: 32px; }
 .home-page .home-container,
 .home-page .catalog-public-main,
 .home-page .member-main { max-width: var(--public-layout-width); padding-inline: var(--public-layout-gutter); }
-.home-page .home-header { width: calc(100% - var(--public-layout-gutter) * 2); max-width: calc(var(--public-layout-width) - var(--public-layout-gutter) * 2); }
+.clean-navbar { width: calc(100% - var(--public-layout-gutter) * 2); max-width: calc(var(--public-layout-width) - var(--public-layout-gutter) * 2); }
 .clean-navbar .header-inner { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; padding: 12px 25px; gap: 24px; max-width: none; min-height: 86px; align-items: center; }
 .clean-navbar .navbar-brand { gap: 9px; font-size: 37px; letter-spacing: -1.3px; }
 .clean-navbar .navbar-brand .portal-brand-copy { color: #125ce8; font-style: normal; max-width: none; min-width: max-content; white-space: nowrap; overflow-wrap: normal; }
 .clean-navbar .navbar-brand-dot { color: var(--yellow); }
 .clean-navbar .navbar-brand .brand-caption { font-size: 8px; font-style: normal; letter-spacing: .4px; }
-.clean-navbar .main-nav { display: flex; flex-wrap: wrap; align-items: center; justify-self: center; justify-content: center; gap: 12px; }
+.clean-navbar .main-nav { order: initial; width: auto; display: flex; flex-wrap: wrap; align-items: center; justify-self: center; justify-content: center; gap: 12px; }
 .clean-navbar .home-auth { display: flex; align-items: center; gap: 18px; }
 .clean-navbar .nav-link { font-size: 12px; font-weight: 600; padding: 9px 15px; }
 .clean-navbar .nav-link.active { background: var(--yellow); }
@@ -25,7 +25,7 @@
     .clean-navbar .home-auth, .clean-navbar .inline-actions { grid-column: 2; grid-row: 1; }
 }
 @media (max-width: 560px) {
-    .home-page { --public-layout-gutter: 18px; }
+    :root { --public-layout-gutter: 16px; }
     .clean-navbar .header-inner { padding: 12px 14px 16px; gap: 10px 8px; }
     .clean-navbar .navbar-brand { font-size: 27px; gap: 6px; }
     .clean-navbar .navbar-brand .brand-logo-cat { width: 61px; height: 61px; }
@@ -34,16 +34,12 @@
     .clean-navbar .nav-link { font-size: 11px; padding: 8px 13px; }
     .clean-navbar .navbar-brand { grid-column: 1 / -1; justify-self: center; }
     .clean-navbar .main-nav { width: 100%; min-width: 0; }
-    .clean-navbar.home-header .main-nav { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+    .clean-navbar .main-nav { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
     .clean-navbar .nav-link { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
     .clean-navbar .home-auth, .clean-navbar .inline-actions { grid-column: 1 / -1; grid-row: 3; justify-self: center; }
     .clean-navbar .button, .clean-navbar .logout-button { min-height: 44px; }
 }
-@media (min-width: 561px) and (max-width: 760px) {
-    .home-page { --public-layout-gutter: 24px; }
-}
-@media (min-width: 561px) and (max-width: 1024px) { .home-page { --public-layout-gutter: 24px; } }
-@media (max-width: 560px) { .home-page { --public-layout-gutter: 16px; } }
+@media (min-width: 561px) and (max-width: 1024px) { :root { --public-layout-gutter: 24px; } }
 @media (max-width: 360px) {
     .clean-navbar .navbar-brand { grid-column: 1 / -1; }
     .clean-navbar .home-auth, .clean-navbar .inline-actions { grid-column: 1 / -1; grid-row: 3; justify-self: center; }
