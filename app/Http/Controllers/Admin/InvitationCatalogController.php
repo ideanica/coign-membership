@@ -8,6 +8,8 @@ use App\Models\CatalogCategory;
 use App\Services\CatalogMedia;
 use App\Services\CatalogPricing;
 use App\Services\MembershipSettings;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -24,6 +26,37 @@ class InvitationCatalogController extends Controller
         }
 
         return view('admin.catalogs.index', ['catalogs' => $query->paginate(15)->withQueryString(), 'pricing' => app(CatalogPricing::class), 'settings' => app(MembershipSettings::class)->all()]);
+    }
+
+    public function archive(Request $request): View
+    {
+        $request->validate(['q' => ['nullable', 'string', 'max:100']]);
+        $query = Catalog::onlyTrashed()->with('categories')->latest('deleted_at');
+        if ($request->filled('q')) {
+            $query->whereLike('name', '%'.$request->query('q').'%');
+        }
+
+        return view('admin.catalogs.archive', ['catalogs' => $query->paginate(15)->withQueryString(), 'settings' => app(MembershipSettings::class)->all()]);
+    }
+
+    public function restore(Catalog $catalog): RedirectResponse
+    {
+        abort_unless($catalog->trashed(), 404);
+        DB::transaction(function () use ($catalog): void {
+            $locked = Catalog::onlyTrashed()->whereKey($catalog->id)->lockForUpdate()->firstOrFail();
+            $locked->is_active = false;
+            $locked->restore();
+        });
+
+        return redirect()->route('admin.catalogs.edit', $catalog)->with('success', 'Katalog dipulihkan dalam status disembunyikan. Tampilkan saat sudah siap.');
+    }
+
+    public function visibility(Request $request, Catalog $catalog): RedirectResponse
+    {
+        $values = $request->validate(['is_active' => ['required', 'boolean']]);
+        $catalog->update(['is_active' => $values['is_active']]);
+
+        return redirect()->route('admin.catalogs.edit', $catalog)->with('success', $catalog->is_active ? 'Katalog ditampilkan di halaman publik.' : 'Katalog disembunyikan dari halaman publik.');
     }
 
     public function create()

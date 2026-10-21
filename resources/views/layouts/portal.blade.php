@@ -13,12 +13,12 @@
         <div class="admin-shell">
             @include('shared.admin-sidebar')
             <div class="admin-workspace">
-                <header class="portal-topbar"><p><strong>Admin panel</strong><span> Semua operasional, satu tempat.</span></p><div class="inline-actions"><a href="{{ route('membership.profile') }}" class="small-link">Halaman member <x-icon name="arrow-up-right" size="15" /></a>@include('shared.logout')</div></header>
+                <header class="portal-topbar"><p><strong>Admin panel</strong><span> Semua operasional, satu tempat.</span></p><div class="inline-actions"><a href="{{ route('admin.settings.edit') }}" class="small-link">Akun & pengaturan <x-icon name="arrow-up-right" size="15" /></a>@include('shared.logout')</div></header>
     @else
         <x-navbar variant="member" :settings="$settings" />
     @endif
     <main id="main" class="portal-main {{ $adminArea ? 'admin-main' : 'member-main' }}">
-        <div class="portal-heading"><div><p class="eyebrow">{{ $adminArea ? 'ADMIN SPACE' : 'YOUR MEMBER SPACE' }}</p><h1>@yield('title')<span class="heading-dot">.</span></h1><p class="page-description">@yield('description')</p></div><div class="inline-actions">@yield('actions')</div></div>
+        <div class="portal-heading"><div><p class="eyebrow">{{ $adminArea ? 'ADMIN SPACE' : __('YOUR MEMBER SPACE') }}</p><h1>@yield('title')<span class="heading-dot">.</span></h1><p class="page-description">@yield('description')</p></div><div class="inline-actions">@yield('actions')</div></div>
         @include('shared.alerts')
         @yield('content')
         @if($adminArea)<x-footer variant="compact" :settings="$settings" />@endif

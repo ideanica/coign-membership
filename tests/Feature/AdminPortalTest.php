@@ -21,7 +21,7 @@ class AdminPortalTest extends TestCase
     private function admin(): User
     {
         $admin = User::factory()->create();
-        $admin->forceFill(['is_admin' => true])->save();
+        $admin->forceFill(['is_admin' => true, 'is_superadmin' => true])->save();
 
         return $admin;
     }
@@ -57,7 +57,11 @@ class AdminPortalTest extends TestCase
     public function test_admin_and_member_pages_render_including_empty_states(): void
     {
         $this->actingAs($this->admin());
-        foreach (['/admin', '/admin/members', '/admin/members/create', '/admin/points', '/admin/services', '/admin/services/create', '/admin/statuses', '/admin/statuses/create', '/admin/tracking', '/admin/tracking/create', '/admin/bills', '/admin/settings', '/tracking', '/bills'] as $path) {
+        foreach (['/admin', '/admin/members', '/admin/members/create', '/admin/points', '/admin/services', '/admin/services/create', '/admin/statuses', '/admin/statuses/create', '/admin/tracking', '/admin/tracking/create', '/admin/bills', '/admin/settings'] as $path) {
+            $this->get($path)->assertOk();
+        }
+        $this->actingAs(User::factory()->create(['password_setup_at' => now()]));
+        foreach (['/tracking', '/bills'] as $path) {
             $this->get($path)->assertOk();
         }
     }

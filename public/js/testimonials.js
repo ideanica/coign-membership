@@ -10,7 +10,7 @@
             toggle.hidden = !mobile.matches;
             toggle.disabled = loading;
             toggle.setAttribute('aria-expanded', String(expanded));
-            toggle.querySelector('[data-review-toggle-label]').textContent = loading ? 'Memuat...' : expanded ? 'Show less' : 'Show more';
+            toggle.querySelector('[data-review-toggle-label]').textContent = loading ? window.siteText('Memuat...') : expanded ? window.siteText('Show less') : window.siteText('Show more');
         };
         toggle.addEventListener('click', async () => {
             expanded = !expanded;
@@ -31,7 +31,7 @@
                     next = more.dataset.nextUrl;
                 }
             } catch {
-                status.textContent = 'Sebagian testimoni belum dapat dimuat. Tutup lalu coba Show more lagi.';
+                status.textContent = window.siteText('Sebagian testimoni belum dapat dimuat. Tutup lalu coba Show more lagi.');
             } finally { loading = false; render(); }
         });
         mobile.addEventListener('change', render);

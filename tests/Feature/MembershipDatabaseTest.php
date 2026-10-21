@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Services\MembershipLedger;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
@@ -33,16 +34,19 @@ class MembershipDatabaseTest extends TestCase
     public function test_admin_creates_a_login_account_with_zero_points(): void
     {
         $admin = User::factory()->create();
-        $admin->forceFill(['is_admin' => true])->save();
+        $admin->forceFill(['is_admin' => true, 'is_superadmin' => true])->save();
         $this->actingAs($admin)->post('/admin/members', ['name' => 'Member Baru', 'email' => 'Member@example.com', 'password' => 'secret-password', 'password_confirmation' => 'secret-password', 'member_tier' => 'Member', 'is_active' => 1])
             ->assertSessionHasNoErrors()->assertRedirect('/admin/members');
         $user = User::where('email', 'member@example.com')->firstOrFail();
         $this->assertAuthenticatedAs($admin);
         $this->assertSame('member@example.com', $user->email);
         $this->assertNotEmpty($user->member_number);
-        $this->assertTrue(Hash::check('secret-password', $user->password));
+        $temporaryPassword = Crypt::decryptString(session('temporary_credentials.password'));
+        $this->assertTrue(Hash::check($temporaryPassword, $user->password));
+        $this->assertNull($user->password_setup_at);
         $this->post('/logout');
-        $this->post('/login', ['email' => $user->email, 'password' => 'secret-password'])->assertRedirect('/profile');
+        $this->post('/login', ['email' => $user->email, 'password' => $temporaryPassword])->assertRedirect('/account/setup');
+        $this->put('/account/password', ['password' => 'own-password', 'password_confirmation' => 'own-password'])->assertRedirect('/profile');
         $this->get('/profile')->assertOk()->assertViewHas('summary', ['earned' => 0, 'used' => 0, 'balance' => 0])->assertViewHas('transactions', [])->assertViewHas('earnings', [])->assertDontSee('Aditya Pratama');
     }
 
@@ -118,9 +122,13 @@ class MembershipDatabaseTest extends TestCase
     {
         User::factory()->create(['email' => 'taken@example.com']);
         $admin = User::factory()->create();
-        $admin->forceFill(['is_admin' => true])->save();
-        $this->actingAs($admin)->post('/admin/members', ['name' => 'Member', 'email' => 'taken@example.com', 'password' => 'secret-password', 'password_confirmation' => 'different-password', 'member_tier' => 'Member', 'is_active' => 1])->assertSessionHasErrors(['email', 'password']);
+        $admin->forceFill(['is_admin' => true, 'is_superadmin' => true])->save();
+        $this->actingAs($admin)->post('/admin/members', ['name' => 'Member', 'email' => 'taken@example.com', 'password' => 'secret-password', 'password_confirmation' => 'different-password', 'member_tier' => 'Member', 'is_active' => 1])->assertSessionHasErrors('email');
         $this->assertDatabaseCount('users', 2);
         $this->assertAuthenticatedAs($admin);
+        $member = User::where('email', 'taken@example.com')->firstOrFail();
+        $password = $member->password;
+        $this->actingAs($member)->put('/account/password', ['current_password' => 'password', 'password' => 'secret-password', 'password_confirmation' => 'different-password'])->assertSessionHasErrors('password');
+        $this->assertSame($password, $member->fresh()->password);
     }
 }

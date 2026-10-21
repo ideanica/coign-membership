@@ -16,7 +16,7 @@ class EnsureActiveMember
             $request->session()->invalidate();
             $request->session()->regenerateToken();
 
-            return redirect()->route('login')->with('status', 'Akun dinonaktifkan. Hubungi pengelola membership.');
+            return redirect()->route('login')->with('status', __('Akun dinonaktifkan. Hubungi pengelola membership.'));
         }
 
         return $next($request);

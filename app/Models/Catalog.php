@@ -19,6 +19,13 @@ class Catalog extends Model
         return ['base_price' => 'integer', 'estimated_days' => 'integer', 'is_active' => 'boolean', 'is_featured' => 'boolean', 'rating_average' => 'decimal:2', 'reviews_count' => 'integer'];
     }
 
+    public function isNew(): bool
+    {
+        return $this->created_at !== null
+            && $this->created_at->lessThanOrEqualTo(now())
+            && $this->created_at->copy()->addMonthNoOverflow()->greaterThan(now());
+    }
+
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(CatalogCategory::class, 'catalog_category');

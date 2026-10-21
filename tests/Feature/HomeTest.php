@@ -34,14 +34,14 @@ class HomeTest extends TestCase
 
     public function test_public_pages_share_home_and_tracking_navigation_without_registration_links(): void
     {
-        foreach (['/' => 'Home', '/track' => 'Tracking'] as $path => $active) {
+        foreach (['/' => 'Beranda', '/track' => 'Lacak pesanan'] as $path => $active) {
             $response = $this->get($path)->assertOk()->assertDontSee('/register');
             $document = new \DOMDocument;
             @$document->loadHTML($response->getContent());
             $xpath = new \DOMXPath($document);
             $links = $xpath->query('//nav[@aria-label="Navigasi utama"]/a');
             $this->assertSame(3, $links->length);
-            $this->assertSame(['Home', 'Katalog', 'Tracking'], array_map(fn ($link) => trim($link->textContent), iterator_to_array($links)));
+            $this->assertSame(['Beranda', 'Katalog', 'Lacak pesanan'], array_map(fn ($link) => trim($link->textContent), iterator_to_array($links)));
             $this->assertSame($active, trim($xpath->query('//nav/a[@aria-current="page"]')->item(0)->textContent));
         }
     }

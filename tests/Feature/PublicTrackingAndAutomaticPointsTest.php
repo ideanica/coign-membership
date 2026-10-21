@@ -19,7 +19,7 @@ class PublicTrackingAndAutomaticPointsTest extends TestCase
     private function admin(): User
     {
         $admin = User::factory()->create();
-        $admin->forceFill(['is_admin' => true])->save();
+        $admin->forceFill(['is_admin' => true, 'is_superadmin' => true])->save();
 
         return $admin;
     }

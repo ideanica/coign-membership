@@ -1,0 +1,25 @@
+.activity-intro { padding: 24px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; margin-bottom: 24px; }
+.activity-intro h2 { font-size: 21px; margin-bottom: 10px; }
+.activity-intro p:not(.section-kicker) { font-size: 12px; line-height: 1.8; color: #526079; max-width: 760px; }
+.activity-intro .badge { flex-shrink: 0; }
+.activity-filters { padding: 24px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; border-bottom: 2px solid #111; }
+.activity-filters .inline-actions { align-self: end; min-height: 44px; }
+.activity-entries { list-style: none; padding: 0; margin: 0; }
+.activity-entry { display: grid; grid-template-columns: minmax(160px, 1fr) minmax(0, 2fr); gap: 24px; padding: 24px; border-bottom: 1px solid #dce1ea; font-size: 13px; overflow-wrap: anywhere; }
+.activity-person { display: flex; flex-direction: column; align-items: flex-start; gap: 7px; min-width: 0; }
+.activity-person > span:not(.badge), .activity-description time { color: #526079; font-size: 11px; }
+.activity-description > p { margin: 6px 0; }
+.activity-description details { margin-top: 12px; font-size: 12px; }
+.activity-description summary { cursor: pointer; padding: 8px 0; font-weight: 600; }
+.activity-description dl { background: #f5f7fa; padding: 12px; margin: 0; }
+.activity-description dl > div { margin-bottom: 8px; }
+.activity-description dt { color: #526079; }
+.activity-description dd { margin: 3px 0 0; }
+@media (max-width: 900px) { .activity-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .activity-intro { flex-direction: column; padding: 20px; } .activity-filters { grid-template-columns: minmax(0, 1fr); padding: 20px; } .activity-entry { grid-template-columns: minmax(0, 1fr); gap: 16px; padding: 20px; } }
+
+.admin-page .filter-bar.activity-search-row { flex-wrap: nowrap; }
+.admin-page .filter-bar.activity-search-row > input { flex: 1 1 0; min-width: 0; }
+.activity-search-row .button { flex-shrink: 0; min-width: 44px; }
+.activity-filter-fields { display: grid; gap: 16px; }
+.activity-filter-dot { width: 8px; height: 8px; border-radius: 50%; background: #ff4d50; }

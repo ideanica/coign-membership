@@ -10,12 +10,18 @@ use Illuminate\Support\Str;
 
 class CreateAdmin extends Command
 {
-    protected $signature = 'admin:create {email} {--name=Administrator} {--generate-password : Generate and show a new password once}';
+    protected $signature = 'admin:create {email} {--name=Administrator} {--role=admin : admin or superadmin} {--generate-password : Generate and show a new password once}';
 
     protected $description = 'Create an administrator without promoting or replacing an existing member';
 
     public function handle(): int
     {
+        $role = (string) $this->option('role');
+        if (! in_array($role, ['admin', 'superadmin'], true)) {
+            $this->error('Role must be admin or superadmin.');
+
+            return self::FAILURE;
+        }
         $email = Str::lower(trim((string) $this->argument('email')));
         if (User::where('email', $email)->exists()) {
             $this->error('This email already exists. No account was changed.');
@@ -30,9 +36,9 @@ class CreateAdmin extends Command
 
             return self::FAILURE;
         }
-        DB::transaction(function () use ($validator): void {
+        DB::transaction(function () use ($validator, $role): void {
             $user = User::create($validator->validated());
-            $user->forceFill(['is_admin' => true, 'is_active' => true])->save();
+            $user->forceFill(['is_admin' => true, 'is_superadmin' => $role === 'superadmin', 'is_active' => true])->save();
         });
         $this->info('Administrator created: '.$email);
         if ($this->option('generate-password')) {

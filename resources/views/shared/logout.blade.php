@@ -1,1 +1,1 @@
-<form method="post" action="{{ route('logout') }}">@csrf<button class="logout-button" type="submit">Keluar</button></form>
+<form method="post" action="{{ route('logout') }}">@csrf<button class="logout-button" type="submit">{{ __('Keluar') }}</button></form>

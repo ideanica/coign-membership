@@ -29,7 +29,7 @@ class MemberAuthController extends Controller
         ]);
 
         if (! Auth::attempt([...$credentials, 'is_active' => true], $request->boolean('remember'))) {
-            throw ValidationException::withMessages(['email' => 'Email atau kata sandi tidak sesuai.']);
+            throw ValidationException::withMessages(['email' => __('Email atau kata sandi tidak sesuai.')]);
         }
 
         $request->session()->regenerate();

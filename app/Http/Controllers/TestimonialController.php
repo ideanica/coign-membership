@@ -35,6 +35,6 @@ class TestimonialController extends Controller
             $stats->sync($locked);
         });
 
-        return redirect()->to(route('catalog.show', $catalog->slug).'#testimonials')->with('testimonial_success', 'Terima kasih! Testimonimu tersimpan dan akan tampil setelah ditinjau admin.');
+        return redirect()->to(route('catalog.show', $catalog->slug).'#testimonials')->with('testimonial_success', __('Terima kasih! Testimonimu tersimpan dan akan tampil setelah ditinjau admin.'));
     }
 }

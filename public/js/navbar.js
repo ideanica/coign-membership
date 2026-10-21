@@ -12,8 +12,8 @@
         menu.hidden = account.hidden = compact.matches && !open;
         dropdown.hidden = compact.matches && !open;
         toggle.setAttribute('aria-expanded', String(compact.matches && open));
-        toggle.setAttribute('aria-label', open ? 'Tutup menu navigasi' : 'Buka menu navigasi');
-        toggle.querySelector('[data-nav-toggle-label]').textContent = open ? 'Tutup' : 'Menu';
+        toggle.setAttribute('aria-label', open ? window.siteText('Tutup menu navigasi') : window.siteText('Buka menu navigasi'));
+        toggle.querySelector('[data-nav-toggle-label]').textContent = open ? window.siteText('Tutup') : 'Menu';
     };
     header.classList.add('navbar-enhanced');
     toggle.addEventListener('click', () => { open = !open; render(); });

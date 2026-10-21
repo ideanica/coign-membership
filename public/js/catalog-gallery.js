@@ -35,7 +35,7 @@
         description?.classList.toggle('description-collapsed', mobile.matches && !expanded);
         if (more && description) {
             more.hidden = !mobile.matches || (!expanded && description.scrollHeight <= description.clientHeight + 1);
-            more.querySelector('[data-description-label]').textContent = expanded ? 'Show less' : 'Show more';
+            more.querySelector('[data-description-label]').textContent = expanded ? window.siteText('Show less') : window.siteText('Show more');
             more.setAttribute('aria-expanded', String(expanded));
         }
     };

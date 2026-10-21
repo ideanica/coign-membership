@@ -16,10 +16,15 @@ use Illuminate\Notifications\Notifiable;
 #[Hidden(['password', 'remember_token', 'google_id'])]
 class User extends Authenticatable
 {
-    protected $attributes = ['is_admin' => false, 'is_active' => true, 'member_tier' => 'Member'];
+    protected $attributes = ['is_admin' => false, 'is_superadmin' => false, 'is_active' => true, 'member_tier' => 'Member'];
 
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
+
+    public function isSuperAdmin(): bool
+    {
+        return $this->is_admin && $this->is_superadmin;
+    }
 
     public function membershipTransactions(): HasMany
     {
@@ -56,6 +61,7 @@ class User extends Authenticatable
     {
         return [
             'is_admin' => 'boolean',
+            'is_superadmin' => 'boolean',
             'is_active' => 'boolean',
             'email_verified_at' => 'datetime',
             'password_setup_at' => 'datetime',

@@ -23,8 +23,8 @@
     const detailDialog = document.getElementById('detail-dialog');
     const guideDialog = document.getElementById('guide-dialog');
     const number = new Intl.NumberFormat('id-ID');
-    const dateFormatter = new Intl.DateTimeFormat('id-ID', { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'UTC' });
-    const labels = { transactions: 'transaksi', redemptions: 'penggunaan poin', earnings: 'pendapatan poin' };
+    const dateFormatter = new Intl.DateTimeFormat(document.documentElement.lang === 'en' ? 'en-US' : 'id-ID', { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'UTC' });
+    const labels = { transactions: window.siteText('transaksi'), redemptions: window.siteText('penggunaan poin'), earnings: window.siteText('pendapatan poin') };
     let toastTimer;
 
     const escape = (value) => String(value).replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' })[character]);
@@ -59,10 +59,10 @@
         const redemption = state.tab === 'redemptions';
         const earning = state.tab === 'earnings';
         const rowIcon = redemption ? 'gift' : earning ? 'star' : 'receipt';
-        const subtitle = earning ? (row.transaction_reference ? `Poin dari ${row.transaction_reference}` : row.id) : row.id;
+        const subtitle = earning ? (row.transaction_reference ? `${window.siteText("Poin dari")} ${row.transaction_reference}` : row.id) : row.id;
         const amountColumn = redemption ? '' : `<td class="${earning ? '' : 'numeric amount-cell'}">${earning ? escape(row.category) : rupiah(row.amount)}</td>`;
         const points = `${redemption ? '−' : '+'}${number.format(row.points)}`;
-        const status = redemption ? 'Ditukarkan' : earning ? 'Diterima' : 'Selesai';
+        const status = redemption ? window.siteText('Ditukarkan') : earning ? window.siteText('Diterima') : window.siteText('Selesai');
 
         return `<tr>
             <td><div class="activity-cell"><span class="row-icon category-${escape(row.category.toLowerCase())}">${icon(rowIcon)}</span><div><strong>${escape(row.title)}</strong><span>${escape(subtitle)}</span></div></div></td>
@@ -70,7 +70,7 @@
             ${amountColumn}
             <td class="numeric"><span class="point-change ${redemption ? 'negative' : 'positive'}">${points}</span></td>
             <td><span class="badge success-badge">${icon('check', 12)} ${status}</span></td>
-            <td><button class="detail-button" type="button" data-detail="${escape(row.id)}" aria-label="Lihat detail ${escape(row.title)} ${escape(row.id)}">${icon('arrow', 18)}</button></td>
+            <td><button class="detail-button" type="button" data-detail="${escape(row.id)}" aria-label="${window.siteText("Lihat detail")} ${escape(row.title)} ${escape(row.id)}">${icon('arrow', 18)}</button></td>
         </tr>`;
     }
 
@@ -82,21 +82,21 @@
         const visibleRows = filtered.slice(offset, offset + pageSize);
         const redemption = state.tab === 'redemptions';
         const earning = state.tab === 'earnings';
-        const firstColumn = redemption ? 'PENUKARAN' : earning ? 'AKTIVITAS' : 'TRANSAKSI';
-        const middleColumn = redemption ? '' : `<th scope="col" class="${earning ? '' : 'numeric'}">${earning ? 'SUMBER' : 'TOTAL'}</th>`;
+        const firstColumn = redemption ? window.siteText('PENUKARAN') : earning ? window.siteText('AKTIVITAS') : window.siteText('TRANSAKSI');
+        const middleColumn = redemption ? '' : `<th scope="col" class="${earning ? '' : 'numeric'}">${earning ? window.siteText('SUMBER') : 'TOTAL'}</th>`;
 
-        columnsElement.innerHTML = `<th scope="col">${firstColumn}</th><th scope="col">TANGGAL</th>${middleColumn}<th scope="col" class="numeric">POIN</th><th scope="col">STATUS</th><th scope="col"><span class="sr-only">Detail</span></th>`;
+        columnsElement.innerHTML = `<th scope="col">${firstColumn}</th><th scope="col">${window.siteText("TANGGAL")}</th>${middleColumn}<th scope="col" class="numeric">${window.siteText("POIN")}</th><th scope="col">STATUS</th><th scope="col"><span class="sr-only">Detail</span></th>`;
         rowsElement.innerHTML = visibleRows.map(renderRow).join('');
-        document.getElementById('table-caption').textContent = `Riwayat ${labels[state.tab]} member`;
+        document.getElementById('table-caption').textContent = `${window.siteText("Riwayat")} ${labels[state.tab]}`;
         table.hidden = filtered.length === 0;
         emptyElement.hidden = filtered.length !== 0;
         const hasFilters = Boolean(state.query.trim()) || state.period !== 'all';
-        emptyElement.querySelector('h3').textContent = hasFilters ? 'Belum ada aktivitas yang cocok' : 'Belum ada aktivitas';
-        emptyElement.querySelector('p').textContent = hasFilters ? 'Coba kata kunci lain atau ubah periode riwayat.' : 'Transaksi dan perubahan poinmu akan tercatat di sini.';
+        emptyElement.querySelector('h3').textContent = hasFilters ? window.siteText('Belum ada aktivitas yang cocok') : window.siteText('Belum ada aktivitas');
+        emptyElement.querySelector('p').textContent = hasFilters ? window.siteText('Coba kata kunci lain atau ubah periode riwayat.') : window.siteText('Transaksi dan perubahan poinmu akan tercatat di sini.');
         document.getElementById('reset-filters').hidden = !hasFilters;
         countElement.innerHTML = filtered.length
-            ? `Menampilkan <strong>${offset + 1}–${offset + visibleRows.length}</strong> dari <strong>${filtered.length}</strong> ${labels[state.tab]}`
-            : `Tidak ada ${labels[state.tab]} yang cocok`;
+            ? `${window.siteText("Menampilkan")} <strong>${offset + 1}–${offset + visibleRows.length}</strong> ${window.siteText("dari")} <strong>${filtered.length}</strong> ${labels[state.tab]}`
+            : `${window.siteText("Tidak ada")} ${labels[state.tab]} ${window.siteText("yang cocok")}`;
 
         tabs.forEach((tab) => {
             const selected = tab.dataset.tab === state.tab;
@@ -106,7 +106,7 @@
         panel.setAttribute('aria-labelledby', `tab-${state.tab}`);
         pageNumbers.innerHTML = Array.from({ length: pageCount }, (_, index) => {
             const page = index + 1;
-            return `<button type="button" class="page-button" data-page="${page}" aria-label="Halaman ${page}"${page === state.page ? ' aria-current="page"' : ''}>${page}</button>`;
+            return `<button type="button" class="page-button" data-page="${page}" aria-label="${window.siteText("Halaman")} ${page}"${page === state.page ? ' aria-current="page"' : ''}>${page}</button>`;
         }).join('');
         previous.disabled = state.page === 1;
         next.disabled = state.page === pageCount;
@@ -127,7 +127,7 @@
             let target;
             if (event.key === 'ArrowRight') target = (current + 1) % tabs.length;
             if (event.key === 'ArrowLeft') target = (current + tabs.length - 1) % tabs.length;
-            if (event.key === 'Home') target = 0;
+            if (event.key === window.siteText('Home')) target = 0;
             if (event.key === 'End') target = tabs.length - 1;
             if (target === undefined) return;
             event.preventDefault();
@@ -184,17 +184,17 @@
         if (!row) return;
         const redemption = state.tab === 'redemptions';
         const earning = state.tab === 'earnings';
-        document.getElementById('detail-kicker').textContent = redemption ? 'DETAIL PENGGUNAAN POIN' : earning ? 'DETAIL PENDAPATAN POIN' : 'DETAIL TRANSAKSI';
+        document.getElementById('detail-kicker').textContent = redemption ? window.siteText('DETAIL PENGGUNAAN POIN') : earning ? window.siteText('DETAIL PENDAPATAN POIN') : window.siteText('DETAIL TRANSAKSI');
         document.getElementById('detail-title').textContent = row.title;
         const fields = [
-            ['Nomor referensi', row.id],
-            ['Tanggal', formatDate(row.date)],
-            ['Kategori', row.category],
-            ...(!redemption ? [['Nilai transaksi', row.amount == null ? '—' : rupiah(row.amount)], ['Pembayaran', row.payment || '—']] : []),
-            [redemption ? 'Poin digunakan' : 'Poin diperoleh', `${redemption ? '−' : '+'}${number.format(row.points)} poin`],
-            ['Status', redemption ? 'Ditukarkan' : earning ? 'Diterima' : 'Selesai'],
+            [window.siteText('Nomor referensi'), row.id],
+            [window.siteText('Tanggal'), formatDate(row.date)],
+            [window.siteText('Kategori'), row.category],
+            ...(!redemption ? [[window.siteText('Nilai transaksi'), row.amount == null ? '—' : rupiah(row.amount)], [window.siteText('Pembayaran'), row.payment || '—']] : []),
+            [redemption ? window.siteText('Poin digunakan') : window.siteText('Poin diperoleh'), `${redemption ? '−' : '+'}${number.format(row.points)} ${window.siteText("poin")}`],
+            [window.siteText('Status'), redemption ? window.siteText('Ditukarkan') : earning ? window.siteText('Diterima') : window.siteText('Selesai')],
         ];
-        document.getElementById('detail-content').innerHTML = `<p class="detail-meta">${redemption ? 'Poin ditukar untuk keuntungan membership.' : row.points > 0 ? 'Aktivitas selesai dan poin sudah ditambahkan.' : 'Transaksi selesai, belum menghasilkan poin.'}</p><dl class="detail-list">${fields.map(([key, value]) => `<div><dt>${escape(key)}</dt><dd>${escape(value)}</dd></div>`).join('')}</dl>${redemption && row.description ? `<p class="detail-note">${escape(row.description)}</p>` : ''}`;
+        document.getElementById('detail-content').innerHTML = `<p class="detail-meta">${redemption ? window.siteText('Poin ditukar untuk keuntungan membership.') : row.points > 0 ? window.siteText('Aktivitas selesai dan poin sudah ditambahkan.') : window.siteText('Transaksi selesai, belum menghasilkan poin.')}</p><dl class="detail-list">${fields.map(([key, value]) => `<div><dt>${escape(key)}</dt><dd>${escape(value)}</dd></div>`).join('')}</dl>${redemption && row.description ? `<p class="detail-note">${escape(row.description)}</p>` : ''}`;
         detailDialog.showModal();
     });
 
@@ -208,8 +208,8 @@
         const filtered = getFilteredRows();
         if (!filtered.length) return;
         const redemption = state.tab === 'redemptions';
-        const headings = ['Referensi', 'Tanggal', 'Aktivitas', 'Kategori', ...(!redemption ? ['Nilai transaksi (Rp)', 'Pembayaran'] : []), 'Poin', 'Status'];
-        const records = filtered.map((row) => [row.id, row.date, row.title, row.category, ...(!redemption ? [row.amount ?? '', row.payment ?? ''] : []), redemption ? -row.points : row.points, redemption ? 'Ditukarkan' : state.tab === 'earnings' ? 'Diterima' : 'Selesai']);
+        const headings = [window.siteText('Referensi'), window.siteText('Tanggal'), window.siteText('Aktivitas'), window.siteText('Kategori'), ...(!redemption ? [window.siteText('Nilai transaksi (Rp)'), window.siteText('Pembayaran')] : []), window.siteText('Poin'), window.siteText('Status')];
+        const records = filtered.map((row) => [row.id, row.date, row.title, row.category, ...(!redemption ? [row.amount ?? '', row.payment ?? ''] : []), redemption ? -row.points : row.points, redemption ? window.siteText('Ditukarkan') : state.tab === 'earnings' ? window.siteText('Diterima') : window.siteText('Selesai')]);
         const csv = '\uFEFF' + [headings, ...records].map((record) => record.map(csvCell).join(',')).join('\r\n');
         const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
         const link = document.createElement('a');

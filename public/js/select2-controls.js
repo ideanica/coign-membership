@@ -8,10 +8,10 @@
             if (select.closest('template') || $(select).data('select2')) return;
             const dialog = select.closest('dialog');
             $(select).select2({
-                language: 'id',
+                language: document.documentElement.lang,
                 width: '100%',
                 dropdownParent: dialog ? $(dialog) : $(document.body),
-                placeholder: select.multiple ? (select.dataset.placeholder || 'Pilih opsi') : undefined,
+                placeholder: select.multiple ? (select.dataset.placeholder || window.siteText('Pilih opsi')) : undefined,
                 closeOnSelect: !select.multiple,
                 minimumResultsForSearch: 0,
                 matcher: (params, data) => data.element?.hidden ? null : $.fn.select2.defaults.defaults.matcher(params, data),
@@ -39,7 +39,7 @@
             select.addEventListener('change', () => selection.removeAttribute('aria-invalid'));
             $(select).on('select2:open', () => {
                 const search = document.querySelector('.select2-container--open .select2-search__field');
-                if (search) { search.placeholder = 'Cari pilihan...'; search.focus(); }
+                if (search) { search.placeholder = window.siteText('Cari pilihan...'); search.focus(); }
             });
         });
     };

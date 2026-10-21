@@ -1,6 +1,6 @@
 @php($brand = $settings['brand_name'] ?? 'Coignitive')
 <!DOCTYPE html>
-<html lang="id">
+<html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,14 +18,15 @@
     <link rel="stylesheet" href="{{ asset('css/select2-theme.css') }}?v={{ filemtime(public_path('css/select2-theme.css')) }}">
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}" defer></script>
     <script src="{{ asset('vendor/select2/select2.full.min.js') }}" defer></script>
-    <script src="{{ asset('vendor/select2/id.js') }}" defer></script>
+    @if(app()->getLocale() === 'id')<script src="{{ asset('vendor/select2/id.js') }}" defer></script>@endif
     @stack('scripts')
+    <script>window.siteTranslations = {{ Illuminate\Support\Js::from(__('browser')) }}; window.siteText = (text) => window.siteTranslations[text] || text;</script>
     <script src="{{ asset('js/navbar.js') }}?v={{ filemtime(public_path('js/navbar.js')) }}" defer></script>
     <script src="{{ asset('js/select2-controls.js') }}?v={{ filemtime(public_path('js/select2-controls.js')) }}" defer></script>
     <script src="{{ asset('js/password-visibility.js') }}?v={{ filemtime(public_path('js/password-visibility.js')) }}" defer></script>
 </head>
 <body class="@yield('body-class')">
-    <a class="skip-link button" href="#main">Lewati ke konten</a>
+    <a class="skip-link button" href="#main">{{ __('Lewati ke konten') }}</a>
     @yield('body')
     @stack('body-end')
 </body>

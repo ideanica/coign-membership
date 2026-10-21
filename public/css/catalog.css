@@ -384,3 +384,5 @@
     .catalog-detail-page .catalog-specifications dl { margin-top: 16px; gap: 10px; }
     .catalog-detail-page .catalog-specifications dl > div { padding: 12px; }
 }
+
+.catalog-card-flags .catalog-new-badge, .catalog-detail-copy .catalog-new-badge { background: var(--green, #05e17a); color: #111; border: 2px solid #111; font-weight: 700; }

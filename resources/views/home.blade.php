@@ -1,6 +1,6 @@
 @extends('layouts.public')
-@section('title', 'Website, momen, dan ide yang jadi nyata')
-@section('meta-description', 'Jasa pembuatan website, undangan digital, web ucapan personal, dan bantuan pemrograman mobile, website, serta machine learning.')
+@section('title', __('Website, momen, dan ide yang jadi nyata'))
+@section('meta-description', __('Jasa pembuatan website, undangan digital, web ucapan personal, dan bantuan pemrograman mobile, website, serta machine learning.'))
 @section('main-class', 'landing-main')
 @push('scripts')<script src="{{ asset('js/scroll-reveal.js') }}" defer></script>@endpush
 @section('content')

@@ -21,7 +21,7 @@ class MemberPointWorkspaceTest extends TestCase
 
     public function test_member_forms_are_in_dialogs_with_unique_field_ids(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['is_admin' => true, 'is_superadmin' => true]);
         $member = User::factory()->create(['name' => 'Member untuk diedit']);
 
         $response = $this->actingAs($admin)->get('/admin/members')->assertOk();
@@ -37,7 +37,7 @@ class MemberPointWorkspaceTest extends TestCase
 
     public function test_member_filter_preserves_overview_counts_and_excludes_admins(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['is_admin' => true, 'is_superadmin' => true]);
         User::factory()->create(['is_active' => true]);
         $inactive = User::factory()->create(['is_active' => false]);
 
@@ -48,7 +48,7 @@ class MemberPointWorkspaceTest extends TestCase
 
     public function test_invalid_member_creation_reopens_the_modal_without_exposing_passwords(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['is_admin' => true, 'is_superadmin' => true]);
 
         $response = $this->actingAs($admin)->followingRedirects()->from(route('admin.members.index'))
             ->post(route('admin.members.store'), ['_workspace_form' => 'member-create', 'name' => '', 'email' => 'retained@example.com', 'password' => 'secret-password', 'password_confirmation' => 'different', 'member_tier' => 'Gold', 'is_active' => 1])
@@ -60,7 +60,7 @@ class MemberPointWorkspaceTest extends TestCase
 
     public function test_invalid_member_edit_restores_the_correct_account_in_the_modal(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['is_admin' => true, 'is_superadmin' => true]);
         $member = User::factory()->create();
 
         $response = $this->actingAs($admin)->followingRedirects()->from(route('admin.members.index'))
@@ -74,7 +74,7 @@ class MemberPointWorkspaceTest extends TestCase
 
     public function test_point_filters_scope_history_and_summary_to_the_selected_member(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['is_admin' => true, 'is_superadmin' => true]);
         $member = User::factory()->create();
         $other = User::factory()->create();
         $earned = $member->pointEntries()->create(['reference' => 'BONUS-LOCAL', 'type' => 'earned', 'points' => 100, 'title' => 'Bonus lokal', 'category' => 'Bonus', 'occurred_at' => '2026-10-14']);
@@ -88,7 +88,7 @@ class MemberPointWorkspaceTest extends TestCase
 
     public function test_insufficient_points_reopen_adjustment_dialog_without_writing_a_ledger_entry(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['is_admin' => true, 'is_superadmin' => true]);
         $member = User::factory()->create();
 
         $response = $this->actingAs($admin)->followingRedirects()->from(route('admin.points.index'))
@@ -100,7 +100,7 @@ class MemberPointWorkspaceTest extends TestCase
 
     public function test_rules_are_sorted_and_editing_uses_one_reusable_dialog(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['is_admin' => true, 'is_superadmin' => true]);
         PointRule::create(['name' => 'Batas tinggi', 'minimum_amount' => 200000, 'points' => 100, 'is_active' => true]);
         PointRule::create(['name' => 'Batas rendah', 'minimum_amount' => 100000, 'points' => 50, 'is_active' => true]);
 
@@ -114,7 +114,7 @@ class MemberPointWorkspaceTest extends TestCase
 
     public function test_invalid_rule_edit_preserves_the_target_and_reopens_its_dialog(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['is_admin' => true, 'is_superadmin' => true]);
         $rule = PointRule::create(['name' => 'Aturan awal', 'minimum_amount' => 100000, 'points' => 50, 'is_active' => true]);
 
         $response = $this->actingAs($admin)->followingRedirects()->from(route('admin.point-rules.index'))

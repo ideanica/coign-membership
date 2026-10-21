@@ -67,6 +67,8 @@ return [
 
     'timezone' => 'UTC',
 
+    'use_vercel_geolocation' => env('VERCEL') === '1',
+
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration

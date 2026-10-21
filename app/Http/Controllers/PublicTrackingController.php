@@ -21,7 +21,7 @@ class PublicTrackingController extends Controller
         $tracking = MemberTracking::where('public_code', $values['code'])->where('public_enabled', true)->with(['status', 'service', 'events'])->first();
         $result = $tracking ? [
             'title' => $tracking->title,
-            'service' => $tracking->service?->name ?? 'Layanan khusus',
+            'service' => $tracking->service?->name ?? __('Layanan khusus'),
             'status' => $tracking->status->label,
             'color' => $tracking->status->color,
             'due_date' => $tracking->due_date,

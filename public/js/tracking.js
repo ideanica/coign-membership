@@ -27,12 +27,12 @@ document.querySelectorAll('[data-copy-reference]').forEach(button => {
         const status = document.querySelector('[data-copy-status]');
         try {
             await navigator.clipboard.writeText(button.dataset.copyReference);
-            button.textContent = 'Tersalin!';
-            status.textContent = 'Nomor tracking berhasil disalin.';
+            button.textContent = window.siteText('Tersalin!');
+            status.textContent = window.siteText('Nomor tracking berhasil disalin.');
         } catch {
-            button.textContent = 'Gagal disalin';
-            status.textContent = 'Tidak dapat mengakses clipboard. Silakan salin nomor tracking secara manual.';
+            button.textContent = window.siteText('Gagal disalin');
+            status.textContent = window.siteText('Tidak dapat mengakses clipboard. Silakan salin nomor tracking secara manual.');
         }
-        setTimeout(() => { button.textContent = 'Salin'; }, 2500);
+        setTimeout(() => { button.textContent = window.siteText('Salin'); }, 2500);
     });
 });

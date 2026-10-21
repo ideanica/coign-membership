@@ -9,13 +9,21 @@ use Illuminate\Http\Request;
 
 class AccountSecurityController extends Controller
 {
-    public function edit(Request $request): View
+    public function edit(Request $request): View|RedirectResponse
     {
+        if ($request->user()->is_admin) {
+            return redirect()->route('admin.settings.edit');
+        }
+
         return $this->securityView($request, false);
     }
 
     public function setup(Request $request): View|RedirectResponse
     {
+        if ($request->user()->is_admin) {
+            return redirect()->route('admin.settings.edit');
+        }
+
         if ($request->user()->password_setup_at !== null) {
             return redirect()->route('membership.account.security');
         }
@@ -31,13 +39,13 @@ class AccountSecurityController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ];
 
-        if (! $wasSetupRequired) {
+        if ($user->is_admin || ! $wasSetupRequired) {
             $rules['current_password'] = ['required', 'current_password'];
         }
 
         $values = $request->validate($rules, [
-            'current_password.current_password' => 'Kata sandi saat ini tidak sesuai.',
-            'password.confirmed' => 'Konfirmasi kata sandi baru tidak sesuai.',
+            'current_password.current_password' => __('Kata sandi saat ini tidak sesuai.'),
+            'password.confirmed' => __('Konfirmasi kata sandi baru tidak sesuai.'),
         ]);
 
         $user->forceFill([
@@ -48,11 +56,15 @@ class AccountSecurityController extends Controller
         $request->session()->forget('auth_via_google');
         $request->session()->regenerate();
 
-        if ($wasSetupRequired) {
-            return redirect()->route('membership.profile')->with('success', 'Kata sandi baru berhasil dibuat.');
+        if ($user->is_admin) {
+            return redirect()->route('admin.settings.edit')->with('success', __('Kata sandi berhasil diperbarui.'));
         }
 
-        return redirect()->route('membership.account.security')->with('success', 'Kata sandi berhasil diperbarui.');
+        if ($wasSetupRequired) {
+            return redirect()->route('membership.profile')->with('success', __('Kata sandi baru berhasil dibuat.'));
+        }
+
+        return redirect()->route('membership.account.security')->with('success', __('Kata sandi berhasil diperbarui.'));
     }
 
     private function securityView(Request $request, bool $forceSetup): View

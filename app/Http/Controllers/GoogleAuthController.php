@@ -23,7 +23,7 @@ class GoogleAuthController extends Controller
     {
         if (! $this->isConfigured()) {
             return redirect()->route('login')->withErrors([
-                'google' => 'Login Google belum dikonfigurasi oleh pengelola.',
+                'google' => __('Login Google belum dikonfigurasi oleh pengelola.'),
             ]);
         }
 
@@ -57,7 +57,7 @@ class GoogleAuthController extends Controller
 
         if ($request->filled('error')) {
             return redirect()->route('login')->withErrors([
-                'google' => 'Login Google dibatalkan atau tidak dapat diselesaikan.',
+                'google' => __('Login Google dibatalkan atau tidak dapat diselesaikan.'),
             ]);
         }
 
@@ -72,13 +72,13 @@ class GoogleAuthController extends Controller
             || ! hash_equals($expectedState, $state)
         ) {
             return redirect()->route('login')->withErrors([
-                'google' => 'Sesi login Google tidak valid. Silakan coba lagi.',
+                'google' => __('Sesi login Google tidak valid. Silakan coba lagi.'),
             ]);
         }
 
         if (! $this->isConfigured()) {
             return redirect()->route('login')->withErrors([
-                'google' => 'Login Google belum dikonfigurasi oleh pengelola.',
+                'google' => __('Login Google belum dikonfigurasi oleh pengelola.'),
             ]);
         }
 
@@ -101,7 +101,7 @@ class GoogleAuthController extends Controller
 
             if (! is_string($accessToken) || $accessToken === '') {
                 return redirect()->route('login')->withErrors([
-                    'google' => 'Google tidak mengembalikan sesi login yang valid.',
+                    'google' => __('Google tidak mengembalikan sesi login yang valid.'),
                 ]);
             }
 
@@ -114,7 +114,7 @@ class GoogleAuthController extends Controller
                 ->json();
         } catch (ConnectionException|RequestException) {
             return redirect()->route('login')->withErrors([
-                'google' => 'Google sedang tidak dapat dihubungi. Silakan coba lagi.',
+                'google' => __('Google sedang tidak dapat dihubungi. Silakan coba lagi.'),
             ]);
         }
 
@@ -130,7 +130,7 @@ class GoogleAuthController extends Controller
             || $emailVerified !== true
         ) {
             return redirect()->route('login')->withErrors([
-                'google' => 'Akun Google tidak memiliki email terverifikasi yang dapat digunakan.',
+                'google' => __('Akun Google tidak memiliki email terverifikasi yang dapat digunakan.'),
             ]);
         }
 
@@ -142,13 +142,13 @@ class GoogleAuthController extends Controller
 
             if (! $user) {
                 return redirect()->route('login')->withErrors([
-                    'google' => 'Email Google ini belum terdaftar sebagai member. Hubungi pengelola untuk mendapatkan akses.',
+                    'google' => __('Email Google ini belum terdaftar sebagai member. Hubungi pengelola untuk mendapatkan akses.'),
                 ]);
             }
 
             if (filled($user->google_id) && ! hash_equals((string) $user->google_id, $googleId)) {
                 return redirect()->route('login')->withErrors([
-                    'google' => 'Email member ini sudah terhubung ke akun Google lain.',
+                    'google' => __('Email member ini sudah terhubung ke akun Google lain.'),
                 ]);
             }
 
@@ -160,7 +160,7 @@ class GoogleAuthController extends Controller
 
         if (! $user->is_active) {
             return redirect()->route('login')->withErrors([
-                'google' => 'Akun dinonaktifkan. Hubungi pengelola membership.',
+                'google' => __('Akun dinonaktifkan. Hubungi pengelola membership.'),
             ]);
         }
 

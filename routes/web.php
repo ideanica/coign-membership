@@ -13,7 +13,10 @@ use App\Http\Controllers\PublicTrackingController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Middleware\EnsureActiveMember;
 use App\Http\Middleware\EnsureAdmin;
+use App\Http\Middleware\EnsureCustomer;
 use App\Http\Middleware\EnsurePasswordSetup;
+use App\Http\Middleware\EnsureSuperAdmin;
+use App\Http\Middleware\RecordAdminActivity;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
@@ -39,27 +42,38 @@ Route::middleware(['auth', EnsureActiveMember::class])->group(function (): void 
     Route::post('/logout', [MemberAuthController::class, 'logout'])->name('logout');
 
     Route::middleware(EnsurePasswordSetup::class)->group(function (): void {
-        Route::get('/profile', MembershipProfileController::class)->name('membership.profile');
-        Route::get('/tracking', [MemberPortalController::class, 'tracking'])->name('membership.tracking.index');
-        Route::get('/tracking/{tracking}', [MemberPortalController::class, 'trackingDetail'])->name('membership.tracking.show');
-        Route::get('/bills', [MemberPortalController::class, 'bills'])->name('membership.bills.index');
-        Route::get('/bills/{bill}', [MemberPortalController::class, 'billDetail'])->name('membership.bills.show');
+        Route::middleware(EnsureCustomer::class)->group(function (): void {
+            Route::get('/profile', MembershipProfileController::class)->name('membership.profile');
+            Route::get('/tracking', [MemberPortalController::class, 'tracking'])->name('membership.tracking.index');
+            Route::get('/tracking/{tracking}', [MemberPortalController::class, 'trackingDetail'])->name('membership.tracking.show');
+            Route::get('/bills', [MemberPortalController::class, 'bills'])->name('membership.bills.index');
+            Route::get('/bills/{bill}', [MemberPortalController::class, 'billDetail'])->name('membership.bills.show');
+        });
 
-        Route::prefix('admin')->name('admin.')->middleware(EnsureAdmin::class)->group(function (): void {
+        Route::prefix('admin')->name('admin.')->middleware([EnsureAdmin::class, RecordAdminActivity::class])->group(function (): void {
             Route::get('/', Admin\DashboardController::class)->name('dashboard');
+            Route::get('activity-logs', [Admin\ActivityLogController::class, 'index'])->name('activity-logs.index');
             Route::get('testimonials', [Admin\TestimonialController::class, 'index'])->name('testimonials.index');
             Route::put('testimonials/{testimonial}', [Admin\TestimonialController::class, 'update'])->name('testimonials.update');
             Route::post('catalogs/upload', [CatalogImageController::class, 'upload'])->middleware('throttle:30,1')->name('catalogs.upload');
             Route::get('catalogs/upload-preview', [CatalogImageController::class, 'preview'])->name('catalogs.upload-preview');
+            Route::get('catalogs/archive', [Admin\InvitationCatalogController::class, 'archive'])->name('catalogs.archive');
+            Route::patch('catalogs/{catalog}/restore', [Admin\InvitationCatalogController::class, 'restore'])->withTrashed()->name('catalogs.restore');
+            Route::patch('catalogs/{catalog}/visibility', [Admin\InvitationCatalogController::class, 'visibility'])->name('catalogs.visibility');
             Route::resource('catalogs', Admin\InvitationCatalogController::class)->except('show');
             Route::resource('discounts', Admin\CatalogDiscountController::class)->except('show');
             Route::resource('catalog-categories', Admin\CatalogCategoryController::class)->parameters(['catalog-categories' => 'category'])->only(['index', 'store', 'update', 'destroy']);
-            Route::resource('members', Admin\MemberController::class)->except('show');
-            Route::get('points', [Admin\PointController::class, 'index'])->name('points.index');
-            Route::post('points', [Admin\PointController::class, 'store'])->name('points.store');
-            Route::post('point-rules/mode', [Admin\PointRuleController::class, 'mode'])->name('point-rules.mode');
-            Route::post('point-rules/purchase', [Admin\PointRuleController::class, 'purchase'])->name('point-rules.purchase');
-            Route::resource('point-rules', Admin\PointRuleController::class)->except(['show', 'create', 'edit']);
+            Route::middleware(EnsureSuperAdmin::class)->group(function (): void {
+                Route::get('administrators', [Admin\AdministratorController::class, 'index'])->name('administrators.index');
+                Route::post('administrators', [Admin\AdministratorController::class, 'store'])->middleware('throttle:10,1')->name('administrators.store');
+                Route::patch('administrators/{administrator}/access', [Admin\AdministratorController::class, 'access'])->name('administrators.access');
+                Route::resource('members', Admin\MemberController::class)->except('show');
+                Route::get('points', [Admin\PointController::class, 'index'])->name('points.index');
+                Route::post('points', [Admin\PointController::class, 'store'])->name('points.store');
+                Route::post('point-rules/mode', [Admin\PointRuleController::class, 'mode'])->name('point-rules.mode');
+                Route::post('point-rules/purchase', [Admin\PointRuleController::class, 'purchase'])->name('point-rules.purchase');
+                Route::resource('point-rules', Admin\PointRuleController::class)->except(['show', 'create', 'edit']);
+            });
             Route::resource('services', Admin\ServiceController::class)->except('show');
             Route::resource('statuses', Admin\StatusController::class)->except('show');
             Route::resource('tracking', Admin\TrackingController::class)->except('destroy');
@@ -67,6 +81,8 @@ Route::middleware(['auth', EnsureActiveMember::class])->group(function (): void 
             Route::post('bills/{bill}/pay', [Admin\BillController::class, 'pay'])->name('bills.pay');
             Route::post('bills/{bill}/cancel', [Admin\BillController::class, 'cancel'])->name('bills.cancel');
             Route::get('settings', [Admin\SettingsController::class, 'edit'])->name('settings.edit');
+            Route::put('settings/profile', [Admin\SettingsController::class, 'profile'])->name('settings.profile.update');
+            Route::put('settings/password', [AccountSecurityController::class, 'updatePassword'])->middleware('throttle:10,1')->name('settings.password.update');
             Route::put('settings', [Admin\SettingsController::class, 'update'])->name('settings.update');
         });
     });

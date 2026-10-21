@@ -7,7 +7,8 @@
             ['admin.point-rules.index', 'Poin otomatis', 'spark', 'admin.point-rules.*'],
         ],
         'Katalog' => [
-            ['admin.catalogs.index', 'Katalog undangan', 'heart', 'admin.catalogs.*'],
+            ['admin.catalogs.index', 'Katalog undangan', 'heart', ['admin.catalogs.index', 'admin.catalogs.create', 'admin.catalogs.edit']],
+            ['admin.catalogs.archive', 'Arsip katalog', 'gift', 'admin.catalogs.archive'],
             ['admin.discounts.index', 'Diskon katalog', 'star', 'admin.discounts.*'],
             ['admin.testimonials.index', 'Testimoni', 'star', 'admin.testimonials.*'],
             ['admin.catalog-categories.index', 'Kategori katalog', 'gift', 'admin.catalog-categories.*'],
@@ -16,8 +17,13 @@
             ['admin.tracking.index', 'Pesanan', 'gift', 'admin.tracking.*'],
             ['admin.statuses.index', 'Label & status', 'check', 'admin.statuses.*'],
         ],
-        'Preferensi' => [['admin.settings.edit', 'Pengaturan', 'info', 'admin.settings.*']],
+        'Preferensi' => [['admin.settings.edit', 'Pengaturan', 'info', 'admin.settings.*'], ['admin.activity-logs.index', 'Log aktivitas', 'calendar', 'admin.activity-logs.*']],
     ];
+    if (! auth()->user()->isSuperAdmin()) {
+        unset($menuGroups['Member & poin']);
+    } else {
+        array_unshift($menuGroups['Preferensi'], ['admin.administrators.index', 'Manajemen admin', 'user', 'admin.administrators.*']);
+    }
 @endphp
 <aside class="admin-sidebar">
     <x-brand-link size="44" caption="ADMIN SPACE" :destination="route('admin.dashboard')" :settings="$settings" />
@@ -27,11 +33,11 @@
             @foreach($menuGroups as $group => $menus)
                 <div class="admin-menu-group"><p class="sidebar-kicker">{{ $group }}</p><div class="admin-menu-items">
                     @foreach($menus as [$route, $label, $icon, $pattern])
-                        <a href="{{ route($route) }}" class="admin-menu-link {{ request()->routeIs($pattern) ? 'selected' : '' }}" @if(request()->routeIs($pattern)) aria-current="page" @endif><x-icon :name="$icon" size="17" /><span>{{ $label }}</span></a>
+                        <a href="{{ route($route) }}" class="admin-menu-link {{ request()->routeIs(...(array) $pattern) ? 'selected' : '' }}" @if(request()->routeIs(...(array) $pattern)) aria-current="page" @endif><x-icon :name="$icon" size="17" /><span>{{ $label }}</span></a>
                     @endforeach
                 </div></div>
             @endforeach
         </nav>
     </details>
-    <div class="sidebar-foot"><span class="badge">Administrator</span><p>{{ auth()->user()->name }}</p></div>
+    <div class="sidebar-foot"><span class="badge">{{ auth()->user()->isSuperAdmin() ? 'Superadmin' : 'Admin' }}</span><p>{{ auth()->user()->name }}</p></div>
 </aside>

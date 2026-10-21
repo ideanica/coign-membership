@@ -39,7 +39,7 @@ class MembershipProfileController extends Controller
         $redemptions = $entries->where('type', 'redeemed')->map($mapEntry)->values()->all();
         $earned = array_sum(array_column($earnings, 'points'));
         $used = array_sum(array_column($redemptions, 'points'));
-        $periods = collect([...$transactions, ...$earnings, ...$redemptions])->pluck('date')->map(fn (string $date): string => substr($date, 0, 7))->unique()->sortDesc()->mapWithKeys(fn (string $period): array => [$period => CarbonImmutable::parse($period.'-01')->locale('id')->translatedFormat('F Y')])->all();
+        $periods = collect([...$transactions, ...$earnings, ...$redemptions])->pluck('date')->map(fn (string $date): string => substr($date, 0, 7))->unique()->sortDesc()->mapWithKeys(fn (string $period): array => [$period => CarbonImmutable::parse($period.'-01')->locale(app()->getLocale())->translatedFormat('F Y')])->all();
 
         return view('membership.profile', [
             'member' => [
@@ -48,7 +48,7 @@ class MembershipProfileController extends Controller
                 'email' => $user->email,
                 'number' => $user->member_number ?? 'CG-'.str_pad((string) $user->id, 5, '0', STR_PAD_LEFT),
                 'tier' => $user->member_tier ?: 'Member',
-                'joined' => $user->created_at->locale('id')->translatedFormat('d F Y'),
+                'joined' => $user->created_at->locale(app()->getLocale())->translatedFormat('d F Y'),
                 'photo' => $user->photo_path ?: 'images/member-avatar.svg',
             ],
             'transactions' => $transactions,

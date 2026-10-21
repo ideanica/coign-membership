@@ -16,7 +16,7 @@
         filterToggle.hidden = !compact.matches;
         filterOptions.hidden = compact.matches && !filterOpen;
         filterToggle.setAttribute('aria-expanded', String(compact.matches && filterOpen));
-        filterToggle.setAttribute('aria-label', filterOpen ? 'Tutup filter katalog' : 'Buka filter katalog');
+        filterToggle.setAttribute('aria-label', filterOpen ? window.siteText('Tutup filter katalog') : window.siteText('Buka filter katalog'));
         const select = window.jQuery?.(form.elements.category);
         if (filterOptions.hidden && select?.data('select2')) select.select2('close');
     };
@@ -56,7 +56,7 @@
         const controller = new AbortController();
         request = controller;
         results.setAttribute('aria-busy', 'true');
-        status.textContent = 'Memuat template...';
+        status.textContent = window.siteText('Memuat template...');
         status.classList.remove('is-error');
         try {
             const response = await fetch(url, {
@@ -70,10 +70,10 @@
             browser.querySelector('[data-catalog-count]').textContent = data.total;
             syncControls(url);
             if (push && url.href !== location.href) history.pushState({ catalog: true }, '', url);
-            status.textContent = `${data.total} template ditemukan.`;
+            status.textContent = `${data.total} ${window.siteText("template ditemukan.")}`;
         } catch (error) {
             if (error.name !== 'AbortError') {
-                status.textContent = 'Katalog belum bisa dimuat. Coba pilih tab atau terapkan filter lagi.';
+                status.textContent = window.siteText('Katalog belum bisa dimuat. Coba pilih tab atau terapkan filter lagi.');
                 status.classList.add('is-error');
             }
         } finally {

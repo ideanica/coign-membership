@@ -1,0 +1,24 @@
+<?php
+
+return [
+    'required' => ':attribute wajib diisi.',
+    'string' => ':attribute harus berupa teks.',
+    'email' => ':attribute harus berupa alamat email yang valid.',
+    'confirmed' => 'Konfirmasi :attribute tidak cocok.',
+    'current_password' => 'Kata sandi saat ini tidak sesuai.',
+    'unique' => ':attribute sudah digunakan.',
+    'exists' => ':attribute yang dipilih tidak valid.',
+    'in' => ':attribute yang dipilih tidak valid.',
+    'integer' => ':attribute harus berupa bilangan bulat.',
+    'numeric' => ':attribute harus berupa angka.',
+    'boolean' => ':attribute harus bernilai benar atau salah.',
+    'array' => ':attribute harus berupa daftar.',
+    'date' => ':attribute harus berupa tanggal yang valid.',
+    'date_format' => ':attribute harus menggunakan format :format.',
+    'after_or_equal' => ':attribute harus setelah atau sama dengan :date.',
+    'regex' => 'Format :attribute tidak valid.',
+    'url' => ':attribute harus berupa alamat URL yang valid.',
+    'max' => ['string' => ':attribute maksimal :max karakter.', 'numeric' => ':attribute maksimal :max.', 'array' => ':attribute maksimal :max item.', 'file' => ':attribute maksimal :max kilobita.'],
+    'min' => ['string' => ':attribute minimal :min karakter.', 'numeric' => ':attribute minimal :min.', 'array' => ':attribute minimal :min item.', 'file' => ':attribute minimal :min kilobita.'],
+    'attributes' => ['email' => 'Email', 'password' => 'Kata sandi', 'current_password' => 'Kata sandi saat ini', 'password_confirmation' => 'Konfirmasi kata sandi', 'code' => 'Kode pesanan', 'name' => 'Nama', 'comment' => 'Komentar', 'rating' => 'Penilaian', 'reviewer_name' => 'Nama yang ditampilkan', 'q' => 'Pencarian'],
+];
