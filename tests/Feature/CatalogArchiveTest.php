@@ -46,7 +46,7 @@ class CatalogArchiveTest extends TestCase
         $this->assertSame($image->id, $restored->images()->sole()->id);
         $this->assertDatabaseHas('activity_logs', ['action' => 'restore', 'actor_id' => $staff->id]);
         $this->get('/catalog/'.$catalog->slug)->assertNotFound();
-        $this->get('/admin/catalogs/'.$catalog->id.'/edit')->assertOk()->assertSee('Aktifkan katalog');
+        $this->get('/admin/catalogs/'.$catalog->id.'/edit')->assertOk()->assertSee('Aktifkan / tampilkan template');
         $this->patch('/admin/catalogs/'.$catalog->id.'/visibility', ['is_active' => 1])->assertRedirect();
         $this->assertTrue($catalog->fresh()->is_active);
         $this->get('/catalog/'.$catalog->slug)->assertOk();

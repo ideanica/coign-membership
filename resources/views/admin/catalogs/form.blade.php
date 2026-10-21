@@ -3,12 +3,6 @@
 @section('description', 'Isi informasi utama, tambahkan foto, lalu tentukan kapan template ditampilkan.')
 @push('styles')<link rel="stylesheet" href="{{ asset('css/catalog.css') }}">@endpush
 @push('scripts')<script src="{{ asset('js/catalog-editor.js') }}" defer></script>@endpush
-@section('actions')
-    @if($catalog->exists)
-        <span class="badge">{{ $catalog->is_active ? 'Tampil di katalog publik' : 'Disembunyikan' }}</span>
-        <form method="post" action="{{ route('admin.catalogs.visibility', $catalog) }}" @if($catalog->is_active) data-confirm="Sembunyikan katalog ini dari halaman publik?" @endif>@csrf @method('PATCH')<input type="hidden" name="is_active" value="{{ $catalog->is_active ? 0 : 1 }}"><button class="button button-neutral" type="submit">{{ $catalog->is_active ? 'Sembunyikan katalog' : 'Aktifkan katalog' }}</button></form>
-    @endif
-@endsection
 @section('content')
 <form method="post" action="{{ $catalog->exists ? route('admin.catalogs.update', $catalog) : route('admin.catalogs.store') }}" data-catalog-editor data-upload-url="{{ route('admin.catalogs.upload') }}" data-base-price="{{ $catalog->base_price ?? 0 }}" class="catalog-editor-form">@csrf @if($catalog->exists)@method('PUT')@endif
 <div class="catalog-editor-grid"><div class="catalog-editor-sections">
