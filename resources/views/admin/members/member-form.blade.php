@@ -18,11 +18,12 @@
             <div class="form-field"><label for="{{ $prefix }}is_active">Akses akun</label><select id="{{ $prefix }}is_active" name="is_active"><option value="1" @selected($fieldValue('is_active', $member->is_active ?? true))>Aktif</option><option value="0" @selected(!$fieldValue('is_active', $member->is_active ?? true))>Nonaktif</option></select></div>
         </div>
     </fieldset>
-    <fieldset class="workspace-fieldset"><legend>{{ $mode === 'member-edit' ? 'GANTI KATA SANDI (OPSIONAL)' : 'KATA SANDI LOGIN' }}</legend>
-        <div class="form-grid">
-            <div class="form-field"><label for="{{ $prefix }}password">Kata sandi</label><input id="{{ $prefix }}password" name="password" type="password" minlength="8" autocomplete="new-password" @required($mode === 'member-create')><small>{{ $mode === 'member-edit' ? 'Kosongkan kedua kolom untuk mempertahankan kata sandi.' : 'Minimal 8 karakter. Berikan akun ini kepada pelanggan.' }}</small></div>
-            <div class="form-field"><label for="{{ $prefix }}password_confirmation">Konfirmasi kata sandi</label><input id="{{ $prefix }}password_confirmation" name="password_confirmation" type="password" autocomplete="new-password" @required($mode === 'member-create')></div>
-        </div>
+    <fieldset class="workspace-fieldset"><legend>AKSES LOGIN</legend>
+        @if($mode === 'member-create')
+            <p class="form-help">Sistem akan membuat kata sandi sementara secara otomatis. Setelah akun dibuat, salin kredensial yang tampil satu kali. Member dapat masuk dengan email + kata sandi sementara atau memakai Google dengan alamat email yang sama.</p>
+        @else
+            <p class="form-help">Kata sandi dikelola langsung oleh member dari halaman Keamanan Akun. Jika email diubah, tautan Google yang lama akan dilepas agar akun Google sebelumnya tidak tetap memiliki akses.</p>
+        @endif
     </fieldset>
     <div class="form-actions">@if($inDialog ?? false)<button class="button button-neutral" type="button" data-dialog-close>Batal</button>@else<a class="button button-neutral" href="{{ route('admin.members.index') }}">Batal</a>@endif<button class="button" type="submit">Simpan member <x-icon name="check" size="16" /></button></div>
 </form>
