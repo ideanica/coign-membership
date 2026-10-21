@@ -23,7 +23,8 @@ class NavbarConsistencyTest extends TestCase
 
             $this->assertSame(['Beranda', 'Katalog', 'Profil & poin', 'Pesanan'], array_map(fn ($link) => trim($link->textContent), iterator_to_array($links)), $path);
             $this->assertSame('IT Creative Workspace', trim($xpath->query('//header//span[contains(@class,"brand-caption")]')->item(0)->textContent));
-            $this->assertSame(route('logout'), $xpath->query('//div[@id="site-account-actions"]/form')->item(0)->getAttribute('action'));
+            $this->assertSame(0, $xpath->query('//div[@id="site-account-actions"]/form')->length);
+            $this->assertSame(0, $xpath->query('//header//a[@href="'.route('membership.account.security').'"]')->length);
         }
     }
 

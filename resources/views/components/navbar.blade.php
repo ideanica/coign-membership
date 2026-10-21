@@ -24,12 +24,11 @@
             @endforeach
             @if(!$public && auth()->user()?->is_admin)<a class="nav-link" href="{{ route('admin.dashboard') }}">Admin</a>@endif
         </nav>
-        <div id="site-account-actions" class="home-auth">
+        <div id="site-account-actions" class="home-auth {{ !$public && !auth()->user()?->is_admin ? 'member-navbar-actions' : '' }}">
             @if($public)
                 <a class="button button-neutral" href="{{ route('login') }}">{{ __('Masuk') }} <x-icon name="arrow-up-right" size="16" /></a>
             @else
-                @if(!auth()->user()?->is_admin)<a class="button button-neutral" href="{{ route('membership.account.security') }}">{{ __('Keamanan akun') }}</a>@endif
-                @include('shared.logout')
+                @if(auth()->user()?->is_admin)@include('shared.logout')@endif
             @endif
         </div>
         </div>

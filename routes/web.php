@@ -7,6 +7,7 @@ use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InvitationCatalogController;
 use App\Http\Controllers\MemberAuthController;
+use App\Http\Controllers\MemberEmailController;
 use App\Http\Controllers\MemberPortalController;
 use App\Http\Controllers\MembershipProfileController;
 use App\Http\Controllers\PublicTrackingController;
@@ -44,6 +45,9 @@ Route::middleware(['auth', EnsureActiveMember::class])->group(function (): void 
     Route::middleware(EnsurePasswordSetup::class)->group(function (): void {
         Route::middleware(EnsureCustomer::class)->group(function (): void {
             Route::get('/profile', MembershipProfileController::class)->name('membership.profile');
+            Route::post('/account/email', [MemberEmailController::class, 'store'])->middleware('throttle:member-email-send')->name('membership.account.email.store');
+            Route::post('/account/email/resend', [MemberEmailController::class, 'resend'])->middleware('throttle:member-email-send')->name('membership.account.email.resend');
+            Route::put('/account/email', [MemberEmailController::class, 'update'])->middleware('throttle:member-email-verify')->name('membership.account.email.update');
             Route::get('/tracking', [MemberPortalController::class, 'tracking'])->name('membership.tracking.index');
             Route::get('/tracking/{tracking}', [MemberPortalController::class, 'trackingDetail'])->name('membership.tracking.show');
             Route::get('/bills', [MemberPortalController::class, 'bills'])->name('membership.bills.index');

@@ -1,0 +1,25 @@
+.member-profile-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 12px; }
+.member-settings-dialog { max-width: 580px; overflow-wrap: anywhere; }
+.member-settings-dialog .section-kicker { margin-bottom: 7px; }
+.member-settings-dialog h3 { font-size: 17px; margin-bottom: 12px; }
+.member-settings-summary { padding: 18px; background: #fff8e1; border: 2px solid #111; border-radius: 5px; overflow-wrap: anywhere; }
+.member-settings-summary p, .member-settings-section > p, .member-email-resend small { font-size: 12px; line-height: 1.8; }
+.member-settings-summary dl { display: flex; flex-wrap: wrap; gap: 18px; margin: 14px 0 0; font-size: 12px; }
+.member-settings-summary dt { color: #526079; }
+.member-settings-summary dd { margin: 4px 0 0; font-weight: 600; }
+.member-settings-section { padding: 20px 0; border-bottom: 1px solid #dce1ea; }
+.member-settings-section summary { cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 8px 0; font-size: 14px; font-weight: 700; list-style: none; }
+.member-settings-section summary::-webkit-details-marker { display: none; }
+.member-settings-section[open] > summary .icon { transform: rotate(180deg); }
+.member-settings-section > p { margin: 8px 0 18px; color: #526079; }
+.member-settings-section .form-help { margin: 16px 0; }
+.member-settings-section .admin-form { margin-top: 18px; }
+.member-email-resend { display: flex; align-items: flex-start; flex-direction: column; gap: 8px; margin-top: 16px; }
+.member-email-resend small { color: #526079; }
+.member-settings-footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding-top: 22px; }
+.member-settings-dialog .button { min-height: 44px; white-space: normal; }
+@media (max-width: 560px) { .member-profile-actions { align-items: flex-end; flex-direction: column; gap: 10px; } .member-profile-actions .button { font-size: 11px; padding: 9px 12px; min-height: 40px; } }
+
+
+.member-identity-badges { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 9px; }
+.member-identity-badges .member-badge, .member-identity-badges .active-badge { position: static; margin: 0; }

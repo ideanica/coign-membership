@@ -71,3 +71,5 @@
     .navbar-enhanced .navbar-toggle { padding-inline: 8px; }
 }
 
+
+.clean-navbar .member-navbar-actions { display: none !important; }

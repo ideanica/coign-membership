@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MembershipTransaction;
 use App\Models\PointEntry;
+use App\Services\EmailChangeService;
 use App\Services\MembershipSettings;
 use Carbon\CarbonImmutable;
 use Illuminate\Contracts\View\View;
@@ -42,6 +43,8 @@ class MembershipProfileController extends Controller
         $periods = collect([...$transactions, ...$earnings, ...$redemptions])->pluck('date')->map(fn (string $date): string => substr($date, 0, 7))->unique()->sortDesc()->mapWithKeys(fn (string $period): array => [$period => CarbonImmutable::parse($period.'-01')->locale(app()->getLocale())->translatedFormat('F Y')])->all();
 
         return view('membership.profile', [
+            'emailChange' => app(EmailChangeService::class)->pendingFor($user, (string) $request->session()->get('email_change_token', '')),
+            'emailDeliveryAvailable' => app(EmailChangeService::class)->deliveryAvailable(),
             'member' => [
                 'name' => $user->name,
                 'first_name' => explode(' ', trim($user->name))[0],

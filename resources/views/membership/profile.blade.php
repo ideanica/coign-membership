@@ -2,14 +2,17 @@
 @section('title', __('Profil & poin'))
 @section('meta-description', __('Profil membership: pantau saldo poin, transaksi, penukaran, dan pendapatan poin dalam satu tempat.'))
 @push('scripts')<script src="{{ asset('js/membership.js') }}?v={{ filemtime(public_path('js/membership.js')) }}" defer></script>@endpush
+@push('styles')<link rel="stylesheet" href="{{ asset('css/member-settings.css') }}?v={{ filemtime(public_path('css/member-settings.css')) }}">@endpush
+@push('scripts')<script src="{{ asset('js/order-detail.js') }}?v={{ filemtime(public_path('js/order-detail.js')) }}" defer></script>@endpush
 @section('content')
+@if(!request()->boolean('settings') && !old('_account_settings'))@include('shared.alerts')@endif
 <div class="page-heading">
             <div>
                 <p class="eyebrow"><span class="tiny-star">✳</span> YOUR MEMBER SPACE</p>
                 <h1>{{ __('Profil & poin') }}<span class="heading-dot">.</span></h1>
                 <p class="page-description">{{ __('Kenali profilmu. Pantau poinmu. Nikmati keuntungannya.') }}</p>
             </div>
-            <span class="badge active-badge"><span class="status-dot"></span> {{ __('Member aktif') }}</span>
+            <div class="member-profile-actions"><button class="button button-neutral" type="button" data-dialog-open="member-settings-dialog" aria-haspopup="dialog"><x-icon name="settings" size="18" /> {{ __('Pengaturan') }}</button></div>
         </div>
 
         <section class="profile-card neo-card" aria-label="{{ __('Profil dan ringkasan poin member') }}">
@@ -19,7 +22,7 @@
                     <div class="avatar-frame"><img src="{{ asset($member['photo']) }}" width="92" height="92" alt="{{ __('Foto profil ilustrasi') }} {{ $member['name'] }}"><span class="avatar-check"><x-icon name="check" size="13" /></span></div>
                     <div class="identity-copy">
                         <h2>{{ $member['name'] }}</h2>
-                        <span class="badge member-badge"><x-icon name="star" size="14" /> {{ $member['tier'] }}</span>
+                        <div class="member-identity-badges"><span class="badge member-badge"><x-icon name="star" size="14" /> {{ $member['tier'] }}</span><span class="badge active-badge"><span class="status-dot"></span> {{ __('Member aktif') }}</span></div>
                         <p class="member-email"><x-icon name="mail" size="15" /><span>{{ $member['email'] }}</span></p>
                     </div>
                 </div>
@@ -107,4 +110,5 @@
 @endsection
 @push('body-end')
     @include('membership.partials.profile-dialogs')
+    @include('membership.partials.settings-dialog')
 @endpush

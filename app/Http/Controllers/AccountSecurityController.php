@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EmailChange;
 use App\Services\MembershipSettings;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AccountSecurityController extends Controller
 {
@@ -15,7 +17,7 @@ class AccountSecurityController extends Controller
             return redirect()->route('admin.settings.edit');
         }
 
-        return $this->securityView($request, false);
+        return redirect()->route('membership.profile', ['settings' => 1]);
     }
 
     public function setup(Request $request): View|RedirectResponse
@@ -48,12 +50,12 @@ class AccountSecurityController extends Controller
             'password.confirmed' => __('Konfirmasi kata sandi baru tidak sesuai.'),
         ]);
 
-        $user->forceFill([
-            'password' => $values['password'],
-            'password_setup_at' => now(),
-        ])->save();
+        DB::transaction(function () use ($user, $values): void {
+            $user->forceFill(['password' => $values['password'], 'password_setup_at' => now()])->save();
+            EmailChange::where('user_id', $user->id)->delete();
+        });
 
-        $request->session()->forget('auth_via_google');
+        $request->session()->forget(['auth_via_google', 'email_change_token']);
         $request->session()->regenerate();
 
         if ($user->is_admin) {
@@ -64,7 +66,7 @@ class AccountSecurityController extends Controller
             return redirect()->route('membership.profile')->with('success', __('Kata sandi baru berhasil dibuat.'));
         }
 
-        return redirect()->route('membership.account.security')->with('success', __('Kata sandi berhasil diperbarui.'));
+        return redirect()->route('membership.profile', ['settings' => 1])->with('success', __('Kata sandi berhasil diperbarui.'));
     }
 
     private function securityView(Request $request, bool $forceSetup): View

@@ -8,7 +8,7 @@
             <h1>{{ $forceSetup ? __('Buat kata sandi baru') : __('Keamanan akun') }}<span class="heading-dot">.</span></h1>
             <p class="page-description">{{ __('Kelola cara masuk ke akun member tanpa mengubah identitas membership-mu.') }}</p>
         </div>
-        <a class="button button-neutral" href="{{ route('membership.profile') }}">{{ __('Kembali ke profil') }} <x-icon name="arrow-right" size="16" /></a>
+        @if($forceSetup)@include('shared.logout')@else<a class="button button-neutral" href="{{ route('membership.profile') }}">{{ __('Kembali ke profil') }} <x-icon name="arrow-right" size="16" /></a>@endif
     </div>
 
     @if($forceSetup)

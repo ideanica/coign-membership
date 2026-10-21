@@ -1,0 +1,33 @@
+.member-order-total { display: block; color: #000; font-size: clamp(26px, 3vw, 34px); font-weight: 800; letter-spacing: -1px; overflow-wrap: anywhere; margin: 8px 0 22px; }
+.member-total-label { display: block; font-size: 11px; color: #526079; margin-top: 8px; }
+.member-payment-meta { display: grid; gap: 14px; border-top: 2px solid #000; padding-top: 18px; margin: 0; }
+.member-payment-meta > div { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 12px; font-size: 11px; }
+.member-payment-meta dt { color: #526079; }
+.member-payment-meta dd { margin: 0; text-align: right; font-weight: 700; overflow-wrap: anywhere; }
+.member-payment-note { margin-top: 18px !important; color: #526079; line-height: 1.8; }
+.member-payment-card .status-paid { background: #ddfbe9; }
+.member-payment-card .status-cancelled { background: #ffe0e0; }
+.member-payment-card .status-unpaid { background: var(--yellow); }
+.member-details-button { width: 100%; justify-content: space-between; }
+.member-history-button { width: 100%; margin-bottom: 20px; justify-content: center; }
+.member-order-dialog { width: calc(100% - 32px); max-width: 620px; max-height: 85dvh; overflow: auto; padding: 28px; color: #000; }
+.member-order-dialog .dialog-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.member-order-dialog .dialog-header h2 { font-size: 23px; }
+.member-order-dialog .journey-info { padding: 0; }
+.member-order-dialog .journey-event { background: #f8f8f8; }
+.member-order-dialog .journey-timeline { margin-top: 26px; }
+body:has(.member-order-dialog[open]) { overflow: hidden; }
+@media screen { .member-order-print { display: none; } }
+@media (min-width: 1001px) { .member-payment-card { order: -1; } }
+@media (max-width: 1000px) { .tracking-page .journey-sidebar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; } .member-details-button, .journey-support { grid-column: 1 / -1; } }
+@media (max-width: 600px) { .tracking-page .journey-sidebar { grid-template-columns: minmax(0, 1fr); } .member-order-dialog { padding: 20px; } .journey-panel-heading { flex-wrap: wrap; } .journey-panel-heading > .badge { margin-left: 0; } }
+@media print { .member-order-dialog { display: none !important; } .member-order-print { display: block !important; } }
+
+@media (min-width: 1025px) {
+    .order-detail-content .journey-detail-grid { align-items: stretch; }
+    .order-detail-content .journey-timeline-panel { display: flex; flex-direction: column; }
+    .order-detail-content .journey-timeline-foot { margin-top: auto; }
+    .order-detail-content .journey-sidebar { display: flex; flex-direction: column; }
+    .order-detail-content .journey-sidebar > * { flex-shrink: 0; }
+    .order-detail-content .journey-support { margin-top: auto; }
+}

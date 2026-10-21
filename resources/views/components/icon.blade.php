@@ -21,6 +21,7 @@
         @case('check') <path d="m5 12 4 4L19 6"/> @break
         @case('info') <circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-9h.01"/> @break
         @case('close') <path d="m6 6 12 12M6 18 18 6"/> @break
+        @case('settings') <path d="m9 3-.5 2-2 1-2-.5-2 3.5L4 10.5v3L2.5 15l2 3.5 2-.5 2 1 .5 2h6l.5-2 2-1 2 .5 2-3.5-1.5-1.5v-3L21.5 9l-2-3.5-2 .5-2-1-.5-2Z"/><circle cx="12" cy="12" r="3"/> @break
         @case('user') <circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/> @break
         @case('code') <path d="m8 6-6 6 6 6m8-12 6 6-6 6M14 3l-4 18"/> @break
         @case('terminal') <rect x="2" y="4" width="20" height="16" rx="2"/><path d="m6 8 4 4-4 4m7 0h5"/> @break

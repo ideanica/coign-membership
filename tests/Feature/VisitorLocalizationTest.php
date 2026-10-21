@@ -47,7 +47,8 @@ class VisitorLocalizationTest extends TestCase
         $this->actingAs($member)->withHeader('X-Vercel-IP-Country', 'GB');
         $this->get('/profile')->assertOk()->assertSee('Profile &amp; points', false)->assertSee('Active member')->assertSee('Points used')->assertSee($member->name)->assertDontSee('>Kenali profilmu.', false);
         $this->get('/tracking')->assertOk()->assertSee('My orders')->assertSee('Your journey starts here');
-        $this->get('/account/security')->assertOk()->assertSee('Account security')->assertSee('Change password');
+        $this->get('/account/security')->assertRedirect(route('membership.profile', ['settings' => 1]));
+        $this->get('/profile?settings=1')->assertOk()->assertSee('Account security')->assertSee('Change password');
         $this->get('/bills')->assertOk()->assertSee('My bills')->assertSee('All payments');
     }
 
