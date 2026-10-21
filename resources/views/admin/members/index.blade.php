@@ -4,6 +4,17 @@
 @include('admin.workspace-assets')
 @section('actions')<button class="button" type="button" data-dialog-open="member-create-dialog">Tambah member <x-icon name="user" size="16" /></button>@endsection
 @section('content')
+    @if($temporaryCredentials)
+        <div class="portal-alert success" role="status">
+            <x-icon name="check" size="18" />
+            <div>
+                <strong>Kredensial sementara {{ $temporaryCredentials['name'] }}</strong>
+                <p>Email: <strong>{{ $temporaryCredentials['email'] }}</strong></p>
+                <p>Kata sandi sementara: <strong><code>{{ $temporaryCredentials['password'] }}</code></strong></p>
+                <p>Salin sekarang. Kata sandi ini hanya ditampilkan pada kunjungan ini dan member akan diminta membuat kata sandi sendiri setelah login memakai kredensial sementara.</p>
+            </div>
+        </div>
+    @endif
     <section class="neo-card workspace-overview" aria-label="Ringkasan member">
         <div><p>Total member</p><strong>{{ number_format($memberStats['total'], 0, ',', '.') }}</strong></div>
         <div><p>Akun aktif</p><strong>{{ number_format($memberStats['active'], 0, ',', '.') }}</strong></div>
