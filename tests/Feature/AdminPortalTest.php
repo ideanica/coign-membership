@@ -230,6 +230,22 @@ class AdminPortalTest extends TestCase
         $this->assertDatabaseCount('member_trackings', 0);
     }
 
+    public function test_dashboard_shows_only_five_latest_orders_and_all_orders_remain_available(): void
+    {
+        $this->freezeTime();
+        $admin = $this->admin();
+        $member = User::factory()->create();
+        $orders = collect();
+        for ($index = 0; $index < 7; $index++) {
+            $orders->push($this->tracking($member, $admin));
+        }
+        $expected = $orders->reverse()->take(5)->pluck('id')->values()->all();
+        $this->actingAs($admin)->get('/admin')->assertOk()
+            ->assertViewHas('trackings', fn ($rows) => $rows->modelKeys() === $expected)
+            ->assertSee('href="'.route('admin.tracking.index').'"', false);
+        $this->get('/admin/tracking')->assertOk()->assertViewHas('trackings', fn ($rows) => $rows->total() === 7);
+    }
+
     public function test_dashboard_counts_completed_tracking_and_legacy_payments_correctly(): void
     {
         $admin = $this->admin();

@@ -12,7 +12,7 @@
     <div class="portal-grid">
         <section class="neo-card portal-card"><div class="card-heading"><h2>Pesanan terbaru</h2><a href="{{ route('admin.tracking.index') }}" class="small-link">Lihat semua</a></div>
             @forelse($trackings as $tracking)
-                <a class="list-row" href="{{ route('admin.tracking.show', $tracking) }}"><div><strong>{{ $tracking->title }}</strong><small>{{ $tracking->user?->name ?? 'Pelanggan tanpa akun' }} · {{ $tracking->reference }}</small></div><span class="badge status-badge" style="--status-color:{{ $tracking->status->color }}">{{ $tracking->status->label }}</span></a>
+                <a class="list-row recent-order-row" href="{{ route('admin.tracking.show', $tracking) }}"><div class="recent-order-copy"><strong class="recent-order-title" title="{{ $tracking->title }}">{{ $tracking->title }}</strong><small>{{ $tracking->user?->name ?? 'Pelanggan tanpa akun' }} · {{ $tracking->reference }}</small></div><span class="badge status-badge" style="--status-color:{{ $tracking->status->color }}">{{ $tracking->status->label }}</span></a>
             @empty
                 <p class="portal-empty">Belum ada tracking. Buat tracking pertama untuk member.</p>
             @endforelse
