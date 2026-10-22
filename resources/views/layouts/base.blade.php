@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{ asset('css/navbar.css') }}?v={{ filemtime(public_path('css/navbar.css')) }}">
     <link rel="stylesheet" href="{{ asset('vendor/select2/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/select2-theme.css') }}?v={{ filemtime(public_path('css/select2-theme.css')) }}">
+    @if(request()->routeIs('admin.*'))<link rel="stylesheet" href="{{ asset('css/admin-responsive.css') }}?v={{ filemtime(public_path('css/admin-responsive.css')) }}">@endif
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}" defer></script>
     <script src="{{ asset('vendor/select2/select2.full.min.js') }}" defer></script>
     @if(app()->getLocale() === 'id')<script src="{{ asset('vendor/select2/id.js') }}" defer></script>@endif

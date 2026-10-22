@@ -1,0 +1,100 @@
+/* Shared search controls keep the input and actions on the same row. */
+.admin-page .admin-search-controls { display: flex; flex: 1 1 280px; align-items: center; gap: 8px; min-width: 0; }
+.admin-page .admin-search-input { display: flex; flex: 1; align-items: center; gap: 8px; min-width: 0; min-height: 40px; padding: 0 10px; border: 2px solid #000; border-radius: 5px; background: #fff; }
+.admin-page .admin-search-input > .icon { flex-shrink: 0; color: #526079; }
+.admin-page .admin-search-input > input { flex: 1 1 0; width: 100%; min-width: 0; max-width: none; min-height: 36px; padding: 8px 0; border: 0; background: transparent; font-size: 13px; outline: none; }
+.admin-page .admin-search-input:focus-within { outline: 2px solid #000; outline-offset: 3px; }
+.admin-page .admin-search-input input::-webkit-search-cancel-button { display: none; }
+.admin-page .admin-search-clear { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; width: 28px; height: 32px; }
+.admin-page .admin-search-controls > .button { flex-shrink: 0; min-height: 40px; white-space: nowrap; }
+.admin-page .admin-search-submit { display: inline-flex; gap: 6px; align-items: center; }
+@media (max-width: 800px) {
+    .admin-page .admin-main { width: 100%; padding: 22px 18px; }
+    .admin-page .portal-grid, .admin-page .settings-grid { gap: 18px; }
+    .admin-page .filter-bar { gap: 8px; padding: 14px; }
+    .admin-page .filter-bar > .admin-search-controls { flex-basis: 100%; }
+    .admin-page .filter-bar > .select2-container { flex: 1 1 130px; width: 130px !important; }
+    .admin-page .filter-bar > select { flex: 1 1 130px; min-width: 0; }
+}
+@media (max-width: 560px) {
+    .admin-page .admin-main { padding: 20px 12px; }
+    .admin-page .portal-heading { gap: 14px; margin-bottom: 20px; }
+    .admin-page .portal-heading h1 { font-size: 25px; }
+    .admin-page .page-description { font-size: 11px; line-height: 1.65; }
+    .admin-page .portal-heading > .inline-actions { gap: 8px; }
+    .admin-page .button { min-height: 38px; padding: 8px 10px; gap: 6px; font-size: 11px; line-height: 1.4; }
+    .admin-page .button > .icon { width: 16px; height: 16px; flex-shrink: 0; }
+    .admin-page .filter-bar { padding: 12px; gap: 8px; }
+    .admin-page .admin-search-controls { gap: 8px; }
+    .admin-page .admin-search-input { min-height: 38px; padding-inline: 9px; gap: 6px; }
+    .admin-page .admin-search-input > input { min-height: 34px; font-size: 13px; padding-block: 7px; }
+    .admin-page input::placeholder, .admin-page textarea::placeholder { font-size: 11px; }
+    .admin-page .admin-search-controls > .button { min-width: 38px; width: 38px; min-height: 38px; height: 38px; padding: 8px; justify-content: center; }
+    .admin-page .admin-search-submit > span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+    .admin-page .portal-card, .admin-page .settings-card, .admin-page .activity-intro, .admin-page .workspace-mode { padding: 16px; }
+    .admin-page .workspace-mode, .admin-page .activity-intro { gap: 12px; margin-bottom: 18px; }
+    .admin-page .workspace-mode h2, .admin-page .activity-intro h2, .admin-page .portal-card h2, .admin-page .settings-card h2 { font-size: 17px; }
+    .admin-page .dashboard-stat { padding: 15px 12px; }
+    .admin-page .dashboard-stat strong { font-size: 24px; margin-top: 12px; }
+    .admin-page .workspace-overview { padding: 16px 12px; gap: 10px; margin-bottom: 18px; }
+    .admin-page .workspace-overview > div + div { padding-left: 10px; }
+    .admin-page .workspace-overview strong { font-size: 21px; }
+    .admin-page .workspace-list-heading { padding: 16px 14px 0; gap: 8px; }
+    .admin-page .admin-form { gap: 18px; }
+    .admin-page .form-grid { gap: 14px; }
+    .admin-page .form-field input:not([type="checkbox"]):not([type="radio"]), .admin-page .form-field select, .admin-page .form-field textarea { min-height: 38px; padding: 8px 10px; font-size: 13px; }
+    .admin-page .form-field textarea { min-height: 80px; }
+    .admin-page .form-field > label { font-size: 11px; }
+    .admin-page .form-field small, .admin-page .form-help { font-size: 10px; }
+    .admin-page .form-help { padding: 12px; }
+    .admin-page .neo-dialog { width: calc(100% - 24px); max-height: calc(100dvh - 24px); padding: 16px; }
+    .admin-page .neo-dialog .dialog-header h2 { font-size: 19px; }
+    .admin-page .neo-dialog .admin-form { padding: 0; }
+    .admin-page .form-actions { gap: 8px; padding-top: 16px; }
+    .admin-page .order-item-row { padding: 12px; gap: 14px; }
+    .admin-page .order-summary, .admin-page .order-payment, .admin-page .order-history { padding: 16px; }
+    .admin-page .activity-entry { padding: 16px; }
+    .admin-page .settings-card-heading { gap: 10px; margin-bottom: 16px; }
+    .admin-page .settings-icon { width: 36px; height: 36px; }
+    .admin-page .portal-table th, .admin-page .portal-table td { padding: 12px; }
+    .admin-page .portal-table td .inline-actions, .admin-page .portal-table .row-actions { flex-wrap: nowrap; gap: 12px; }
+    .admin-page .portal-table .row-action { white-space: nowrap; font-size: 11px; }
+    .admin-page .portal-pagination { padding: 12px; font-size: 10px; gap: 10px; }
+    .admin-page .list-row { gap: 10px; padding-block: 13px; }
+    .admin-page .recent-order-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; }
+    .admin-page .recent-order-row .status-badge { max-width: 100px; font-size: 9px; }
+    .admin-page .select2-container--default .select2-selection--single { min-height: 38px; }
+    .admin-page .select2-container--default .select2-selection--single .select2-selection__rendered { line-height: 34px; font-size: 11px; padding-left: 10px; }
+    .admin-page .select2-container--default .select2-selection--single .select2-selection__arrow { height: 34px; }
+    .admin-page .filter-bar > .small-link { font-size: 10px; }
+}
+
+@media (max-width: 560px) {
+    .admin-page .catalog-form-section, .admin-page .catalog-publish-card, .admin-page .settings-account { padding: 16px; }
+    .admin-page .catalog-editor-grid, .admin-page .catalog-editor-sections { gap: 18px; }
+    .admin-page .catalog-form-heading { gap: 10px; margin-bottom: 18px; }
+    .admin-page .catalog-form-heading > span { width: 30px; height: 30px; font-size: 10px; }
+    .admin-page .catalog-form-heading > div { min-width: 0; }
+    .admin-page .catalog-form-heading h2 { font-size: 16px; }
+    .admin-page .catalog-form-heading p { font-size: 10px; }
+    .admin-page .catalog-image-row { padding: 12px; gap: 12px; }
+    .admin-page .catalog-image-fields input:not([type="radio"]), .admin-page .catalog-spec-row input { padding: 8px 10px; font-size: 12px; }
+    .admin-page .gallery-toolbar { gap: 8px; }
+    .admin-page .settings-contact-list > div, .admin-page .settings-personal .settings-contact-list > div { grid-template-columns: 84px minmax(0, 1fr); gap: 10px; }
+    .admin-page .workspace-detail-list > div { grid-template-columns: 84px minmax(0, 1fr); gap: 10px; }
+    .admin-page .order-card-actions { gap: 8px; }
+    .admin-page .order-card-actions > .button { flex: 0 1 auto; }
+}
+
+@media (max-width: 560px) {
+    .admin-page .catalog-form-section > .form-grid + .form-field, .admin-page .catalog-form-section > .form-field + .form-field { margin-top: 16px; }
+    .admin-page .select2-container--default .select2-selection--multiple { min-height: 38px; padding: 3px 8px; }
+    .admin-page .form-field .select2-search--inline input.select2-search__field { min-height: 20px; height: 20px; padding: 0; margin-top: 4px; font-size: 12px; line-height: 20px; }
+    .admin-page .select2-container--default .select2-selection--multiple .select2-selection__choice { padding: 3px 6px; margin-block: 3px; font-size: 11px; }
+    .admin-page .administrator-list .portal-table .row-action { white-space: normal; min-height: 36px; max-width: 100%; }
+}
+
+@media (max-width: 560px) {
+    .admin-page .admin-search-controls > .button { position: relative; }
+    .admin-page .admin-search-controls .activity-filter-dot { position: absolute; top: 3px; right: 3px; width: 6px; height: 6px; }
+}

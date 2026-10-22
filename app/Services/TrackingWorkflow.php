@@ -20,12 +20,23 @@ class TrackingWorkflow
             if ($billing !== null) {
                 $customer = $tracking->user;
                 $settings = app(MembershipSettings::class)->all();
+                $items = array_map(fn (array $item): array => [
+                    'name' => $item['name'],
+                    'quantity' => (int) $item['quantity'],
+                    'unit_price' => (int) $item['unit_price'],
+                ], $billing['items'] ?? [[
+                    'name' => $tracking->service?->name ?? $tracking->title,
+                    'quantity' => $billing['quantity'], 'unit_price' => $billing['unit_price'],
+                ]]);
+                $subtotal = array_sum(array_map(fn (array $item): int => $item['quantity'] * $item['unit_price'], $items));
                 $tracking->bill()->create([
                     'user_id' => $tracking->user_id, 'service_id' => $tracking->service_id,
                     'reference' => 'BILL-'.Str::ulid(), 'title' => $tracking->title,
-                    'quantity' => $billing['quantity'], 'unit_price' => $billing['unit_price'],
+                    'items' => $items,
+                    'quantity' => count($items) === 1 ? $items[0]['quantity'] : 1,
+                    'unit_price' => count($items) === 1 ? $items[0]['unit_price'] : $subtotal,
                     'discount' => $billing['discount'],
-                    'total' => $billing['quantity'] * $billing['unit_price'] - $billing['discount'],
+                    'total' => $subtotal - $billing['discount'],
                     'due_date' => $billing['bill_due_date'] ?? null,
                     'customer_name' => $customer?->name ?? $billing['customer_name'],
                     'customer_email' => $customer?->email ?? ($billing['customer_email'] ?? null),

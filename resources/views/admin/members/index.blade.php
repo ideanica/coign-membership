@@ -23,9 +23,9 @@
     <section class="neo-card">
         <div class="workspace-list-heading"><h2>Daftar member</h2><p>{{ $members->total() }} member ditemukan</p></div>
         <form class="filter-bar" method="get">
-            <label for="q" class="sr-only">Cari member</label><input id="q" name="q" value="{{ request('q') }}" placeholder="Cari nama, email, atau nomor member…">
+            <x-admin-search label="Cari member" placeholder="Cari nama, email, atau nomor member" />
             <label for="access" class="sr-only">Filter akses</label><select id="access" name="access"><option value="">Semua akses</option><option value="active" @selected(request('access') === 'active')>Aktif</option><option value="inactive" @selected(request('access') === 'inactive')>Nonaktif</option></select>
-            <button class="button button-neutral" type="submit">Cari</button>@if(request()->filled('q') || request()->filled('access'))<a class="small-link" href="{{ route('admin.members.index') }}">Hapus filter</a>@endif
+            @if(request()->filled('access'))<a class="small-link" href="{{ route('admin.members.index') }}">Hapus filter</a>@endif
         </form>
         <div class="portal-table-wrap"><table class="portal-table"><thead><tr><th>MEMBER</th><th>LABEL & AKSES</th><th>SALDO POIN</th><th>AKSI</th></tr></thead><tbody>
             @forelse($members as $member)

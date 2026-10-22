@@ -14,6 +14,7 @@ return [
     'numeric' => ':attribute harus berupa angka.',
     'boolean' => ':attribute harus bernilai benar atau salah.',
     'array' => ':attribute harus berupa daftar.',
+    'list' => ':attribute harus berupa daftar berurutan.',
     'date' => ':attribute harus berupa tanggal yang valid.',
     'date_format' => ':attribute harus menggunakan format :format.',
     'after_or_equal' => ':attribute harus setelah atau sama dengan :date.',
@@ -21,5 +22,5 @@ return [
     'url' => ':attribute harus berupa alamat URL yang valid.',
     'max' => ['string' => ':attribute maksimal :max karakter.', 'numeric' => ':attribute maksimal :max.', 'array' => ':attribute maksimal :max item.', 'file' => ':attribute maksimal :max kilobita.'],
     'min' => ['string' => ':attribute minimal :min karakter.', 'numeric' => ':attribute minimal :min.', 'array' => ':attribute minimal :min item.', 'file' => ':attribute minimal :min kilobita.'],
-    'attributes' => ['new_email' => 'Email baru', 'verification_code' => 'Kode verifikasi', 'email' => 'Email', 'password' => 'Kata sandi', 'current_password' => 'Kata sandi saat ini', 'password_confirmation' => 'Konfirmasi kata sandi', 'code' => 'Kode pesanan', 'name' => 'Nama', 'comment' => 'Komentar', 'rating' => 'Penilaian', 'reviewer_name' => 'Nama yang ditampilkan', 'q' => 'Pencarian'],
+    'attributes' => ['new_email' => 'Email baru', 'verification_code' => 'Kode verifikasi', 'email' => 'Email', 'password' => 'Kata sandi', 'current_password' => 'Kata sandi saat ini', 'password_confirmation' => 'Konfirmasi kata sandi', 'code' => 'Kode pesanan', 'name' => 'Nama', 'comment' => 'Komentar', 'rating' => 'Penilaian', 'reviewer_name' => 'Nama yang ditampilkan', 'q' => 'Pencarian', 'items' => 'Daftar layanan', 'items.*.name' => 'Nama layanan item :position', 'items.*.quantity' => 'Jumlah item :position', 'items.*.unit_price' => 'Harga satuan item :position'],
 ];

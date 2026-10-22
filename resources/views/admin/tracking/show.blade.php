@@ -26,6 +26,7 @@
                 <div><dt>Tanggal pesanan</dt><dd>{{ $tracking->created_at->locale('id')->translatedFormat('d F Y') }}</dd></div>
                 <div><dt>Target selesai</dt><dd>{{ $tracking->due_date?->locale('id')->translatedFormat('d F Y') ?? 'Belum ditentukan' }}</dd></div>
             </dl>
+            @if($tracking->bill)<details class="order-services-disclosure"><summary>Rincian layanan ({{ count($tracking->bill->lineItems()) }})</summary>@include('shared.order-items', ['bill' => $tracking->bill])</details>@endif
             <div class="order-card-actions">
                 <button class="button" type="button" data-order-open="order-edit-dialog"><x-icon name="calendar" size="16" /> Kelola tracking</button>
                 <button class="button button-neutral" type="button" data-order-open="order-access-dialog"><x-icon name="info" size="16" /> Kode tracking</button>
@@ -36,7 +37,7 @@
             @if($tracking->bill)
                 <p class="order-total-label">Total tagihan</p><p class="order-total">Rp{{ number_format($tracking->bill->total, 0, ',', '.') }}</p>
                 <dl class="order-payment-meta">
-                    <div><dt>{{ $tracking->bill->quantity }} × Rp{{ number_format($tracking->bill->unit_price, 0, ',', '.') }}</dt><dd>Rp{{ number_format($tracking->bill->quantity * $tracking->bill->unit_price, 0, ',', '.') }}</dd></div>
+                    <div><dt>Subtotal ({{ count($tracking->bill->lineItems()) }} item)</dt><dd>Rp{{ number_format($tracking->bill->subtotal(), 0, ',', '.') }}</dd></div>
                     @if($tracking->bill->discount)<div><dt>Diskon</dt><dd>−Rp{{ number_format($tracking->bill->discount, 0, ',', '.') }}</dd></div>@endif
                     <div><dt>Jatuh tempo</dt><dd>{{ $tracking->bill->due_date?->locale('id')->translatedFormat('d M Y') ?? 'Belum ditentukan' }}</dd></div>
                     @if($tracking->bill->status === 'paid')

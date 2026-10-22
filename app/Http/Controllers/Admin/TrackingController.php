@@ -77,14 +77,25 @@ class TrackingController extends Controller
     {
         $values = $this->values($request);
         $billing = $request->validate([
-            'quantity' => ['required', 'integer', 'min:1', 'max:10000'],
-            'unit_price' => ['required', 'integer', 'min:1', 'max:1000000000'],
+            'items' => ['sometimes', 'required', 'array', 'list', 'min:1', 'max:100'],
+            'items.*' => ['required', 'array:name,quantity,unit_price'],
+            'items.*.name' => ['required', 'string', 'max:255'],
+            'items.*.quantity' => ['required', 'integer', 'min:1', 'max:10000'],
+            'items.*.unit_price' => ['required', 'integer', 'min:1', 'max:1000000000'],
+            'quantity' => [Rule::excludeIf($request->exists('items')), 'required', 'integer', 'min:1', 'max:10000'],
+            'unit_price' => [Rule::excludeIf($request->exists('items')), 'required', 'integer', 'min:1', 'max:1000000000'],
             'discount' => ['required', 'integer', 'min:0', 'max:10000000000000'],
             'bill_due_date' => ['nullable', 'date'],
             'customer_name' => [Rule::excludeIf(! empty($values['user_id'])), Rule::requiredIf(empty($values['user_id'])), 'nullable', 'string', 'max:255'],
             'customer_email' => [Rule::excludeIf(! empty($values['user_id'])), 'nullable', 'email', 'max:255'],
         ]);
-        if ($billing['quantity'] * $billing['unit_price'] - $billing['discount'] < 1) {
+        $subtotal = isset($billing['items'])
+            ? array_sum(array_map(fn (array $item): int => (int) $item['quantity'] * (int) $item['unit_price'], $billing['items']))
+            : $billing['quantity'] * $billing['unit_price'];
+        if ($subtotal > 10000000000000) {
+            throw ValidationException::withMessages(['items' => 'Subtotal pesanan maksimal Rp10.000.000.000.000.']);
+        }
+        if ($subtotal - $billing['discount'] < 1) {
             throw ValidationException::withMessages(['discount' => 'Diskon harus lebih kecil dari subtotal.']);
         }
         $note = $values['note'] ?? null;

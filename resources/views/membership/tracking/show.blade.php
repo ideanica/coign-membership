@@ -29,7 +29,7 @@
                     <span class="member-total-label">{{ __('Total tagihan') }}</span>
                     <strong class="member-order-total">Rp{{ number_format($tracking->bill->total, 0, ',', '.') }}</strong>
                     <dl class="member-payment-meta">
-                        <div><dt>{{ __('Nomor bill') }}</dt><dd>{{ $tracking->bill->reference }}</dd></div>
+                        <div><dt>{{ __('Jumlah layanan') }}</dt><dd>{{ count($tracking->bill->lineItems()) }}</dd></div><div><dt>{{ __('Nomor bill') }}</dt><dd>{{ $tracking->bill->reference }}</dd></div>
                         <div><dt>{{ __('Jatuh tempo') }}</dt><dd>{{ $tracking->bill->due_date?->locale(app()->getLocale())->translatedFormat('d M Y') ?? '-' }}</dd></div>
                         @if($tracking->bill->status === 'paid')<div><dt>{{ __('Pembayaran diterima') }}</dt><dd>{{ $tracking->bill->paid_at?->locale(app()->getLocale())->translatedFormat('d M Y') ?? '-' }}</dd></div>@endif
                     </dl>
@@ -51,7 +51,7 @@
 </div>
 <dialog id="member-order-info" class="neo-dialog member-order-dialog" data-managed-dialog aria-labelledby="member-info-title">
     <div class="dialog-header"><h2 id="member-info-title">{{ __('Detail layanan') }}</h2><button type="button" class="dialog-close" data-dialog-close aria-label="{{ __('Tutup') }}"><x-icon name="close" size="20" /></button></div>
-            <section class="journey-info"><dl><div><dt>{{ __('Mulai dibuat') }}</dt><dd>{{ $tracking->created_at->locale(app()->getLocale())->translatedFormat('d F Y') }}</dd></div><div><dt>{{ __('Update terakhir') }}</dt><dd>{{ $tracking->events->first()?->created_at->locale(app()->getLocale())->translatedFormat('d M Y · H:i') ?? __('Belum ada update') }}</dd></div></dl>@if(filled($tracking->description))<div class="journey-description"><span class="tracking-kicker">{{ __('CATATAN LAYANAN') }}</span><p>{{ $tracking->description }}</p></div>@endif</section>
+            <section class="journey-info">@if($tracking->bill)<h3 class="order-services-heading">{{ __('Rincian layanan') }} ({{ count($tracking->bill->lineItems()) }})</h3>@include('shared.order-items', ['bill' => $tracking->bill])@endif<dl><div><dt>{{ __('Mulai dibuat') }}</dt><dd>{{ $tracking->created_at->locale(app()->getLocale())->translatedFormat('d F Y') }}</dd></div><div><dt>{{ __('Update terakhir') }}</dt><dd>{{ $tracking->events->first()?->created_at->locale(app()->getLocale())->translatedFormat('d M Y · H:i') ?? __('Belum ada update') }}</dd></div></dl>@if(filled($tracking->description))<div class="journey-description"><span class="tracking-kicker">{{ __('CATATAN LAYANAN') }}</span><p>{{ $tracking->description }}</p></div>@endif</section>
 
 </dialog>
 <dialog id="member-order-history" class="neo-dialog member-order-dialog member-history-dialog" data-managed-dialog aria-labelledby="member-history-title">

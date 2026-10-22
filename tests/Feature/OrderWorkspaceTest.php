@@ -62,7 +62,7 @@ class OrderWorkspaceTest extends TestCase
         $admin = User::factory()->create(['is_admin' => true]);
 
         $this->actingAs($admin)->get('/admin/tracking/create')->assertOk()
-            ->assertSee('Pesanan')->assertSee('name="unit_price"', false)
+            ->assertSee('Pesanan')->assertSee('name="items[0][unit_price]"', false)
             ->assertDontSee('name="service_id"', false)
             ->assertDontSee('href="'.route('admin.services.index').'"', false)
             ->assertDontSee('href="'.route('admin.bills.index').'"', false);

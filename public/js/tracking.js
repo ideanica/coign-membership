@@ -1,19 +1,50 @@
 const orderBilling = document.querySelector('[data-order-billing]');
 if (orderBilling) {
     const form = orderBilling.closest('form');
-    const price = form.querySelector('#unit_price');
     const discount = form.querySelector('#discount');
-    const quantity = form.querySelector('#quantity');
+    const items = orderBilling.querySelector('[data-order-items]');
+    const addButton = orderBilling.querySelector('[data-add-order-item]');
+    const money = value => `Rp${value.toLocaleString('id-ID')}`;
     const update = () => {
-        const subtotal = Number(price.value) * Number(quantity.value);
-        discount.setCustomValidity(Number(discount.value) >= subtotal && subtotal > 0 ? 'Diskon harus lebih kecil dari subtotal.' : '');
-        form.querySelector('[data-order-total]').textContent = `Rp${Math.max(0, subtotal - Number(discount.value)).toLocaleString('id-ID')}`;
+        const rows = [...items.querySelectorAll('[data-order-item]')];
+        let subtotal = 0;
+        rows.forEach((row, index) => {
+            row.querySelector('[data-item-number]').textContent = index + 1;
+            row.querySelectorAll('[data-item-field]').forEach(input => {
+                const field = input.dataset.itemField;
+                input.name = `items[${index}][${field}]`;
+                input.id = `item-${index}-${field}`;
+                input.previousElementSibling.htmlFor = input.id;
+            });
+            const amount = Number(row.querySelector('[data-item-field="quantity"]').value) * Number(row.querySelector('[data-item-field="unit_price"]').value);
+            subtotal += amount;
+            row.querySelector('[data-item-subtotal]').textContent = money(amount);
+            row.querySelector('[data-remove-order-item]').disabled = rows.length === 1;
+        });
+        addButton.disabled = rows.length >= 100;
+        discount.setCustomValidity(subtotal > 10000000000000 ? 'Subtotal pesanan maksimal Rp10.000.000.000.000.' : Number(discount.value) >= subtotal && subtotal > 0 ? 'Diskon harus lebih kecil dari subtotal.' : '');
+        form.querySelector('[data-order-subtotal]').textContent = money(subtotal);
+        form.querySelector('[data-order-total]').textContent = money(Math.max(0, subtotal - Number(discount.value)));
     };
-    form.querySelector('#service_id')?.addEventListener('change', event => {
-        const selected = event.target.selectedOptions[0];
-        if (selected?.dataset.price) price.value = selected.dataset.price;
+    addButton.addEventListener('click', () => {
+        if (items.querySelectorAll('[data-order-item]').length >= 100) return;
+        const fragment = orderBilling.querySelector('[data-order-item-template]').content.cloneNode(true);
+        const row = fragment.querySelector('[data-order-item]');
+        items.append(fragment);
         update();
+        row.querySelector('[data-item-field="name"]').focus();
     });
+    items.addEventListener('click', event => {
+        const button = event.target.closest('[data-remove-order-item]');
+        if (!button || items.querySelectorAll('[data-order-item]').length <= 1) return;
+        const row = button.closest('[data-order-item]');
+        const next = row.nextElementSibling || row.previousElementSibling;
+        row.remove();
+        update();
+        next.querySelector('[data-item-field="name"]').focus();
+    });
+    items.addEventListener('input', update);
+    discount.addEventListener('input', update);
     const member = form.querySelector('#user_id');
     const customer = form.querySelector('#customer_name');
     const email = form.querySelector('#customer_email');
@@ -32,7 +63,6 @@ if (orderBilling) {
     member.addEventListener('change', identity);
     form.addEventListener('reset', () => setTimeout(() => { identity(); update(); }, 0));
     identity();
-    [price, quantity, discount].forEach(input => input.addEventListener('input', update));
     update();
 }
 document.querySelectorAll('[data-copy-reference]').forEach(button => {

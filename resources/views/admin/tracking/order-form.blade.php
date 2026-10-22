@@ -1,4 +1,6 @@
-@php($selectedMember = $tracking->exists ? null : $members->firstWhere('id', old('user_id')))
+@php
+    $selectedMember = $tracking->exists ? null : $members->firstWhere('id', old('user_id'));
+@endphp
         <form class="neo-card portal-card admin-form {{ ($inDialog ?? false) ? 'order-dialog-form' : '' }}" method="post" action="{{ $tracking->exists ? route('admin.tracking.update', $tracking) : route('admin.tracking.store') }}">
             @csrf
             @if($tracking->exists)
@@ -30,9 +32,23 @@
                         <x-field name="customer_name" label="Nama pelanggan tanpa akun" maxlength="255" placeholder="Nama pelanggan" :required="$selectedMember === null" :disabled="$selectedMember !== null" />
                         <x-field name="customer_email" label="Email pelanggan (opsional)" type="email" maxlength="255" :disabled="$selectedMember !== null" />
                     </div>
-                    <div class="form-grid" style="margin-top:18px"><x-field name="quantity" label="Jumlah" type="number" value="1" required min="1" max="10000" /><x-field name="unit_price" label="Harga yang disepakati (Rp)" type="number" required min="1" max="1000000000">Isi harga pesanan secara manual sesuai kesepakatan dengan pelanggan.</x-field></div>
+                    @php
+                        $orderItems = old('items');
+                        if (!is_array($orderItems)) {
+                            $orderItems = [['name' => '', 'quantity' => old('quantity', 1), 'unit_price' => old('unit_price', '')]];
+                        }
+                        $orderItems = array_values(array_slice(array_filter($orderItems, 'is_array'), 0, 100)) ?: [['name' => '', 'quantity' => 1, 'unit_price' => '']];
+                    @endphp
+                    <div class="order-items-editor" data-order-items>
+                        @foreach($orderItems as $index => $item)
+                            @include('admin.tracking.order-item')
+                        @endforeach
+                    </div>
+                    <template data-order-item-template>@include('admin.tracking.order-item', ['index' => '__INDEX__', 'item' => []])</template>
+                    <button class="button button-neutral" type="button" data-add-order-item>Tambah layanan <x-icon name="gift" size="16" /></button>
+                    <small class="muted">Tambahkan setiap jasa sebagai item terpisah. Maksimal 100 item dalam satu pesanan.</small>
                     <div class="form-grid" style="margin-top:18px"><x-field name="discount" label="Diskon (Rp)" type="number" value="0" required min="0" max="10000000000000" /><x-field name="bill_due_date" label="Jatuh tempo pembayaran (opsional)" type="date" /></div>
-                    <div class="form-help" style="margin-top:18px">Total bill: <strong data-order-total>Rp0</strong><br>Poin member diberikan setelah pembayaran dikonfirmasi, bukan saat pesanan dibuat.</div>
+                    <div class="form-help" style="margin-top:18px">Subtotal semua layanan: <strong data-order-subtotal>Rp0</strong><br>Total bill: <strong data-order-total>Rp0</strong><br>Poin member diberikan setelah pembayaran dikonfirmasi, bukan saat pesanan dibuat.</div>
                 </section>
             @elseif($tracking->bill && !($inDialog ?? false))
                 <div class="form-help">Bill pesanan sudah diterbitkan dan rincian harganya terkunci. <a class="small-link" href="{{ route('admin.tracking.show', $tracking).'#bill' }}">Lihat bill {{ $tracking->bill->reference }}</a></div>

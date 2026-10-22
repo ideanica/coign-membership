@@ -16,11 +16,11 @@
     <section class="neo-card">
         <div class="workspace-list-heading"><h2>Riwayat poin</h2><p>{{ $entries->total() }} aktivitas ditemukan</p></div>
         <form class="filter-bar" method="get">
-            <label class="sr-only" for="q">Cari aktivitas poin</label><input id="q" name="q" value="{{ request('q') }}" placeholder="Cari aktivitas, alasan, atau nomor referensi…">
+            <x-admin-search label="Cari aktivitas poin" placeholder="Cari aktivitas atau referensi" />
             <label class="sr-only" for="member">Filter member</label><select name="member" id="member"><option value="">Semua member</option>@foreach($members as $member)<option value="{{ $member->id }}" @selected(request('member') == $member->id)>{{ $member->name }}</option>@endforeach</select>
             <label class="sr-only" for="entry_type">Jenis poin</label><select name="type" id="entry_type"><option value="">Semua jenis</option><option value="earned" @selected(request('type') === 'earned')>Poin masuk</option><option value="redeemed" @selected(request('type') === 'redeemed')>Poin digunakan</option></select>
-            <button class="button button-neutral" type="submit">Tampilkan</button>
-            @if(request()->filled('q') || request()->filled('member') || request()->filled('type'))<a class="small-link" href="{{ route('admin.points.index') }}">Hapus filter</a>@endif
+
+            @if(request()->filled('member') || request()->filled('type'))<a class="small-link" href="{{ route('admin.points.index') }}">Hapus filter</a>@endif
         </form>
         <div class="portal-table-wrap"><table class="portal-table"><thead><tr><th>MEMBER / AKTIVITAS</th><th>POIN</th><th>PENCATATAN</th><th>AKSI</th></tr></thead><tbody>
             @forelse($entries as $entry)

@@ -4,10 +4,10 @@
 @section('actions')<a class="button" href="{{ route('admin.tracking.create') }}">Buat pesanan <x-icon name="calendar" size="16" /></a>@endsection
 @section('content')
     <section class="neo-card"><form class="filter-bar" method="get">
-        <label class="sr-only" for="q">Cari pesanan</label><input name="q" id="q" value="{{ request('q') }}" placeholder="Cari judul, nomor pesanan, atau pelanggan…">
+        <x-admin-search label="Cari pesanan" placeholder="Cari pesanan atau pelanggan" />
         <label class="sr-only" for="status">Status pesanan</label><select id="status" name="status"><option value="">Semua status pesanan</option>@foreach($statuses as $status)<option value="{{ $status->id }}" @selected(request('status') == $status->id)>{{ $status->label }}</option>@endforeach</select>
         <label class="sr-only" for="payment_status">Status pembayaran</label><select id="payment_status" name="payment_status"><option value="">Semua pembayaran</option>@foreach(\App\Models\Bill::STATUS_LABELS as $value => $label)<option value="{{ $value }}" @selected(request('payment_status') === $value)>{{ $label }}</option>@endforeach</select>
-        <button class="button button-neutral">Filter</button>
+
     </form>
         <div class="portal-table-wrap"><table class="portal-table orders-table"><thead><tr><th>PESANAN</th><th>PELANGGAN</th><th>TOTAL / PEMBAYARAN</th><th>STATUS</th><th>TARGET</th><th>AKSI</th></tr></thead><tbody>
             @forelse($trackings as $tracking)

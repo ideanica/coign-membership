@@ -1,7 +1,7 @@
 @extends('layouts.portal')
 @section('title', $tracking->exists ? 'Kelola pesanan' : 'Buat pesanan')
 @section('description', 'Isi pesanan dan harga secara manual. Pesanan hanya tampil pada akun pelanggan yang dipilih.')
-@push('styles')<link rel="stylesheet" href="{{ asset('css/bill.css') }}">@endpush
+@push('styles')<link rel="stylesheet" href="{{ asset('css/bill.css') }}?v={{ filemtime(public_path('css/bill.css')) }}">@endpush
 @push('scripts')<script src="{{ asset('js/tracking.js') }}?v={{ filemtime(public_path('js/tracking.js')) }}" defer></script>@endpush
 @section('content')
     <div class="portal-grid">

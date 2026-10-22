@@ -5,7 +5,7 @@
 @section('content')
     <section class="neo-card">
         @if($kind === 'services')
-            <form method="get" class="filter-bar"><label for="q" class="sr-only">Cari layanan</label><input name="q" id="q" value="{{ request('q') }}" placeholder="Cari nama layanan…"><button class="button button-neutral">Cari</button></form>
+            <form method="get" class="filter-bar"><x-admin-search label="Cari layanan" placeholder="Cari nama layanan" /></form>
         @endif
         <div class="portal-table-wrap"><table class="portal-table"><thead><tr><th>{{ $kind === 'services' ? 'LAYANAN' : 'LABEL TRACKING' }}</th><th>{{ $kind === 'services' ? 'HARGA' : 'URUTAN' }}</th><th>{{ $kind === 'services' ? 'ESTIMASI' : 'STATUS AKHIR' }}</th><th>AKTIF</th><th>AKSI</th></tr></thead><tbody>
             @forelse($records as $record)

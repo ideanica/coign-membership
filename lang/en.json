@@ -533,5 +533,7 @@
     "Semua pesanan": "All orders",
     "Pesanan ini belum memiliki bill.": "This order does not have a bill yet.",
     "Nomor bill": "Bill number",
-    "Riwayat pesanan": "Order history"
+    "Riwayat pesanan": "Order history",
+    "Rincian layanan": "Service items",
+    "Jumlah layanan": "Service count"
 }
