@@ -7,6 +7,7 @@ use App\Models\Catalog;
 use App\Models\CatalogDiscount;
 use App\Services\CatalogPricing;
 use App\Services\MembershipSettings;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -14,9 +15,22 @@ use Illuminate\Validation\ValidationException;
 
 class CatalogDiscountController extends Controller
 {
-    public function index()
+    public function index(Request $request): View
     {
-        return view('admin.discounts.index', ['discounts' => CatalogDiscount::whereHas('catalog')->with('catalog')->latest()->paginate(15), 'settings' => app(MembershipSettings::class)->all(), 'pricing' => app(CatalogPricing::class)]);
+        $filters = $request->validate(['q' => ['nullable', 'string', 'max:100']]);
+        $query = CatalogDiscount::whereHas('catalog')->with('catalog.discount')->latest()->orderByDesc('id');
+
+        if (filled($filters['q'] ?? null)) {
+            $search = '%'.$filters['q'].'%';
+            $query->where(fn ($builder) => $builder->whereLike('name', $search)
+                ->orWhereHas('catalog', fn ($catalog) => $catalog->whereLike('name', $search)));
+        }
+
+        return view('admin.discounts.index', [
+            'discounts' => $query->paginate(15)->withQueryString(),
+            'settings' => app(MembershipSettings::class)->all(),
+            'pricing' => app(CatalogPricing::class),
+        ]);
     }
 
     public function create()
