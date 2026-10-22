@@ -1,0 +1,12 @@
+.category-list { list-style: none; padding: 0; margin: 0; border-top: 2px solid #000; }
+.category-list-row { display: grid; grid-template-columns: minmax(0, 1fr) 90px 210px; align-items: center; gap: 24px; padding: 20px 24px; border-bottom: 1px solid #d4dce8; }
+.category-list-row:last-child { border-bottom: 0; }
+.category-list-info { min-width: 0; }
+.category-list-info h3 { font-size: 14px; line-height: 1.5; overflow-wrap: anywhere; }
+.category-list-info p { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 7px 0 0; color: #526079; font-size: 11px; }
+.category-list-row > .badge { justify-self: start; }
+.category-row-actions { display: flex; align-items: center; justify-content: flex-end; gap: 18px; }
+.category-row-actions .button { gap: 8px; }
+.category-row-actions .row-action { font-size: 11px; white-space: nowrap; }
+@media (max-width: 800px) { .category-list-row { grid-template-columns: minmax(0, 1fr) auto; gap: 12px; padding: 16px; } .category-row-actions { grid-column: 1 / -1; padding-top: 12px; border-top: 1px solid #e4e9f1; } .category-list-info h3 { font-size: 13px; } }
+@media (max-width: 560px) { .category-list-row { padding: 14px; } .category-list-info p { font-size: 10px; gap: 6px 12px; } .category-row-actions { gap: 16px; padding-top: 10px; } .category-list-row > .badge { font-size: 9px; } }

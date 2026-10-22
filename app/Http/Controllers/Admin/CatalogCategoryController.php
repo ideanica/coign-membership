@@ -11,9 +11,27 @@ use Illuminate\Validation\Rule;
 
 class CatalogCategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.catalogs.categories', ['categories' => CatalogCategory::withCount('catalogs')->orderBy('sort_order')->get(), 'settings' => app(MembershipSettings::class)->all()]);
+        $filters = $request->validate([
+            'q' => ['nullable', 'string', 'max:100'],
+            'status' => ['nullable', Rule::in(['active', 'inactive'])],
+        ]);
+        $query = CatalogCategory::withCount('catalogs')->orderBy('sort_order')->orderBy('name')->orderBy('id');
+        if (filled($filters['q'] ?? null)) {
+            $query->where(fn ($builder) => $builder->whereLike('name', '%'.$filters['q'].'%')->orWhereLike('slug', '%'.$filters['q'].'%'));
+        }
+        if (filled($filters['status'] ?? null)) {
+            $query->where('is_active', $filters['status'] === 'active');
+        }
+        $lastOrder = CatalogCategory::max('sort_order');
+
+        return view('admin.catalogs.categories', [
+            'categories' => $query->paginate(15)->withQueryString(),
+            'nextSortOrder' => min(10000, ($lastOrder ?? -1) + 1),
+            'editingCategory' => $request->old('_workspace_form') === 'category-edit' ? CatalogCategory::find($request->old('_category_id')) : null,
+            'settings' => app(MembershipSettings::class)->all(),
+        ]);
     }
 
     private function values(Request $request, ?CatalogCategory $category = null): array
@@ -27,6 +45,7 @@ class CatalogCategoryController extends Controller
 
     public function store(Request $request)
     {
+        $request->merge(['_workspace_form' => 'category-create']);
         CatalogCategory::create($this->values($request));
 
         return back()->with('success', 'Kategori ditambahkan.');
@@ -34,6 +53,7 @@ class CatalogCategoryController extends Controller
 
     public function update(Request $request, CatalogCategory $category)
     {
+        $request->merge(['_workspace_form' => 'category-edit', '_category_id' => $category->id]);
         $category->update($this->values($request, $category));
 
         return back()->with('success', 'Kategori diperbarui.');
