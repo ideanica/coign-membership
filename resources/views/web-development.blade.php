@@ -3,6 +3,7 @@
 @section('meta-description', __('Website profesional dan custom web system untuk bisnis. Bandingkan paket Starter, Business, Business Pro, dan Custom System dengan harga serta scope yang transparan.'))
 @section('main-class', 'web-development-main')
 @push('styles')<link rel="stylesheet" href="{{ asset('css/web-development.css') }}?v={{ filemtime(public_path('css/web-development.css')) }}">@endpush
+@push('scripts')<script src="{{ asset('js/scroll-reveal.js') }}?v={{ filemtime(public_path('js/scroll-reveal.js')) }}" defer></script>@endpush
 @section('content')
     @include('web-development.hero')
     <section class="home-container web-section" id="packages" aria-label="Web Development Packages">
@@ -10,16 +11,8 @@
         <div class="web-pricing-grid">@foreach($packages as $package)<x-pricing-card :package="$package" :settings="$settings" />@endforeach</div>
         <p class="web-section-note">{{ __('Harga Founding Client telah dibulatkan untuk kebutuhan marketing. Berlaku untuk 5 proyek pertama; konfirmasi ketersediaan saat diskusi. Tidak ada pengurangan fitur, revision, maupun post-launch support.') }}</p>
     </section>
-    <section class="home-container web-section" aria-label="{{ __('Perbandingan paket') }}">
-        <x-section-heading eyebrow="THE DETAILS, SIDE BY SIDE" title="Bandingkan sebelum memilih.">{{ __('Geser tabel untuk melihat seluruh paket. Fitur Custom System ditentukan dalam quotation, bukan seluruhnya termasuk dalam harga mulai.') }}</x-section-heading>
-        <x-package-comparison :rows="$comparison" />
-    </section>
     <section class="home-container web-section" aria-label="Digital Presence Review">
         <div class="card web-review-card"><div><span class="section-kicker">A CLEARER START</span><h2>Digital Presence Review</h2><p>{{ __('Bonus untuk Business dan Business Pro. Review singkat agar struktur website berangkat dari kebutuhan bisnis yang nyata.') }}</p></div><div><x-feature-list :items="['Kelengkapan Google Business Profile', 'Website / digital presence saat ini', 'Beberapa competitor websites', 'Rekomendasi struktur website yang relevan']" /><p class="web-small">{{ __('Review ini tidak menjanjikan ranking SEO maupun Google Maps.') }}</p></div></div>
-    </section>
-    <section class="home-container web-section" aria-label="Optional Add-ons">
-        <x-section-heading eyebrow="ROOM TO GROW" title="Optional Add-ons.">{{ __('Tambahkan kebutuhan yang relevan. Harga dapat berubah berdasarkan kompleksitas implementasi.') }}</x-section-heading>
-        <dl class="card web-addon-grid">@foreach($addons as [$name, $price])<div><dt>{{ __($name) }}</dt><dd>{{ __('Mulai') }} {{ $price }}</dd></div>@endforeach</dl>
     </section>
     @include('web-development.process')
     @include('web-development.policies')

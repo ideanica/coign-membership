@@ -88,7 +88,7 @@
 .web-infrastructure h2 { margin-block: 12px; }
 .web-infrastructure p { max-width: 900px; font-size: 13px; }
 .web-infrastructure p + p { margin-top: 12px; }
-.web-policy-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.web-policy-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: start; }
 .web-policy-grid > article { padding: 28px; }
 .web-policy-grid h3 { font-size: 20px; margin-bottom: 16px; }
 .web-policy-grid p { font-size: 12px; }
