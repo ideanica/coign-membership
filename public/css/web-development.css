@@ -15,7 +15,7 @@
 .web-hero h1 > span { box-shadow: inset 0 -12px var(--yellow); }
 .web-hero-copy > p { font-size: 14px; max-width: 530px; }
 .web-hero-copy .web-hero-note { font-size: 11px; margin-top: 22px; }
-.web-hero .hero-actions { gap: 14px; }
+.web-hero .hero-actions { display: flex; flex-wrap: nowrap; gap: 14px; }
 .web-hero .button { font-size: 12px; }
 .web-hero-aside { overflow: hidden; }
 .web-outcome-content { padding: 30px; }
@@ -35,6 +35,7 @@
 .web-values { display: flex; justify-content: space-between; align-items: center; gap: 32px; padding-block: 32px 10px; }
 .web-values > p { max-width: 640px; font-size: 12px; }
 .web-values .hero-mini-tags { margin: 0; justify-content: flex-end; }
+.web-values .hero-mini-tags > span { font-size: 13px; }
 .web-pricing-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px; align-items: start; }
 .web-development-main .web-pricing-card { display: flex; flex-direction: column; padding: 28px; min-width: 0; }
 .web-development-main .web-pricing-recommended { border: 3px solid black; background: #fffdf0; box-shadow: 6px 6px 0 var(--main); }
@@ -109,6 +110,7 @@
     .web-hero { gap: 30px; padding-block: 50px; }
     .web-hero h1 { font-size: 46px; }
     .web-values { align-items: flex-start; }
+    .web-values .hero-mini-tags > span { font-size: 12px; }
     .web-development-main .web-founding { gap: 24px; }
     .web-pricing-grid { gap: 22px; }
 }
@@ -136,5 +138,10 @@
     .web-final-cta > .card { padding: 28px 24px; }
     .web-faq summary { padding: 18px; }
     .web-faq details > p { padding-inline: 18px; }
+}
+@media (max-width: 560px) {
+    .web-values .hero-mini-tags > span { font-size: 9px; }
+    .web-hero .hero-actions { gap: 8px; }
+    .web-hero .hero-actions .button { flex: 1 1 0; min-width: 0; padding: 8px; font-size: 10px; gap: 5px; }
 }
 @media (max-width: 400px) { .web-process-grid { grid-template-columns: 1fr; } }
