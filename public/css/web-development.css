@@ -140,7 +140,7 @@
     .web-faq details > p { padding-inline: 18px; }
 }
 @media (max-width: 560px) {
-    .web-values .hero-mini-tags > span { font-size: 9px; }
+    .web-values .hero-mini-tags > span { font-size: 9px; padding: 4px 8px; }
     .web-hero .hero-actions { gap: 8px; }
     .web-hero .hero-actions .button { flex: 1 1 0; min-width: 0; padding: 8px; font-size: 10px; gap: 5px; }
 }

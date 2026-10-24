@@ -311,6 +311,7 @@
     .hero-actions .home-text-link { display: none; }
     .hero-mini-tags { gap: 4px; }
     .hero-mini-tags > span { font-size: 5px; padding: 2px 4px; min-height: 16px; }
+    .home-hero .hero-mini-tags > span { font-size: 8px; padding: .4em .8em; min-height: 3.2em; }
     .hero-footnote { font-size: 7px; align-items: flex-start; margin-top: 16px; line-height: 1.6; }
     .hero-footnote .icon { width: 10px; height: 10px; }
 }
