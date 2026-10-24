@@ -9,7 +9,6 @@
     <section class="home-container web-section" id="packages" aria-label="Web Development Packages">
         <x-section-heading eyebrow="PACKAGES FOR YOUR NEXT STEP" title="Pilih langkah yang pas untuk bisnismu.">{{ __('Dari website pertama hingga sistem bisnis yang dirancang khusus. Scope jelas, tanpa fitur yang tidak kamu butuhkan.') }}</x-section-heading>
         <div class="web-pricing-grid">@foreach($packages as $package)<x-pricing-card :package="$package" :settings="$settings" />@endforeach</div>
-        <p class="web-section-note">{{ __('Harga Founding Client telah dibulatkan untuk kebutuhan marketing. Berlaku untuk 5 proyek pertama; konfirmasi ketersediaan saat diskusi. Tidak ada pengurangan fitur, revision, maupun post-launch support.') }}</p>
     </section>
     <section class="home-container web-section" aria-label="Digital Presence Review">
         <div class="card web-review-card"><div><span class="section-kicker">A CLEARER START</span><h2>Digital Presence Review</h2><p>{{ __('Bonus untuk Business dan Business Pro. Review singkat agar struktur website berangkat dari kebutuhan bisnis yang nyata.') }}</p></div><div><x-feature-list :items="['Kelengkapan Google Business Profile', 'Website / digital presence saat ini', 'Beberapa competitor websites', 'Rekomendasi struktur website yang relevan']" /><p class="web-small">{{ __('Review ini tidak menjanjikan ranking SEO maupun Google Maps.') }}</p></div></div>
