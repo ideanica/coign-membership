@@ -12,6 +12,7 @@ use App\Http\Controllers\MemberPortalController;
 use App\Http\Controllers\MembershipProfileController;
 use App\Http\Controllers\PublicTrackingController;
 use App\Http\Controllers\TestimonialController;
+use App\Http\Controllers\WebDevelopmentController;
 use App\Http\Middleware\EnsureActiveMember;
 use App\Http\Middleware\EnsureAdmin;
 use App\Http\Middleware\EnsureCustomer;
@@ -21,6 +22,7 @@ use App\Http\Middleware\RecordAdminActivity;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
+Route::get('/web-development', WebDevelopmentController::class)->name('web-development');
 Route::get('/catalog', [InvitationCatalogController::class, 'index'])->name('catalog.index');
 Route::get('/catalog/{catalog:slug}', [InvitationCatalogController::class, 'show'])->name('catalog.show');
 Route::post('/catalog/{catalog:slug}/testimonials', [TestimonialController::class, 'store'])->middleware('throttle:5,1')->name('catalog.testimonials.store');

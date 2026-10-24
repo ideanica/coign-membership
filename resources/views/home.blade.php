@@ -7,6 +7,7 @@
     @include('home.sections.hero')
     @include('home.sections.ticker')
     @include('home.sections.services')
+    @include('home.sections.packages')
     @include('home.sections.process')
     @include('home.sections.tracking')
     @include('home.sections.membership')

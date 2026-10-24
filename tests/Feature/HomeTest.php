@@ -40,8 +40,8 @@ class HomeTest extends TestCase
             @$document->loadHTML($response->getContent());
             $xpath = new \DOMXPath($document);
             $links = $xpath->query('//nav[@aria-label="Navigasi utama"]/a');
-            $this->assertSame(3, $links->length);
-            $this->assertSame(['Beranda', 'Katalog', 'Lacak pesanan'], array_map(fn ($link) => trim($link->textContent), iterator_to_array($links)));
+            $this->assertSame(4, $links->length);
+            $this->assertSame(['Beranda', 'Katalog', 'Packages', 'Lacak pesanan'], array_map(fn ($link) => trim($link->textContent), iterator_to_array($links)));
             $this->assertSame($active, trim($xpath->query('//nav/a[@aria-current="page"]')->item(0)->textContent));
         }
     }

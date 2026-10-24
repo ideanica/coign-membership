@@ -4,18 +4,20 @@
     $menus = ($public || auth()->user()?->is_admin) ? [
         ['home', 'Home', 'home', null],
         ['catalog.index', 'Katalog', 'catalog.*', null],
+        ['web-development', 'Packages', 'web-development', null],
         ['public.tracking.index', 'Tracking', 'public.tracking.*', null],
     ] : [
         ['home', 'Home', 'home', null],
         ['catalog.index', 'Katalog', 'catalog.*', null],
+        ['web-development', 'Packages', 'web-development', null],
         ['membership.profile', 'Profil & poin', 'membership.profile', 'user'],
         ['membership.tracking.index', 'Pesanan', 'membership.tracking.*', 'calendar'],
     ];
 @endphp
-<header class="site-header clean-navbar">
+<header class="site-header clean-navbar navbar-enhanced">
     <div class="header-inner">
         <x-brand-link class="navbar-brand" :dot="true" :settings="$settings" size="80" caption="IT Creative Workspace" />
-        <button class="button navbar-toggle" type="button" aria-controls="site-navigation site-account-actions" aria-expanded="false" aria-label="{{ __('Buka menu navigasi') }}" hidden><span data-nav-toggle-label>Menu</span><span class="navbar-toggle-bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
+        <button class="button navbar-toggle" type="button" aria-controls="site-navigation site-account-actions" aria-expanded="false" aria-label="{{ __('Buka menu navigasi') }}"><span data-nav-toggle-label>Menu</span><span class="navbar-toggle-bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
         <div class="navbar-dropdown">
         <nav id="site-navigation" class="main-nav" aria-label="{{ $public ? __('Navigasi utama') : (auth()->user()?->is_admin ? __('Navigasi admin') : __('Menu member')) }}">
             @foreach($menus as [$route, $label, $pattern, $icon])
@@ -34,3 +36,4 @@
         </div>
     </div>
 </header>
+<noscript><style>@media (max-width: 1024px) { .clean-navbar.navbar-enhanced .navbar-toggle { display: none; } .clean-navbar.navbar-enhanced .navbar-toggle[aria-expanded="false"] + .navbar-dropdown { display: flex; position: static; grid-column: 1 / -1; width: 100%; max-height: none; box-shadow: none; border: 0; padding: 0; } }</style></noscript>

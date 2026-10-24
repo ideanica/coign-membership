@@ -14,14 +14,14 @@ class NavbarConsistencyTest extends TestCase
     {
         $this->actingAs(User::factory()->create());
 
-        foreach (['/', '/catalog', '/track', '/profile', '/tracking'] as $path) {
+        foreach (['/', '/catalog', '/web-development', '/track', '/profile', '/tracking'] as $path) {
             $response = $this->get($path)->assertOk();
             $document = new \DOMDocument;
             @$document->loadHTML($response->getContent());
             $xpath = new \DOMXPath($document);
             $links = $xpath->query('//nav[@id="site-navigation"]/a');
 
-            $this->assertSame(['Beranda', 'Katalog', 'Profil & poin', 'Pesanan'], array_map(fn ($link) => trim($link->textContent), iterator_to_array($links)), $path);
+            $this->assertSame(['Beranda', 'Katalog', 'Packages', 'Profil & poin', 'Pesanan'], array_map(fn ($link) => trim($link->textContent), iterator_to_array($links)), $path);
             $this->assertSame('IT Creative Workspace', trim($xpath->query('//header//span[contains(@class,"brand-caption")]')->item(0)->textContent));
             $this->assertSame(0, $xpath->query('//div[@id="site-account-actions"]/form')->length);
             $this->assertSame(0, $xpath->query('//header//a[@href="'.route('membership.account.security').'"]')->length);
