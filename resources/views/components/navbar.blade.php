@@ -3,15 +3,15 @@
     $public = ! auth()->check();
     $menus = ($public || auth()->user()?->is_admin) ? [
         ['home', 'Home', 'home', null],
-        ['catalog.index', 'Katalog', 'catalog.*', null],
         ['web-development', 'Packages', 'web-development', null],
         ['public.tracking.index', 'Tracking', 'public.tracking.*', null],
+        ['catalog.index', 'Katalog', 'catalog.*', null],
     ] : [
         ['home', 'Home', 'home', null],
-        ['catalog.index', 'Katalog', 'catalog.*', null],
         ['web-development', 'Packages', 'web-development', null],
-        ['membership.profile', 'Profil & poin', 'membership.profile', 'user'],
         ['membership.tracking.index', 'Pesanan', 'membership.tracking.*', 'calendar'],
+        ['catalog.index', 'Katalog', 'catalog.*', null],
+        ['membership.profile', 'Profil & poin', 'membership.profile', 'user'],
     ];
 @endphp
 <header class="site-header clean-navbar navbar-enhanced">
