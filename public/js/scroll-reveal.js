@@ -3,7 +3,7 @@
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
     if (motion.matches) return;
 
-    const targets = [...document.querySelectorAll('.home-header, .home-hero-copy, .hero-art, .home-ticker, .home-section-heading, .home-service, .process-card, .tracking-banner, .home-membership, .testimonial-card, .home-contact > div, .home-footer > div, .web-development-main .card, .web-development-main .web-hero-copy, .web-development-main .web-values, .web-development-main .web-section-heading')];
+    const targets = [...document.querySelectorAll('.home-header, .home-hero-copy, .hero-art, .home-ticker, .home-section-heading, .home-service, .home-packages-card, .process-card, .tracking-banner, .home-membership, .testimonial-card, .home-contact > div, .home-footer > div, .web-development-main .card, .web-development-main .web-hero-copy, .web-development-main .web-values, .web-development-main .web-section-heading')];
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
             if (!entry.isIntersecting) return;
