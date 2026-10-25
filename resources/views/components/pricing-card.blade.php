@@ -13,6 +13,8 @@
         </div>
         <x-project-cta :settings="$settings" :package="$package['name']" :label="'Diskusikan paket :package'" class="web-package-cta" :aria-label="__('Diskusikan paket').' '.$package['name']" />
         <p class="web-package-timeline">{{ __('Estimasi') }} <strong>{{ __($package['timeline']) }}</strong></p>
+    </div>
+    <div class="web-package-features">
         <div class="web-package-includes"><h4>{{ $package['starting'] ? __('Possible features · sesuai scope') : __('Included') }}</h4><x-feature-list :items="$package['features']" /></div>
         <div class="web-package-support"><p>{{ __($package['revisions']) }}</p><p>{{ __($package['support']) }}</p></div>
     </div>

@@ -108,10 +108,11 @@
 .web-final-cta .button { background: var(--yellow); }
 @media (min-width: 1025px) {
     .web-pricing-grid { grid-template-columns: 1fr; }
-    .web-development-main .web-pricing-card { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 40px; align-items: start; }
-    .web-package-main, .web-package-details { min-width: 0; }
+    .web-development-main .web-pricing-card { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+    .web-package-main, .web-package-features, .web-package-details { min-width: 0; }
     .web-package-description { min-height: 0; }
-    .web-package-details { border-left: 1px solid #cad3df; padding-left: 40px; }
+    .web-package-features, .web-package-details { border-left: 1px solid #cad3df; padding-left: 24px; }
+    .web-package-features .web-package-includes { border-top: 0; padding-top: 0; }
     .web-package-details > :first-child { margin-top: 0; }
 }
 @media (max-width: 1024px) {
