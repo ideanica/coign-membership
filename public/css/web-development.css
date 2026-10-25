@@ -106,6 +106,14 @@
 .web-final-cta h2 { max-width: 650px; margin-block: 16px; font-size: clamp(29px, 4vw, 46px); }
 .web-final-cta p { max-width: 700px; color: #10213a; font-size: 14px; }
 .web-final-cta .button { background: var(--yellow); }
+@media (min-width: 1025px) {
+    .web-pricing-grid { grid-template-columns: 1fr; }
+    .web-development-main .web-pricing-card { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 40px; align-items: start; }
+    .web-package-main, .web-package-details { min-width: 0; }
+    .web-package-description { min-height: 0; }
+    .web-package-details { border-left: 1px solid #cad3df; padding-left: 40px; }
+    .web-package-details > :first-child { margin-top: 0; }
+}
 @media (max-width: 1024px) {
     .web-hero { gap: 30px; padding-block: 50px; }
     .web-hero h1 { font-size: 46px; }
