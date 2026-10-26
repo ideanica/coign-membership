@@ -103,7 +103,10 @@ class InvitationCatalogTest extends TestCase
         $admin = $this->admin();
         $values = $this->values();
         $values['category_ids'] = CatalogCategory::take(2)->pluck('id')->all();
-        $this->actingAs($admin)->post('/admin/catalogs', $values)->assertSessionHasNoErrors();
+        $this->actingAs($admin)->post('/admin/catalogs', $values)
+            ->assertSessionHasNoErrors()
+            ->assertRedirectToRoute('admin.catalogs.index')
+            ->assertSessionHas('success', 'Katalog dibuat. Informasi, gambar, dan kategori sudah tersimpan.');
         $catalog = Catalog::firstOrFail();
         $ids = $catalog->images->pluck('id')->all();
         $this->assertCount(2, $catalog->categories);

@@ -7,7 +7,7 @@
             ['admin.point-rules.index', 'Poin otomatis', 'spark', 'admin.point-rules.*'],
         ],
         'Katalog' => [
-            ['admin.catalogs.index', 'Katalog undangan', 'heart', ['admin.catalogs.index', 'admin.catalogs.create', 'admin.catalogs.edit']],
+            ['admin.catalogs.index', 'Katalog', 'heart', ['admin.catalogs.index', 'admin.catalogs.create', 'admin.catalogs.edit']],
             ['admin.catalogs.archive', 'Arsip katalog', 'gift', 'admin.catalogs.archive'],
             ['admin.discounts.index', 'Diskon katalog', 'star', 'admin.discounts.*'],
             ['admin.testimonials.index', 'Testimoni', 'star', 'admin.testimonials.*'],

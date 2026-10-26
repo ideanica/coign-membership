@@ -123,12 +123,12 @@ class InvitationCatalogController extends Controller
         });
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $catalog = new Catalog;
         $this->save($request, $catalog, $this->values($request));
 
-        return redirect()->route('admin.catalogs.edit', $catalog)->with('success', 'Katalog dibuat. Informasi, gambar, dan kategori sudah tersimpan.');
+        return redirect()->route('admin.catalogs.index')->with('success', 'Katalog dibuat. Informasi, gambar, dan kategori sudah tersimpan.');
     }
 
     public function update(Request $request, Catalog $catalog)
