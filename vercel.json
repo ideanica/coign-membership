@@ -19,6 +19,7 @@
     "env": {
         "APP_ENV": "production",
         "APP_DEBUG": "false",
+        "FORCE_HTTPS": "true",
         "LOG_CHANNEL": "stderr",
         "SESSION_SECURE_COOKIE": "true",
         "LARAVEL_STORAGE_PATH": "/tmp/coignitive-membership/storage",
