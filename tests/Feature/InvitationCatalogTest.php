@@ -10,6 +10,7 @@ use App\Services\CatalogPricing;
 use App\Services\InviteCatalogImport;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
@@ -53,6 +54,31 @@ class InvitationCatalogTest extends TestCase
         $this->actingAs($this->admin())->post('/admin/catalogs', $this->values($name))->assertSessionHasNoErrors();
 
         return Catalog::where('name', $name)->firstOrFail();
+    }
+
+    public function test_template_inquiry_opens_configured_whatsapp_with_template_name_and_link(): void
+    {
+        $catalog = $this->catalog('Aurora & Wedding');
+        DB::table('site_settings')->updateOrInsert(['key' => 'support_whatsapp'], ['value' => '+62 812-3456-7890']);
+        Cache::forget('membership.public-settings');
+
+        $this->get('/catalog/'.$catalog->slug)->assertOk()
+            ->assertSee('href="https://wa.me/6281234567890?text='.rawurlencode('Halo Coignitive, saya tertarik dengan template Aurora & Wedding. Link: '.route('catalog.show', $catalog->slug)).'"', false)
+            ->assertSee('Saya mau template ini')
+            ->assertDontSee('?subject='.rawurlencode('Pesan template '.$catalog->name), false);
+    }
+
+    public function test_template_inquiry_links_to_contact_section_when_whatsapp_is_missing(): void
+    {
+        $catalog = $this->catalog();
+        DB::table('site_settings')->updateOrInsert(['key' => 'support_whatsapp'], ['value' => '']);
+        DB::table('site_settings')->updateOrInsert(['key' => 'support_email'], ['value' => 'studio@example.com']);
+        Cache::forget('membership.public-settings');
+
+        $this->get('/catalog/'.$catalog->slug)->assertOk()
+            ->assertSee('href="'.route('home').'#kontak"', false)
+            ->assertDontSee('https://wa.me/')
+            ->assertDontSee('mailto:studio@example.com?subject=', false);
     }
 
     public function test_sort_tabs_keep_filters_and_latest_is_separate_from_studio_favorites(): void

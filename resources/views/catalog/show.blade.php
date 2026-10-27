@@ -55,7 +55,12 @@
             @if($catalog->preview_url)
                 <a class="button catalog-demo-button" href="{{ $catalog->preview_url }}" target="_blank" rel="noopener noreferrer">{{ __('Lihat demo langsung') }} <x-icon name="arrow-up-right" size="18" /><span class="sr-only">{{ __('Buka di tab baru') }}</span></a>
             @endif
-            <a class="button button-neutral" href="{{ filled($settings['support_email'] ?? '') ? 'mailto:'.$settings['support_email'].'?subject='.rawurlencode('Pesan template '.$catalog->name).'&body='.rawurlencode('Halo Coignitive, saya tertarik dengan template '.$catalog->name.'. Link: '.route('catalog.show', $catalog->slug)) : route('home').'#kontak' }}">{{ __('Saya mau template ini') }} <x-icon name="mail" size="17" /></a>
+            @php
+                $whatsapp = preg_replace('/\D/', '', $settings['support_whatsapp'] ?? '');
+                $message = 'Halo Coignitive, saya tertarik dengan template '.$catalog->name.'. Link: '.route('catalog.show', $catalog->slug);
+                $contactUrl = $whatsapp !== '' ? 'https://wa.me/'.$whatsapp.'?text='.rawurlencode($message) : route('home').'#kontak';
+            @endphp
+            <a class="button button-neutral" href="{{ $contactUrl }}" @if($whatsapp !== '') target="_blank" rel="noopener noreferrer" @endif>{{ __('Saya mau template ini') }} <x-icon name="arrow-up-right" size="17" />@if($whatsapp !== '')<span class="sr-only">{{ __('Buka di tab baru') }}</span>@endif</a>
         </div>
         <p class="catalog-note"><x-icon name="heart" size="14" /> {{ __('Kita diskusikan konsep dan kebutuhanmu sebelum mulai.') }}</p>
     </section>
