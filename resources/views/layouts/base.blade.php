@@ -1,4 +1,5 @@
 @php($brand = $settings['brand_name'] ?? 'Coignitive')
+@php($assetVersion = static fn (string $path): string => ($modifiedAt = @filemtime(public_path($path))) !== false ? '?v='.$modifiedAt : '')
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
@@ -13,18 +14,18 @@
     <link href="https://fonts.bunny.net/css?family=dm-sans:400,500,600,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/membership.css') }}">
     @stack('styles')
-    <link rel="stylesheet" href="{{ asset('css/navbar.css') }}?v={{ filemtime(public_path('css/navbar.css')) }}">
+    <link rel="stylesheet" href="{{ asset('css/navbar.css') }}{{ $assetVersion('css/navbar.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/select2/select2.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/select2-theme.css') }}?v={{ filemtime(public_path('css/select2-theme.css')) }}">
-    @if(request()->routeIs('admin.*'))<link rel="stylesheet" href="{{ asset('css/admin-responsive.css') }}?v={{ filemtime(public_path('css/admin-responsive.css')) }}">@endif
+    <link rel="stylesheet" href="{{ asset('css/select2-theme.css') }}{{ $assetVersion('css/select2-theme.css') }}">
+    @if(request()->routeIs('admin.*'))<link rel="stylesheet" href="{{ asset('css/admin-responsive.css') }}{{ $assetVersion('css/admin-responsive.css') }}">@endif
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}" defer></script>
     <script src="{{ asset('vendor/select2/select2.full.min.js') }}" defer></script>
     @if(app()->getLocale() === 'id')<script src="{{ asset('vendor/select2/id.js') }}" defer></script>@endif
     @stack('scripts')
     <script>window.siteTranslations = {{ Illuminate\Support\Js::from(__('browser')) }}; window.siteText = (text) => window.siteTranslations[text] || text;</script>
-    <script src="{{ asset('js/navbar.js') }}?v={{ filemtime(public_path('js/navbar.js')) }}" defer></script>
-    <script src="{{ asset('js/select2-controls.js') }}?v={{ filemtime(public_path('js/select2-controls.js')) }}" defer></script>
-    <script src="{{ asset('js/password-visibility.js') }}?v={{ filemtime(public_path('js/password-visibility.js')) }}" defer></script>
+    <script src="{{ asset('js/navbar.js') }}{{ $assetVersion('js/navbar.js') }}" defer></script>
+    <script src="{{ asset('js/select2-controls.js') }}{{ $assetVersion('js/select2-controls.js') }}" defer></script>
+    <script src="{{ asset('js/password-visibility.js') }}{{ $assetVersion('js/password-visibility.js') }}" defer></script>
 </head>
 <body class="@yield('body-class')">
     <a class="skip-link button" href="#main">{{ __('Lewati ke konten') }}</a>

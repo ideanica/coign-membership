@@ -2,10 +2,10 @@
 @section('title', e($catalog->name))
 @section('meta-description', e(\Illuminate\Support\Str::limit($catalog->description, 160)))
 @section('main-class', 'catalog-public-main catalog-detail-page')
-@push('styles')<link rel="stylesheet" href="{{ asset('css/catalog.css') }}?v={{ filemtime(public_path('css/catalog.css')) }}">@endpush
-@push('scripts')<script src="{{ asset('js/catalog-gallery.js') }}?v={{ filemtime(public_path('js/catalog-gallery.js')) }}" defer></script>@endpush
-@push('styles')<link rel="stylesheet" href="{{ asset('css/testimonials.css') }}?v={{ filemtime(public_path('css/testimonials.css')) }}">@endpush
-@push('scripts')<script src="{{ asset('js/testimonials.js') }}?v={{ filemtime(public_path('js/testimonials.js')) }}" defer></script>@endpush
+@push('styles')<link rel="stylesheet" href="{{ asset('css/catalog.css') }}{{ $assetVersion('css/catalog.css') }}">@endpush
+@push('scripts')<script src="{{ asset('js/catalog-gallery.js') }}{{ $assetVersion('js/catalog-gallery.js') }}" defer></script>@endpush
+@push('styles')<link rel="stylesheet" href="{{ asset('css/testimonials.css') }}{{ $assetVersion('css/testimonials.css') }}">@endpush
+@push('scripts')<script src="{{ asset('js/testimonials.js') }}{{ $assetVersion('js/testimonials.js') }}" defer></script>@endpush
 @section('content')
 <nav class="catalog-breadcrumb" aria-label="Breadcrumb"><a href="{{ route('catalog.index') }}"><x-icon name="chevron-left" size="16" /> {{ __('Katalog') }}</a><span>/</span><span aria-current="page">{{ $catalog->name }}</span></nav>
 <div class="catalog-detail-grid">
