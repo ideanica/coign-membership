@@ -1,5 +1,4 @@
 @php($brand = $settings['brand_name'] ?? 'Coignitive')
-@php($assetVersion = static fn (string $path): string => ($modifiedAt = @filemtime(public_path($path))) !== false ? '?v='.$modifiedAt : '')
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>

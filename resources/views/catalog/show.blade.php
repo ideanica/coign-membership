@@ -41,7 +41,9 @@
         <h1>{{ $catalog->name }}</h1>
         <p class="catalog-detail-intro">{{ __('Satu desain spesial, siap jadi bagian dari momenmu.') }}</p>
         @if($catalog->reviews_count > 0)<p class="catalog-rating"><x-icon name="star" size="15" /> {{ number_format((float) $catalog->rating_average, 1, ',', '.') }} / 5 &middot; {{ $catalog->reviews_count }} {{ __('ulasan') }}</p>@endif
-        @php($saving = $pricing->discountAmount($catalog))
+        @php
+            $saving = $pricing->discountAmount($catalog);
+        @endphp
         <div class="catalog-detail-price">
             <div class="catalog-price-heading"><span>{{ __('Harga template') }}</span><x-icon name="spark" size="24" /></div>
             @if($saving)
