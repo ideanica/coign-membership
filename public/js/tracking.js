@@ -4,6 +4,10 @@ if (orderBilling) {
     const discount = form.querySelector('#discount');
     const items = orderBilling.querySelector('[data-order-items]');
     const addButton = orderBilling.querySelector('[data-add-order-item]');
+    const paymentType = form.querySelector('[data-payment-type]');
+    const dpField = form.querySelector('[data-dp-field]');
+    const dpInput = form.querySelector('[data-dp-amount]');
+    const dpSummary = form.querySelector('[data-order-dp-summary]');
     const money = value => `Rp${value.toLocaleString('id-ID')}`;
     const update = () => {
         const rows = [...items.querySelectorAll('[data-order-item]')];
@@ -24,7 +28,17 @@ if (orderBilling) {
         addButton.disabled = rows.length >= 100;
         discount.setCustomValidity(subtotal > 10000000000000 ? 'Subtotal pesanan maksimal Rp10.000.000.000.000.' : Number(discount.value) >= subtotal && subtotal > 0 ? 'Diskon harus lebih kecil dari subtotal.' : '');
         form.querySelector('[data-order-subtotal]').textContent = money(subtotal);
-        form.querySelector('[data-order-total]').textContent = money(Math.max(0, subtotal - Number(discount.value)));
+        const total = Math.max(0, subtotal - Number(discount.value));
+        const isDp = paymentType.value === 'dp';
+        const deposit = isDp ? Number(dpInput.value) || 0 : 0;
+        form.querySelector('[data-order-total]').textContent = money(total);
+        dpField.hidden = !isDp;
+        dpInput.disabled = !isDp;
+        dpInput.required = isDp;
+        dpSummary.hidden = !isDp;
+        dpInput.setCustomValidity(isDp && total > 0 && deposit >= total ? 'Jumlah DP harus lebih kecil dari total tagihan.' : '');
+        form.querySelector('[data-order-dp]').textContent = money(deposit);
+        form.querySelector('[data-order-remaining]').textContent = money(Math.max(0, total - deposit));
     };
     addButton.addEventListener('click', () => {
         if (items.querySelectorAll('[data-order-item]').length >= 100) return;
@@ -45,6 +59,8 @@ if (orderBilling) {
     });
     items.addEventListener('input', update);
     discount.addEventListener('input', update);
+    paymentType.addEventListener('change', update);
+    dpInput.addEventListener('input', update);
     const member = form.querySelector('#user_id');
     const customer = form.querySelector('#customer_name');
     const email = form.querySelector('#customer_email');

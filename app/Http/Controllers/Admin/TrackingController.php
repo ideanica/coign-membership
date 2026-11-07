@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bill;
 use App\Models\MemberTracking;
 use App\Models\TrackingStatus;
 use App\Models\User;
@@ -85,6 +86,8 @@ class TrackingController extends Controller
             'quantity' => [Rule::excludeIf($request->exists('items')), 'required', 'integer', 'min:1', 'max:10000'],
             'unit_price' => [Rule::excludeIf($request->exists('items')), 'required', 'integer', 'min:1', 'max:1000000000'],
             'discount' => ['required', 'integer', 'min:0', 'max:10000000000000'],
+            'payment_type' => ['sometimes', 'required', 'string', Rule::in(array_keys(Bill::PAYMENT_TYPE_LABELS))],
+            'dp_amount' => [Rule::excludeIf($request->input('payment_type') !== 'dp'), 'required', 'integer', 'min:1'],
             'bill_due_date' => ['nullable', 'date'],
             'customer_name' => [Rule::excludeIf(! empty($values['user_id'])), Rule::requiredIf(empty($values['user_id'])), 'nullable', 'string', 'max:255'],
             'customer_email' => [Rule::excludeIf(! empty($values['user_id'])), 'nullable', 'email', 'max:255'],
@@ -97,6 +100,11 @@ class TrackingController extends Controller
         }
         if ($subtotal - $billing['discount'] < 1) {
             throw ValidationException::withMessages(['discount' => 'Diskon harus lebih kecil dari subtotal.']);
+        }
+        $billing['payment_type'] = $billing['payment_type'] ?? 'full';
+        $billing['dp_amount'] = $billing['payment_type'] === 'dp' ? (int) $billing['dp_amount'] : 0;
+        if ($billing['dp_amount'] >= $subtotal - $billing['discount']) {
+            throw ValidationException::withMessages(['dp_amount' => 'Jumlah DP harus lebih kecil dari total tagihan. Pilih Lunas jika pelanggan membayar penuh.']);
         }
         $note = $values['note'] ?? null;
         unset($values['note']);

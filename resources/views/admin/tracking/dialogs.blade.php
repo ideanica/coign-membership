@@ -14,7 +14,7 @@
 @if($tracking->bill?->status === 'unpaid')
     <dialog id="order-payment-dialog" class="neo-dialog order-dialog" aria-labelledby="order-payment-dialog-title" @if($errors->has('payment')) data-open-on-error @endif>
         <div class="dialog-header"><h2 id="order-payment-dialog-title">Konfirmasi pembayaran</h2><button class="detail-button" type="button" data-order-close aria-label="Tutup konfirmasi pembayaran"><x-icon name="close" /></button></div>
-        <p class="order-dialog-intro">Pastikan pembayaran <strong>Rp{{ number_format($tracking->bill->total, 0, ',', '.') }}</strong> telah diterima. @if($tracking->user_id)Poin member dicatat setelah konfirmasi.@endif</p>
+        <p class="order-dialog-intro">Pastikan pembayaran <strong>Rp{{ number_format($tracking->bill->isPartiallyPaid() ? $tracking->bill->remainingAmount() : $tracking->bill->total, 0, ',', '.') }}</strong> telah diterima.@if($tracking->bill->isPartiallyPaid()) Sisa ini melunasi total tagihan Rp{{ number_format($tracking->bill->total, 0, ',', '.') }} setelah DP Rp{{ number_format($tracking->bill->dp_amount, 0, ',', '.') }}.@endif @if($tracking->user_id)Poin member dicatat setelah konfirmasi.@endif</p>
         <form class="admin-form" method="post" action="{{ route('admin.bills.pay', $tracking->bill) }}">
             @csrf
             <div class="form-field"><label for="payment">Metode pembayaran</label><select id="payment" name="payment" required>@foreach(['QRIS', 'Transfer bank', 'Tunai', 'Kartu debit'] as $method)<option value="{{ $method }}" @selected(old('payment') === $method)>{{ $method }}</option>@endforeach</select>@error('payment')<small class="danger">{{ $message }}</small>@enderror</div>

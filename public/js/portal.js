@@ -19,7 +19,9 @@
         modal.close();
         form.requestSubmit();
     });
-    document.querySelector('[data-print]')?.addEventListener('click', () => window.print());
+    document.querySelectorAll('[data-print]').forEach(btn => {
+        btn.addEventListener('click', () => window.print());
+    });
     const member = document.querySelector('[data-bill-member]');
     const tracking = document.querySelector('[data-bill-tracking]');
     const filterTracking = () => {

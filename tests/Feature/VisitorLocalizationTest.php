@@ -59,7 +59,7 @@ class VisitorLocalizationTest extends TestCase
         $tracking = MemberTracking::create(['user_id' => $member->id, 'tracking_status_id' => TrackingStatus::firstOrFail()->id, 'reference' => 'LOCALIZED-ORDER', 'title' => 'Pesanan asli pelanggan']);
         $bill = Bill::create(['user_id' => $member->id, 'member_tracking_id' => $tracking->id, 'reference' => 'LOCALIZED-BILL', 'title' => 'Tagihan asli pelanggan', 'quantity' => 1, 'unit_price' => 100000, 'discount' => 0, 'total' => 100000]);
         $this->actingAs($member)->withHeader('X-Vercel-IP-Country', 'US')->get('/tracking/'.$tracking->id)->assertOk()->assertSee('Order details')->assertSee('Pesanan asli pelanggan')->assertSee('Billing information')->assertSee('Unpaid')->assertSee('Tagihan asli pelanggan');
-        $this->get('/bills/'.$bill->id)->assertOk()->assertSee('Bill details')->assertSee('Billed to')->assertSee('Total due');
+        $this->get('/bills/'.$bill->id)->assertOk()->assertSee('Invoice details')->assertSee('Billed to')->assertSee('Total due');
     }
 
     public function test_admin_stays_indonesian_and_english_login_errors_are_localized(): void

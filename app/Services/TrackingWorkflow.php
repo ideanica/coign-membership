@@ -29,6 +29,8 @@ class TrackingWorkflow
                     'quantity' => $billing['quantity'], 'unit_price' => $billing['unit_price'],
                 ]]);
                 $subtotal = array_sum(array_map(fn (array $item): int => $item['quantity'] * $item['unit_price'], $items));
+                $paymentType = $billing['payment_type'] ?? 'full';
+                $dpAmount = $paymentType === 'dp' ? (int) ($billing['dp_amount'] ?? 0) : 0;
                 $tracking->bill()->create([
                     'user_id' => $tracking->user_id, 'service_id' => $tracking->service_id,
                     'reference' => 'BILL-'.Str::ulid(), 'title' => $tracking->title,
@@ -37,6 +39,9 @@ class TrackingWorkflow
                     'unit_price' => count($items) === 1 ? $items[0]['unit_price'] : $subtotal,
                     'discount' => $billing['discount'],
                     'total' => $subtotal - $billing['discount'],
+                    'payment_type' => $paymentType,
+                    'dp_amount' => $dpAmount,
+                    'dp_paid_at' => $dpAmount > 0 ? now() : null,
                     'due_date' => $billing['bill_due_date'] ?? null,
                     'customer_name' => $customer?->name ?? $billing['customer_name'],
                     'customer_email' => $customer?->email ?? ($billing['customer_email'] ?? null),

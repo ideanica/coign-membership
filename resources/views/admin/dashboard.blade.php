@@ -19,7 +19,7 @@
         </section>
         <section class="neo-card portal-card"><div class="card-heading"><h2>Menunggu pembayaran</h2><a href="{{ route('admin.tracking.index', ['payment_status' => 'unpaid']) }}" class="small-link">Lihat pesanan</a></div>
             @forelse($bills as $bill)
-                <a class="list-row" href="{{ $bill->member_tracking_id ? route('admin.tracking.show', $bill->member_tracking_id).'#bill' : route('admin.bills.show', $bill) }}"><div><strong>{{ $bill->title }}</strong><small>{{ $bill->customer_name ?? $bill->user?->name ?? 'Pelanggan tanpa akun' }}</small></div><strong>Rp{{ number_format($bill->total, 0, ',', '.') }}</strong></a>
+                <a class="list-row" href="{{ $bill->member_tracking_id ? route('admin.tracking.show', $bill->member_tracking_id).'#bill' : route('admin.bills.show', $bill) }}"><div><strong>{{ $bill->title }}</strong><small>{{ $bill->customer_name ?? $bill->user?->name ?? 'Pelanggan tanpa akun' }}@if($bill->isPartiallyPaid()) · Sisa Rp{{ number_format($bill->remainingAmount(), 0, ',', '.') }}@endif</small></div><strong>Rp{{ number_format($bill->total, 0, ',', '.') }}</strong></a>
             @empty
                 <p class="portal-empty">Tidak ada bill yang menunggu pembayaran.</p>
             @endforelse

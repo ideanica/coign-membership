@@ -1,5 +1,6 @@
 @php
     $selectedMember = $tracking->exists ? null : $members->firstWhere('id', old('user_id'));
+    $paymentType = old('payment_type', 'full');
 @endphp
         <form class="neo-card portal-card admin-form {{ ($inDialog ?? false) ? 'order-dialog-form' : '' }}" method="post" action="{{ $tracking->exists ? route('admin.tracking.update', $tracking) : route('admin.tracking.store') }}">
             @csrf
@@ -48,7 +49,11 @@
                     <button class="button button-neutral" type="button" data-add-order-item>Tambah layanan <x-icon name="gift" size="16" /></button>
                     <small class="muted">Tambahkan setiap jasa sebagai item terpisah. Maksimal 100 item dalam satu pesanan.</small>
                     <div class="form-grid" style="margin-top:18px"><x-field name="discount" label="Diskon (Rp)" type="number" value="0" required min="0" max="10000000000000" /><x-field name="bill_due_date" label="Jatuh tempo pembayaran (opsional)" type="date" /></div>
-                    <div class="form-help" style="margin-top:18px">Subtotal semua layanan: <strong data-order-subtotal>Rp0</strong><br>Total bill: <strong data-order-total>Rp0</strong><br>Poin member diberikan setelah pembayaran dikonfirmasi, bukan saat pesanan dibuat.</div>
+                    <div class="form-grid" style="margin-top:18px">
+                        <div class="form-field"><label for="payment_type">Skema pembayaran</label><select name="payment_type" id="payment_type" data-payment-type>@foreach(\App\Models\Bill::PAYMENT_TYPE_LABELS as $value => $label)<option value="{{ $value }}" @selected($paymentType === $value)>{{ $label }}</option>@endforeach</select><small>Pilih DP bila pelanggan baru membayar sebagian dari total tagihan.</small></div>
+                        <div class="form-field" data-dp-field @if($paymentType !== 'dp') hidden @endif><label for="dp_amount">Jumlah DP dibayar (Rp)</label><input name="dp_amount" id="dp_amount" data-dp-amount type="number" value="{{ old('dp_amount') }}" min="1" max="10000000000000" step="1" @if($paymentType !== 'dp') disabled @endif>@error('dp_amount')<small class="danger">{{ $message }}</small>@enderror<small>Bebas diisi berapa pun. Sisa tagihan dihitung otomatis dari total.</small></div>
+                    </div>
+                    <div class="form-help" style="margin-top:18px">Subtotal semua layanan: <strong data-order-subtotal>Rp0</strong><br>Total bill: <strong data-order-total>Rp0</strong><span data-order-dp-summary @if($paymentType !== 'dp') hidden @endif><br>DP dibayar: <strong data-order-dp>Rp0</strong><br>Sisa tagihan: <strong data-order-remaining>Rp0</strong></span><br>Poin member diberikan setelah pembayaran dikonfirmasi lunas, bukan saat pesanan dibuat.</div>
                 </section>
             @elseif($tracking->bill && !($inDialog ?? false))
                 <div class="form-help">Bill pesanan sudah diterbitkan dan rincian harganya terkunci. <a class="small-link" href="{{ route('admin.tracking.show', $tracking).'#bill' }}">Lihat bill {{ $tracking->bill->reference }}</a></div>

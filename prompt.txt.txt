@@ -1,0 +1,833 @@
+Buat halaman baru pada project **coign-membership** untuk layanan **Web Development**, yang berfungsi sebagai landing page sekaligus pricing/service page untuk menawarkan jasa pembuatan website dan custom web system.
+halaman ini terpisah dari home, namun buatkan card kecil untuk memberi tahu bahwa kami punya paket yang ditawarkan yang akan dilink kan dengan halaman ini. lalu jangan lupa untuk menambahkan menu-item Packages di navbar.
+lalu aku notice setiap kali baru load halaman landing page untuk responsive mobile selalu ada terlihat seperti navbar yang awalnya melebar kebawah dengan tidak rapi menampilkan seluruh menu-item, seperti navbar panjang halaman desktop yang dipaksakan menyesuaikan halaman sempit mobile. perbaiki itu juga.
+
+## 1. Sebelum mulai
+
+Sebelum menulis kode:
+
+1. Inspect struktur project yang sudah ada.
+2. Identifikasi:
+   - framework yang digunakan,
+   - routing,
+   - design system,
+   - typography,
+   - spacing,
+   - reusable components,
+   - button styles,
+   - card styles,
+   - color palette,
+   - navbar,
+   - footer,
+   - responsive breakpoints,
+   - animation style bila ada.
+3. Gunakan kembali component yang sudah tersedia sebanyak mungkin.
+4. Jangan membuat visual identity baru.
+5. Halaman baru harus terasa sebagai bagian native dari Coign Membership.
+6. Jangan mengubah halaman lain kecuali benar-benar dibutuhkan untuk navigation menuju halaman baru.
+7. Jangan melakukan refactor besar yang tidak berhubungan dengan task ini.
+
+Jika project sudah memiliki pola route untuk service/product pages, ikuti pola tersebut.
+
+Gunakan route yang paling konsisten dengan struktur project, misalnya:
+
+`/web-development`
+
+Jika struktur routing project menggunakan prefix lain, sesuaikan.
+
+---
+
+# 2. Tujuan halaman
+
+Halaman ini menawarkan layanan pembuatan website untuk bisnis, terutama:
+
+- UMKM
+- salon / nail salon
+- beauty clinic
+- dental clinic
+- medical clinic
+- restaurant
+- hotel
+- gym
+- professional service
+- bisnis lokal
+- perusahaan yang membutuhkan custom web system
+
+Positioning:
+
+**Professional web development yang tetap accessible untuk growing businesses.**
+
+Jangan membuat halaman terasa seperti marketplace jasa murah.
+
+Tone harus:
+
+- modern
+- professional
+- confident
+- clean
+- trustworthy
+- mudah dipahami non-technical business owner
+
+Hindari terlalu banyak istilah teknis pada bagian utama.
+
+---
+
+# 3. Hero Section
+
+Buat hero yang menjelaskan outcome, bukan sekadar teknologi.
+
+Contoh arah copy:
+
+### Heading
+
+**Build a Website That Works for Your Business**
+
+atau copy yang lebih cocok dengan tone existing Coign.
+
+### Supporting text
+
+Website profesional yang membantu bisnis membangun kredibilitas, memberikan informasi yang jelas, dan mendorong pelanggan untuk menghubungi, booking, reservasi, atau melakukan action yang relevan.
+
+Primary CTA:
+
+**View Packages**
+
+Secondary CTA:
+
+**Discuss Your Project**
+
+Jika website sudah memiliki mekanisme contact / WhatsApp / inquiry, gunakan mekanisme existing tersebut.
+
+Jangan membuat WhatsApp Business API.
+
+Untuk WhatsApp CTA biasa cukup gunakan direct link/button menuju WhatsApp dengan optional pre-filled message.
+
+---
+
+# 4. Founding Client Promotion
+
+Di dekat hero atau sebelum pricing section, tampilkan promotional callout:
+
+## Founding Client Offer
+
+**20% OFF for the first 5 projects**
+
+Supporting text:
+
+Sebagai bagian dari periode awal layanan Web Development Coign, tersedia harga khusus untuk 5 Founding Clients pertama tanpa pengurangan fitur, revision, maupun post-launch support.
+
+Gunakan badge seperti:
+
+`FOUNDING CLIENT · 20% OFF`
+
+atau format visual yang konsisten dengan design system.
+
+Jangan menggunakan gaya flash-sale/e-commerce yang berlebihan.
+
+Promo harus terlihat premium dan intentional.
+
+---
+
+# 5. Pricing Packages
+
+Buat empat pricing cards.
+
+Package **Business** harus menjadi visual focal point dan diberi badge:
+
+**Most Recommended**
+
+Urutan:
+
+1. Starter
+2. Business
+3. Business Pro
+4. Custom System
+
+Pastikan layout sangat nyaman pada desktop dan berubah menjadi stacked cards pada mobile.
+
+---
+
+## PACKAGE 1 — STARTER
+
+### Business Presence Website
+
+Regular price:
+
+**Rp1.490.000**
+
+Founding Client Price:
+
+**Rp1.190.000**
+
+Tampilkan regular price sebagai strike-through dan Founding price sebagai harga utama.
+
+Description:
+
+Untuk bisnis yang belum memiliki website dan membutuhkan online presence profesional yang sederhana dan jelas.
+
+### Included
+
+- Hingga 3 halaman
+- Home
+- Services / Products
+- Contact
+- Responsive desktop, tablet & mobile
+- Desain menyesuaikan identitas bisnis
+- WhatsApp CTA
+- Google Maps integration
+- Social media links
+- Simple contact form
+- Basic SEO setup
+- Meta title & description
+- Sitemap
+- SSL / HTTPS setup
+- Basic performance optimization
+- Basic image optimization
+- Deployment
+- 2 revision rounds
+- 14 days post-launch technical support
+
+### Timeline
+
+**7–14 business days**
+
+### Recommended for
+
+UMKM, nail salon, barbershop, bengkel, photographer, freelancer, consultant, personal service, dan bisnis lokal sederhana.
+
+### Important
+
+Starter **tidak termasuk admin dashboard / CMS**.
+
+---
+
+# PACKAGE 2 — BUSINESS
+
+### Business Growth Website
+
+Badge:
+
+**MOST RECOMMENDED**
+
+Regular price:
+
+**Rp2.990.000**
+
+Founding Client Price:
+
+**Rp2.390.000**
+
+Description:
+
+Untuk bisnis yang membutuhkan website profesional untuk meningkatkan kredibilitas dan menghasilkan inquiry atau calon pelanggan.
+
+### Included
+
+- Hingga 6 halaman
+- Home
+- About
+- Services / Treatments / Products
+- Gallery / Portfolio
+- Testimonials
+- Contact
+- FAQ section
+- More customized UI based on business branding
+- Multiple WhatsApp CTA
+- Google Maps integration
+- Social media integration
+- Advanced contact / inquiry form
+- Gallery / portfolio section
+- Testimonials section
+- Google Analytics setup
+- Google Search Console setup
+- Basic on-page SEO
+- Meta title & description per page
+- Sitemap
+- Search-friendly page structure
+- Image optimization
+- Basic conversion-oriented layout
+- Performance optimization
+- SSL configuration
+- Deployment
+- 3 revision rounds
+- 30 days post-launch technical support
+
+### Bonus
+
+**FREE Promotional Section**
+
+Untuk promo, seasonal campaign, package layanan, treatment unggulan, atau special offer.
+
+**FREE Digital Presence Review**
+
+Digital Presence Review mencakup review singkat terhadap:
+
+- Google Business Profile completeness
+- website/digital presence
+- beberapa competitor websites
+- rekomendasi struktur website yang relevan
+
+Jangan menjanjikan SEO ranking atau Google Maps ranking.
+
+### Timeline
+
+**2–3 weeks**
+
+### Recommended for
+
+Clinic, dental clinic, skincare clinic, beauty salon, restaurant, small hotel, gym, law firm, accounting firm, dan professional service.
+
+### Important
+
+Business **tidak termasuk admin dashboard / CMS secara default**.
+
+Jika client membutuhkan pengelolaan konten sendiri, tampilkan bahwa CMS tersedia sebagai add-on/custom requirement.
+
+---
+
+# PACKAGE 3 — BUSINESS PRO
+
+### Conversion & Booking Website
+
+Regular price:
+
+**Rp5.490.000**
+
+Founding Client Price:
+
+**Rp4.390.000**
+
+Description:
+
+Untuk bisnis yang membutuhkan website yang lebih aktif untuk menghasilkan leads, appointment, booking, reservation, atau inquiry.
+
+### Included
+
+Semua fitur relevan pada Business, ditambah:
+
+- Hingga 10 halaman
+- Advanced customized UI
+- Booking / appointment request
+- Reservation form
+- Advanced lead capture form
+- Service / treatment catalogue
+- Package / pricing catalogue
+- Dynamic content
+- Blog / article section
+- Optional limited content management
+- Basic automated email notifications where relevant
+- Conversion tracking
+- Analytics event tracking
+- More advanced CTA placement
+- Basic structured data / schema
+- Enhanced technical SEO
+- Enhanced performance optimization
+- Advanced form validation
+- Limited database integration where required
+- Deployment & configuration
+- 4 revision rounds
+- 60 days post-launch technical support
+
+### Bonus
+
+**FREE Dedicated Campaign Landing Page**
+
+**FREE Digital Presence Review**
+
+**FREE First Website Performance Review**
+
+### Timeline
+
+**3–5 weeks**
+
+### Important CMS wording
+
+Jangan menyebut paket ini mendapatkan full custom admin dashboard.
+
+Gunakan wording:
+
+**Optional Limited Content Management**
+
+CMS dapat digunakan untuk konten tertentu seperti:
+
+- services
+- gallery
+- testimonials
+- articles
+- schedules
+
+Scope ditentukan berdasarkan kebutuhan.
+
+---
+
+# PACKAGE 4 — CUSTOM SYSTEM
+
+### Web Application & Business System
+
+Regular starting price:
+
+**Mulai Rp6.990.000**
+
+Founding Client Price:
+
+**Mulai Rp5.590.000**
+
+Description:
+
+Untuk bisnis yang membutuhkan aplikasi web dengan backend, database, dashboard, authentication, atau workflow khusus.
+
+### Possible features
+
+Gunakan wording **possible features**, bukan semua fitur included:
+
+- User authentication
+- Customer account
+- Admin dashboard
+- Database
+- CRUD management
+- Multi-role access
+- Role & permission
+- Booking system
+- Ordering system
+- Reservation management
+- Membership
+- Customer management
+- Inventory
+- Payment gateway
+- Reporting dashboard
+- Email notification
+- API integration
+- Third-party service integration
+- Internal workflow
+- Custom automation
+
+Tampilkan notice yang cukup jelas:
+
+**Harga mulai tidak berarti seluruh fitur di atas termasuk sekaligus. Final quotation ditentukan berdasarkan scope, complexity, integrations, dan business requirements.**
+
+Contoh small custom scope yang dapat digunakan untuk menjelaskan starting price:
+
+- Login
+- Admin dashboard
+- Database
+- CRUD
+- 1 main business workflow
+
+atau
+
+- Simple booking system
+- Admin management
+
+### Timeline
+
+**Starting from 4–8+ weeks**
+
+Timeline final setelah requirement analysis.
+
+---
+
+# 6. Package Comparison
+
+Setelah pricing cards, buat comparison table yang mudah dibaca.
+
+Gunakan feature rows seperti:
+
+| Feature | Starter | Business | Business Pro | Custom |
+|---|---|---|---|---|
+| Responsive website | ✓ | ✓ | ✓ | ✓ |
+| Custom branding | ✓ | ✓ | ✓ | ✓ |
+| WhatsApp CTA | ✓ | ✓ | ✓ | Optional |
+| Google Maps | ✓ | ✓ | ✓ | Optional |
+| Basic SEO | ✓ | ✓ | ✓ | Optional |
+| Analytics | — | ✓ | ✓ | Custom |
+| Search Console | — | ✓ | ✓ | Custom |
+| Gallery / Portfolio | — | ✓ | ✓ | Custom |
+| Testimonials | — | ✓ | ✓ | Custom |
+| Advanced forms | — | ✓ | ✓ | ✓ |
+| Booking / reservation | — | — | ✓ | ✓ |
+| Limited CMS | — | — | Optional | ✓ |
+| Database | — | — | Limited | ✓ |
+| Authentication | — | — | — | ✓ |
+| Admin Dashboard | — | — | — | ✓ |
+| Custom workflow | — | — | — | ✓ |
+
+Untuk mobile, jangan memaksakan table desktop yang overflow buruk.
+
+Buat responsive solution seperti horizontal scroll yang polished atau comparison cards.
+
+---
+
+# 7. Add-ons
+
+Buat section Optional Add-ons.
+
+Pricing:
+
+- Additional Standard Page — mulai Rp300.000
+- Complex Custom Page — mulai Rp500.000
+- Campaign Landing Page — mulai Rp900.000
+- Website Copywriting — mulai Rp500.000
+- Blog / Article System — mulai Rp750.000
+- Booking / Appointment Feature — mulai Rp1.500.000
+- Reservation Feature — mulai Rp1.500.000
+- Simple CMS / Content Management — mulai Rp1.000.000
+- Advanced CMS — mulai Rp2.500.000
+- Payment Gateway Integration — mulai Rp2.000.000
+- Admin Dashboard — mulai Rp2.500.000
+- Custom API Integration — mulai Rp1.500.000
+- Additional Language — mulai Rp1.000.000
+- Monthly Website Maintenance — mulai Rp350.000 / month
+- SEO Maintenance — mulai Rp750.000 / month
+
+Tambahkan note:
+
+Harga dapat berubah berdasarkan kompleksitas implementasi.
+
+---
+
+# 8. Domain & Hosting Section
+
+Jelaskan bahwa harga development tidak otomatis termasuk:
+
+- Domain
+- Hosting / VPS
+- Business email
+- Premium plugin/service
+- External API
+- Payment gateway fees
+- Third-party subscriptions
+- Premium stock assets
+
+Client dapat menggunakan infrastructure sendiri atau meminta bantuan setup.
+
+Recurring costs harus selalu diinformasikan terlebih dahulu.
+
+Jangan memberi kesan bahwa hosting/domain gratis selamanya.
+
+---
+
+# 9. Payment Terms
+
+Buat section ringkas:
+
+### Payment Terms
+
+**50% — Project Start**
+
+**50% — Before Production Launch**
+
+Untuk custom project yang lebih besar, pembayaran dapat dibagi berdasarkan milestone.
+
+Development dimulai setelah:
+
+- initial payment diterima,
+- scope disetujui,
+- material utama client tersedia.
+
+---
+
+# 10. Timeline Policy
+
+Tambahkan informasi:
+
+Estimated timeline berlaku apabila:
+
+- content tersedia,
+- asset tersedia,
+- client memberikan feedback tepat waktu,
+- tidak ada perubahan scope besar.
+
+Waktu menunggu:
+
+- text content
+- images
+- logo
+- account credentials
+- feedback
+- approval
+
+tidak dihitung sebagai production time.
+
+Jangan membuat timeline terdengar sebagai guaranteed fixed deadline.
+
+---
+
+# 11. Revision Policy
+
+Jelaskan:
+
+Satu revision round = satu kumpulan feedback yang diberikan sekaligus.
+
+Revision meliputi minor changes seperti:
+
+- text adjustment
+- image replacement
+- minor layout changes
+- minor visual adjustments
+
+Revision tidak termasuk:
+
+- fitur baru
+- halaman baru
+- perubahan architecture
+- perubahan requirement besar
+
+Perubahan di luar scope dapat dikenakan additional quotation.
+
+---
+
+# 12. Post-launch Support
+
+Support mencakup:
+
+- bug fixing
+- technical issue
+- minor technical correction
+- assistance terkait hasil development
+
+Tidak mencakup:
+
+- fitur baru
+- page baru
+- redesign
+- massive content update
+- perubahan workflow
+- perubahan third-party services
+
+---
+
+# 13. FAQ
+
+Buat FAQ accordion menggunakan component existing jika tersedia.
+
+Questions:
+
+### Apakah domain dan hosting sudah termasuk?
+
+Tidak secara default. Biaya infrastructure dipisahkan agar client mengetahui biaya recurring secara transparan.
+
+### Apakah saya bisa mengubah konten website sendiri?
+
+Starter dan Business tidak termasuk CMS secara default.
+
+Business Pro dapat menggunakan limited content management sesuai kebutuhan.
+
+Full admin system tersedia pada custom scope.
+
+### Apa itu WhatsApp CTA?
+
+Button yang mengarahkan visitor langsung ke WhatsApp bisnis, dapat menggunakan pre-filled message.
+
+Ini bukan WhatsApp Business API automation.
+
+### Apakah website sudah SEO?
+
+Starter mendapatkan basic SEO setup.
+
+Business dan Business Pro mendapatkan konfigurasi SEO yang lebih lengkap sesuai scope.
+
+Jangan menjanjikan ranking #1 Google.
+
+### Berapa lama website selesai?
+
+Tergantung paket, kesiapan content, feedback client, dan kompleksitas project.
+
+### Apakah bisa request fitur custom?
+
+Ya. Fitur di luar scope package akan dianalisis dan diberikan quotation terpisah.
+
+### Apa itu Digital Presence Review?
+
+Review singkat terhadap Google Business Profile, digital presence, competitor websites, dan kebutuhan struktur website.
+
+Ini bukan jasa guaranteed ranking.
+
+---
+
+# 14. Final CTA
+
+Buat section CTA yang kuat sebelum footer.
+
+Heading direction:
+
+**Not Sure Which Package Fits Your Business?**
+
+Supporting copy:
+
+Ceritakan kebutuhan bisnis dan tujuan website Anda. Kami akan membantu menentukan scope yang paling sesuai tanpa memaksakan paket yang tidak dibutuhkan.
+
+CTA:
+
+**Discuss Your Project**
+
+Secondary CTA jika relevan:
+
+**Contact Us**
+
+Jika existing project menggunakan WhatsApp/contact modal/contact page, reuse flow tersebut.
+
+---
+
+# 15. Navigation
+
+Tambahkan link menuju halaman baru pada navigation jika sesuai struktur existing site.
+
+Label yang disarankan:
+
+**Web Development**
+
+Jangan merusak navigation mobile maupun desktop.
+
+Jika navbar sudah terlalu penuh, gunakan lokasi navigation yang paling masuk akal berdasarkan design existing.
+
+---
+
+# 16. UX Requirements
+
+Pastikan:
+
+- Fully responsive
+- Mobile-first behavior diperhatikan
+- Tidak ada horizontal overflow
+- Pricing cards tetap readable di mobile
+- CTA mudah ditemukan
+- Heading hierarchy benar
+- Accessible contrast
+- Buttons mempunyai hover/focus states
+- Semantic HTML
+- Keyboard-accessible FAQ
+- No duplicated IDs
+- Tidak menggunakan hardcoded viewport hacks
+- Avoid excessive animations
+
+Jika existing site memiliki animation library, boleh gunakan secara subtle.
+
+Jangan tambahkan library besar hanya untuk animasi sederhana.
+
+---
+
+# 17. Engineering Requirements
+
+- Reuse existing components terlebih dahulu.
+- Pisahkan data package dari presentation bila architecture project memungkinkan.
+- Hindari satu component raksasa.
+- Gunakan component reusable untuk:
+  - PricingCard
+  - FeatureList
+  - Comparison
+  - FAQ
+  - CTA
+  - Section headings
+- Gunakan naming dan folder convention existing project.
+- Jangan membuat dependency baru jika tidak perlu.
+- Jangan mengubah global styling secara agresif.
+- Pastikan existing pages tidak regress.
+
+Jika project menggunakan TypeScript, jangan menambahkan `any` tanpa alasan.
+
+Jika project mempunyai lint/test/build command, jalankan setelah implementasi.
+
+---
+
+# 18. Content & Pricing Constants
+
+Jangan mengubah harga berikut tanpa instruksi:
+
+### Starter
+Regular: **Rp1.490.000**
+Founding: **Rp1.190.000**
+
+### Business
+Regular: **Rp2.990.000**
+Founding: **Rp2.390.000**
+
+### Business Pro
+Regular: **Rp5.490.000**
+Founding: **Rp4.390.000**
+
+### Custom System
+Regular: **mulai Rp6.990.000**
+Founding: **mulai Rp5.590.000**
+
+Founding Client offer:
+
+**20% OFF · First 5 Projects**
+
+Perlu diperhatikan bahwa angka promotional price sudah dibulatkan untuk kebutuhan marketing.
+
+Jangan menghitung ulang dan menggantinya dengan angka seperti Rp1.192.000 atau Rp2.392.000.
+
+Gunakan persis harga promotional di atas.
+
+---
+
+# 19. Visual Hierarchy yang Diinginkan
+
+Urutan halaman:
+
+1. Navbar
+2. Hero
+3. Founding Client promotional banner
+4. Short value proposition
+5. Pricing packages
+6. Package comparison
+7. Digital Presence Review explanation
+8. Add-ons
+9. Development process
+10. Domain & hosting information
+11. Payment / timeline / revision policies
+12. FAQ
+13. Final CTA
+14. Existing footer
+
+Tambahkan section singkat **How We Work**:
+
+### 01 — Discovery
+Memahami bisnis, target customer, dan kebutuhan website.
+
+### 02 — Planning
+Menyusun struktur halaman, content requirement, dan technical scope.
+
+### 03 — Design & Development
+Mendesain dan membangun website sesuai scope.
+
+### 04 — Review
+Client melakukan review dan memberikan feedback sesuai revision rounds.
+
+### 05 — Launch
+QA, deployment, analytics/SEO configuration sesuai package.
+
+### 06 — Support
+Post-launch technical support sesuai package.
+
+---
+
+# 20. Final Verification
+
+Sebelum menyelesaikan task:
+
+1. Jalankan build.
+2. Jalankan lint/type check bila tersedia.
+3. Pastikan halaman dapat diakses melalui route yang dibuat.
+4. Test desktop dan mobile layout.
+5. Test navigation.
+6. Test FAQ accordion.
+7. Test pricing CTA.
+8. Pastikan strike-through regular prices tampil benar.
+9. Pastikan Business mendapatkan visual emphasis sebagai Most Recommended.
+10. Pastikan tidak ada klaim bahwa:
+    - SEO menjamin ranking,
+    - Google Business Profile Review menjamin Maps ranking,
+    - WhatsApp CTA berarti WhatsApp API,
+    - Starter/Business mendapatkan admin dashboard.
+11. Pastikan perubahan tidak merusak halaman Coign Membership lain.
+
+Setelah selesai, berikan summary berupa:
+
+- file yang dibuat,
+- file yang diubah,
+- route halaman baru,
+- component baru,
+- keputusan responsive,
+- hasil build/lint,
+- hal yang masih membutuhkan konfigurasi manual.

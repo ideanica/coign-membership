@@ -4,8 +4,14 @@
 .member-payment-meta > div { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 12px; font-size: 11px; }
 .member-payment-meta dt { color: #526079; }
 .member-payment-meta dd { margin: 0; text-align: right; font-weight: 700; overflow-wrap: anywhere; }
+.member-payment-progress { border: 1px solid #a4b9d8; border-radius: 5px; background: #f4f8ff; padding: 14px 16px; margin-top: 16px; font-size: 12px; }
+.member-payment-progress .payment-progress-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 12px; font-weight: 700; color: #175ac7; }
+.member-payment-progress .payment-progress-bar { height: 8px; background: #e3eeff; border-radius: 4px; overflow: hidden; margin-bottom: 8px; border: 1px solid #c7d7ea; }
+.member-payment-progress .payment-progress-bar > span { display: block; height: 100%; background: #175ac7; border-radius: 4px; transition: width .3s ease; }
+.member-payment-progress .payment-progress-legend { display: flex; gap: 18px; font-size: 10px; color: #526079; }
 .member-payment-note { margin-top: 18px !important; color: #526079; line-height: 1.8; }
 .member-payment-card .status-paid { background: #ddfbe9; }
+.member-payment-card .status-dp { background: #dbeafe; }
 .member-payment-card .status-cancelled { background: #ffe0e0; }
 .member-payment-card .status-unpaid { background: var(--yellow); }
 .member-details-button { width: 100%; justify-content: space-between; }

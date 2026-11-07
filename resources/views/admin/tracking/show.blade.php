@@ -11,7 +11,7 @@
 @endpush
 @section('actions')
     <a class="button button-neutral" href="{{ route('admin.tracking.index') }}"><x-icon name="chevron-left" size="16" /> Semua pesanan</a>
-    @if($tracking->bill)<button class="button button-neutral" type="button" data-print><x-icon name="download" size="16" /> Cetak bill</button>@endif
+    @if($tracking->bill)<button class="button button-neutral" type="button" data-print><x-icon name="download" size="16" /> Cetak invoice</button>@endif
 @endsection
 @section('content')
 <div class="order-detail-content">
@@ -33,27 +33,46 @@
             </div>
         </section>
         <section class="neo-card order-payment" aria-labelledby="order-payment-title">
-            <div class="order-card-heading"><h2 id="order-payment-title">Pembayaran</h2>@if($tracking->bill)<span class="badge order-payment-status status-{{ $tracking->bill->status }}">{{ \App\Models\Bill::STATUS_LABELS[$tracking->bill->status] }}</span>@endif</div>
+            <div class="order-card-heading"><h2 id="order-payment-title">Invoice</h2>@if($tracking->bill)<span class="badge order-payment-status status-{{ $tracking->bill->statusTone() }}">{{ $tracking->bill->statusLabel() }}</span>@endif</div>
             @if($tracking->bill)
-                <p class="order-total-label">Total tagihan</p><p class="order-total">Rp{{ number_format($tracking->bill->total, 0, ',', '.') }}</p>
+                @php
+                    $bill = $tracking->bill;
+                    $hasDeposit = $bill->dp_amount > 0;
+                    $depositPercentageLabel = $bill->downPaymentPercentageLabel();
+                    $paidPercentage = $bill->status === 'paid' ? 100 : $bill->downPaymentPercentage();
+                @endphp
+                <p class="order-total-label">{{ $bill->isPartiallyPaid() ? 'Sisa tagihan' : 'Total tagihan' }}</p>
+                <p class="order-total">Rp{{ number_format($bill->isPartiallyPaid() ? $bill->remainingAmount() : $bill->total, 0, ',', '.') }}</p>
+                @if($hasDeposit)
+                    <div class="payment-progress order-payment-progress">
+                        <div class="payment-progress-head"><span>Progres pembayaran</span><strong>{{ number_format($paidPercentage, 0, ',', '.') }}% dibayar</strong></div>
+                        <div class="payment-progress-bar"><span style="width: {{ max(0, min(100, $paidPercentage)) }}%"></span></div>
+                        <div class="payment-progress-legend"><span>Dibayar: Rp{{ number_format($bill->paidAmount(), 0, ',', '.') }}</span><span>Sisa: Rp{{ number_format($bill->remainingAmount(), 0, ',', '.') }}</span></div>
+                    </div>
+                @endif
                 <dl class="order-payment-meta">
-                    <div><dt>Subtotal ({{ count($tracking->bill->lineItems()) }} item)</dt><dd>Rp{{ number_format($tracking->bill->subtotal(), 0, ',', '.') }}</dd></div>
-                    @if($tracking->bill->discount)<div><dt>Diskon</dt><dd>−Rp{{ number_format($tracking->bill->discount, 0, ',', '.') }}</dd></div>@endif
-                    <div><dt>Jatuh tempo</dt><dd>{{ $tracking->bill->due_date?->locale('id')->translatedFormat('d M Y') ?? 'Belum ditentukan' }}</dd></div>
-                    @if($tracking->bill->status === 'paid')
-                        <div><dt>Metode</dt><dd>{{ $tracking->bill->payment }}</dd></div>
-                        <div><dt>Dibayar pada</dt><dd>{{ $tracking->bill->paid_at?->locale('id')->translatedFormat('d M Y, H:i') }}</dd></div>
+                    <div><dt>Subtotal ({{ count($bill->lineItems()) }} item)</dt><dd>Rp{{ number_format($bill->subtotal(), 0, ',', '.') }}</dd></div>
+                    @if($bill->discount)<div><dt>Diskon</dt><dd>−Rp{{ number_format($bill->discount, 0, ',', '.') }}</dd></div>@endif
+                    @if($hasDeposit)
+                        <div class="is-total"><dt>Total tagihan</dt><dd>Rp{{ number_format($bill->total, 0, ',', '.') }}</dd></div>
+                        <div><dt>DP dibayar ({{ $depositPercentageLabel }}%)@if($bill->dp_paid_at) · {{ $bill->dp_paid_at->locale('id')->translatedFormat('d M Y') }}@endif</dt><dd>Rp{{ number_format($bill->dp_amount, 0, ',', '.') }}</dd></div>
+                    @endif
+                    @if($bill->isPartiallyPaid())<div class="is-balance"><dt>Sisa tagihan</dt><dd>Rp{{ number_format($bill->remainingAmount(), 0, ',', '.') }}</dd></div>@endif
+                    <div><dt>Jatuh tempo</dt><dd>{{ $bill->due_date?->locale('id')->translatedFormat('d M Y') ?? 'Belum ditentukan' }}</dd></div>
+                    @if($bill->status === 'paid')
+                        <div><dt>Metode</dt><dd>{{ $bill->payment }}</dd></div>
+                        <div><dt>Dibayar pada</dt><dd>{{ $bill->paid_at?->locale('id')->translatedFormat('d M Y, H:i') }}</dd></div>
                     @endif
                 </dl>
-                <p class="order-bill-reference">{{ $tracking->bill->reference }}</p>
-                @if($tracking->bill->status === 'unpaid')
+                <p class="order-bill-reference"><span>No. invoice</span>{{ $bill->reference }}</p>
+                @if($bill->status === 'unpaid')
                     <div class="order-payment-actions">
-                        <button class="button" type="button" data-order-open="order-payment-dialog"><x-icon name="check" size="16" /> Tandai lunas</button>
-                        <form method="post" action="{{ route('admin.bills.cancel', $tracking->bill) }}" data-confirm="Batalkan bill untuk pesanan ini? Bill yang dibatalkan tidak dapat dibayar.">@csrf<button class="row-action danger" type="submit">Batalkan bill</button></form>
+                        <button class="button" type="button" data-order-open="order-payment-dialog"><x-icon name="check" size="16" /> {{ $bill->isPartiallyPaid() ? 'Konfirmasi lunas' : 'Tandai lunas' }}</button>
+                        <form method="post" action="{{ route('admin.bills.cancel', $bill) }}" data-confirm="Batalkan invoice untuk pesanan ini?{{ $bill->isPartiallyPaid() ? ' DP yang sudah dibayar perlu dikembalikan secara manual.' : '' }} Invoice yang dibatalkan tidak dapat dibayar.">@csrf<button class="row-action danger" type="submit">Batalkan invoice</button></form>
                     </div>
                 @endif
             @else
-                <p class="order-description">Pesanan ini belum memiliki bill.</p>
+                <p class="order-description">Pesanan ini belum memiliki invoice.</p>
             @endif
         </section>
         <section class="neo-card order-history" aria-labelledby="order-history-title">
@@ -62,7 +81,7 @@
         </section>
     </div>
     @if($tracking->bill)
-        <section id="bill" class="order-print-only" aria-label="Dokumen bill untuk dicetak">
+        <section id="bill" class="order-print-only" aria-label="Dokumen invoice untuk dicetak">
             @include('shared.bill-content', ['bill' => $tracking->bill, 'embedded' => true, 'showControls' => false])
         </section>
     @endif

@@ -12,6 +12,7 @@
 .order-card-actions { display: flex; flex-wrap: wrap; gap: 12px; padding-top: 25px; margin-top: 24px; border-top: 1px solid #d4dce8; }
 .order-payment-status { font-size: 10px; }
 .order-payment-status.status-unpaid { background: #fff3bd; }
+.order-payment-status.status-dp { background: #dbeafe; }
 .order-payment-status.status-paid { background: #ddfbe9; }
 .order-payment-status.status-cancelled { background: #ffe0e0; }
 .order-total { font-size: clamp(25px, 3vw, 34px); font-weight: 700; letter-spacing: -1px; color: black; overflow-wrap: anywhere; }
@@ -19,6 +20,14 @@
 .order-payment-meta > div { display: flex; justify-content: space-between; gap: 16px; font-size: 11px; }
 .order-payment-meta dt { color: #526079; }
 .order-payment-meta dd { margin: 0; text-align: right; font-weight: 600; overflow-wrap: anywhere; }
+.order-payment-meta > div.is-total { font-weight: 700; color: black; border-top: 1px solid #000; padding-top: 12px; margin-top: 10px; }
+.order-payment-meta > div.is-balance { font-weight: 700; color: #175ac7; border-top: 1px solid #175ac7; padding-top: 12px; margin-top: 10px; }
+.order-payment-meta > div.is-balance dd { color: #175ac7; }
+.order-payment-progress { border: 1px solid #a4b9d8; border-radius: 5px; background: #f4f8ff; padding: 16px; margin-top: 16px; font-size: 12px; }
+.order-payment-progress .payment-progress-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 12px; font-weight: 700; color: #175ac7; }
+.order-payment-progress .payment-progress-bar { height: 8px; background: #e3eeff; border-radius: 4px; overflow: hidden; margin-bottom: 8px; border: 1px solid #c7d7ea; }
+.order-payment-progress .payment-progress-bar > span { display: block; height: 100%; background: #175ac7; border-radius: 4px; transition: width .3s ease; }
+.order-payment-progress .payment-progress-legend { display: flex; gap: 18px; font-size: 10px; color: #526079; }
 .order-bill-reference { color: #526079; font: 10px/1.6 Consolas, monospace; overflow-wrap: anywhere; margin-top: 20px; }
 .order-payment-actions { display: grid; gap: 14px; margin-top: 23px; padding-top: 22px; border-top: 1px solid #d4dce8; }
 .order-payment-actions > .button { width: 100%; }

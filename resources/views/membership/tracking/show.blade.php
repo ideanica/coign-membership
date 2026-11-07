@@ -23,20 +23,37 @@
         <aside class="journey-sidebar">
             <section class="neo-card journey-target"><span class="tracking-kicker"><x-icon name="calendar" size="17" /> {{ __('TARGET SELESAI') }}</span><strong>{{ $tracking->due_date?->locale(app()->getLocale())->translatedFormat('d F Y') ?? __('Belum ditentukan') }}</strong><p>{{ $tracking->closed_at ? __('Ditutup pada').' '.$tracking->closed_at->locale(app()->getLocale())->translatedFormat('d F Y').'.' : __('Tanggal target layanan. Perubahan jadwal akan diinformasikan oleh tim.') }}</p></section>
             <section class="neo-card journey-bill member-payment-card">
-                <div class="journey-panel-heading"><x-icon name="receipt" size="24" /><h2>{{ __('Bill pesanan') }}</h2></div>
+                <div class="journey-panel-heading"><x-icon name="receipt" size="24" /><h2>{{ __('Invoice pesanan') }}</h2></div>
                 @if($tracking->bill)
-                    <span class="badge status-{{ $tracking->bill->status }}">{{ __(\App\Models\Bill::STATUS_LABELS[$tracking->bill->status]) }}</span>
+                    @php
+                        $bill = $tracking->bill;
+                        $hasDeposit = $bill->dp_amount > 0;
+                        $depositPercentageLabel = $bill->downPaymentPercentageLabel();
+                    @endphp
+                    <span class="badge status-{{ $bill->statusTone() }}">{{ __($bill->statusLabel()) }}</span>
                     <span class="member-total-label">{{ __('Total tagihan') }}</span>
-                    <strong class="member-order-total">Rp{{ number_format($tracking->bill->total, 0, ',', '.') }}</strong>
+                    <strong class="member-order-total">Rp{{ number_format($bill->total, 0, ',', '.') }}</strong>
+                    @if($hasDeposit)
+                        <div class="payment-progress member-payment-progress">
+                            <div class="payment-progress-head"><span>{{ __('Progres pembayaran') }}</span><strong>{{ $depositPercentageLabel }}% {{ __('dibayar') }}</strong></div>
+                            <div class="payment-progress-bar"><span style="width: {{ max(0, min(100, $bill->downPaymentPercentage())) }}%"></span></div>
+                            <div class="payment-progress-legend"><span>{{ __('Dibayar') }}: Rp{{ number_format($bill->paidAmount(), 0, ',', '.') }}</span><span>{{ __('Sisa') }}: Rp{{ number_format($bill->remainingAmount(), 0, ',', '.') }}</span></div>
+                        </div>
+                    @endif
                     <dl class="member-payment-meta">
-                        <div><dt>{{ __('Jumlah layanan') }}</dt><dd>{{ count($tracking->bill->lineItems()) }}</dd></div><div><dt>{{ __('Nomor bill') }}</dt><dd>{{ $tracking->bill->reference }}</dd></div>
-                        <div><dt>{{ __('Jatuh tempo') }}</dt><dd>{{ $tracking->bill->due_date?->locale(app()->getLocale())->translatedFormat('d M Y') ?? '-' }}</dd></div>
-                        @if($tracking->bill->status === 'paid')<div><dt>{{ __('Pembayaran diterima') }}</dt><dd>{{ $tracking->bill->paid_at?->locale(app()->getLocale())->translatedFormat('d M Y') ?? '-' }}</dd></div>@endif
+                        <div><dt>{{ __('Jumlah layanan') }}</dt><dd>{{ count($bill->lineItems()) }}</dd></div><div><dt>{{ __('Nomor invoice') }}</dt><dd>{{ $bill->reference }}</dd></div>
+                        @if($hasDeposit)
+                            <div><dt>{{ __('Skema pembayaran') }}</dt><dd>{{ __('DP').' ('.$depositPercentageLabel.'%)' }}</dd></div>
+                            <div><dt>{{ __('DP dibayar') }}@if($bill->dp_paid_at) · {{ $bill->dp_paid_at->locale(app()->getLocale())->translatedFormat('d M Y') }}@endif</dt><dd>Rp{{ number_format($bill->dp_amount, 0, ',', '.') }}</dd></div>
+                        @endif
+                        @if($bill->isPartiallyPaid())<div><dt>{{ __('Sisa tagihan') }}</dt><dd>Rp{{ number_format($bill->remainingAmount(), 0, ',', '.') }}</dd></div>@endif
+                        <div><dt>{{ __('Jatuh tempo') }}</dt><dd>{{ $bill->due_date?->locale(app()->getLocale())->translatedFormat('d M Y') ?? '-' }}</dd></div>
+                        @if($bill->status === 'paid')<div><dt>{{ __('Pembayaran diterima') }}</dt><dd>{{ $bill->paid_at?->locale(app()->getLocale())->translatedFormat('d M Y') ?? '-' }}</dd></div>@endif
                     </dl>
                     <button class="button button-neutral" type="button" data-print>{{ __('Cetak / simpan PDF') }} <x-icon name="download" size="16" /></button>
-                    @if($tracking->bill->status === 'unpaid')<p class="member-payment-note">{{ __('Hubungi pengelola untuk detail pembayaran. Simpan nomor bill sebagai referensi konfirmasi.') }}</p>@endif
+                    @if($bill->isPartiallyPaid())<p class="member-payment-note">{{ __('DP sudah diterima. Sisa tagihan Rp:amount menunggu pelunasan. Hubungi pengelola untuk detail pembayaran.', ['amount' => number_format($bill->remainingAmount(), 0, ',', '.')]) }}</p>@elseif($bill->status === 'unpaid')<p class="member-payment-note">{{ __('Hubungi pengelola untuk detail pembayaran. Simpan nomor invoice sebagai referensi konfirmasi.') }}</p>@endif
                 @else
-                    <p class="member-payment-note">{{ __('Pesanan ini belum memiliki bill.') }}</p>
+                    <p class="member-payment-note">{{ __('Pesanan ini belum memiliki invoice.') }}</p>
                 @endif
             </section>
             <button type="button" class="button button-neutral member-details-button" data-dialog-open="member-order-info">{{ __('Detail layanan') }} <x-icon name="arrow-up-right" size="16" /></button>
