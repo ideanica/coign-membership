@@ -9,7 +9,6 @@
     $hasDeposit = $bill->dp_amount > 0;
     $showDeposit = $hasDeposit && $bill->status !== 'cancelled';
     $depositPercentageLabel = $bill->downPaymentPercentageLabel();
-    $paidPercentage = $bill->status === 'paid' ? 100 : $bill->downPaymentPercentage();
 @endphp
 <div class="bill-document">
     <p class="invoice-screen-note"><x-icon name="receipt" size="15" /> {{ __('Siap cetak Letter &middot; Rincian invoice terkunci setelah diterbitkan.') }}</p>
@@ -41,13 +40,6 @@
                 @endif
             @endif
         </div>
-        @if($showDeposit)
-            <div class="payment-progress invoice-payment-progress">
-                <div class="payment-progress-head"><span>{{ __('Progres pembayaran') }}</span><strong>{{ number_format($paidPercentage, 0, ',', '.') }}% {{ __('dibayar') }}</strong></div>
-                <div class="payment-progress-bar"><span style="width: {{ max(0, min(100, $paidPercentage)) }}%"></span></div>
-                <div class="payment-progress-legend"><span>{{ __('Dibayar') }}: Rp{{ number_format($bill->paidAmount(), 0, ',', '.') }}</span><span>{{ __('Sisa') }}: Rp{{ number_format($bill->remainingAmount(), 0, ',', '.') }}</span></div>
-            </div>
-        @endif
         <section class="invoice-payment-summary">
             @if($bill->status === 'paid')
                 <h3>{{ __('Pembayaran diterima') }}</h3><p>{{ filled($bill->payment) ? $bill->payment : '-' }} &middot; {{ $bill->paid_at?->locale(app()->getLocale())->translatedFormat('d F Y, H:i') ?? '-' }}</p>@if($bill->user_id)<p>+{{ number_format($bill->transaction?->pointEntry?->points ?? 0, 0, ',', '.') }} {{ __('poin tercatat untuk member.') }}</p>@endif

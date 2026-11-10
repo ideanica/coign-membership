@@ -33,18 +33,15 @@
 .invoice-document-totals { margin: 23px 0 23px auto; width: min(100%, 340px); font-size: 12px; }
 .invoice-document-totals > div { display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; padding: 9px 0; }
 .invoice-document-totals strong { text-align: right; }
-.invoice-document-totals .invoice-grand-total { background: var(--yellow); padding: 14px; border: 2px solid black; border-radius: 5px; margin-top: 8px; font-size: 17px; }
+.invoice-document-totals .invoice-grand-total { display: flex; align-items: center; justify-content: space-between; gap: 15px; background: var(--yellow); padding: 9px 13px; border: 2px solid black; border-radius: 5px; margin-top: 8px; font-size: 16px; line-height: 1.25; }
 .invoice-payment-summary { padding: 17px 18px; border: 1px solid #a4b9d8; border-radius: 5px; background: #f4f8ff; }
 .invoice-payment-summary h3 { font-size: 12px; margin-bottom: 7px; }
 .invoice-payment-summary p { font-size: 11px; line-height: 1.7; }
 .invoice-document-footer { margin-top: 25px; padding-top: 17px; border-top: 2px solid black; display: flex; justify-content: space-between; gap: 15px; font-size: 10px; }
-.invoice-document-totals .invoice-deposit-row,
-.invoice-document-totals .invoice-balance-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; padding: 9px 0; font-size: 12px; }
-.invoice-payment-progress { border: 1px solid #a4b9d8; border-radius: 5px; background: #f4f8ff; padding: 16px 18px; margin-top: 18px; font-size: 12px; }
-.invoice-payment-progress .payment-progress-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 12px; font-weight: 700; color: #175ac7; }
-.invoice-payment-progress .payment-progress-bar { height: 8px; background: #e3eeff; border-radius: 4px; overflow: hidden; margin-bottom: 8px; border: 1px solid #c7d7ea; }
-.invoice-payment-progress .payment-progress-bar > span { display: block; height: 100%; background: #175ac7; border-radius: 4px; transition: width .3s ease; }
-.invoice-payment-progress .payment-progress-legend { display: flex; gap: 18px; font-size: 10px; color: #526079; }
+.invoice-document-totals .invoice-deposit-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; padding: 9px 0; font-size: 12px; }
+.invoice-document-totals .invoice-balance-row { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-top: 8px; padding: 8px 12px; border: 2px solid black; border-radius: 5px; background: #ffe4b8; font-size: 12px; }
+.invoice-document-totals .invoice-balance-row strong { font-size: 15px; line-height: 1.25; }
+.invoice-document-totals .invoice-balance-row span { text-transform: uppercase; letter-spacing: .4px; font-size: 10px; font-weight: 700; }
 .invoice-document-footer span { color: #526079; }
 .bill-controls { padding: 24px; margin-top: 27px; }
 .bill-controls h2 { font-size: 20px; margin-bottom: 10px; }
